@@ -5,7 +5,7 @@ const view=stage.querySelector('.mech-view');
 const poster=view.querySelector('img');
 const status=stage.querySelector('.mech-status');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-const fine=matchMedia('(hover:hover) and (pointer:fine)');
+const hoverCapable=matchMedia('(any-hover:hover)');
 const compact=matchMedia('(max-width:720px)').matches;
 const base=new URL('.',import.meta.url);
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
@@ -21,39 +21,66 @@ let sheet=null,film=null,sheetJob=null,starting=true;
 const live=()=>Boolean(model&&!lost);
 const asset=name=>new URL('mech-'+name+'.webp',base).href;
 
-// A manual click always speaks. Dismissing the bubble silences automatic prompts for this tab.
+// Dismissal mutes idle prompts only. A new hover or keyboard visit still greets the visitor.
 const dialogue=document.getElementById('mech-dialogue');
 const lines=Array.from(dialogue.querySelectorAll('p'));
 const dismiss=dialogue.querySelector('.mech-dismiss');
-let lineIndex=-1,dwellTimer=0,hideTimer=0,idleTimer=0,idleCount=0,inDialogueView=false,quiet=false;
+let lineIndex=-1,nextLine=0,restoringFocus=false,hideTimer=0,idleTimer=0,idleCount=0,inDialogueView=false,quiet=false;
 try{quiet=sessionStorage.getItem('mech-dialogue-quiet')==='1';}catch{/* Storage is optional. */}
 
 function hideWhenReady(){
   if(dialogue.hidden)return;
   if(dialogue.contains(document.activeElement)||view.matches(':focus-visible')||
-    (fine.matches && stage.parentElement.matches(':hover'))){
+    hover||(hoverCapable.matches && dialogue.matches(':hover'))){
     hideTimer=setTimeout(hideWhenReady,1000);
   }else dialogue.hidden=true;
 }
 function placeDialogue(){
   if(dialogue.hidden)return;
   const rect=stage.getBoundingClientRect();
-  const spaceAbove=rect.top-(document.querySelector('.dk-nav')?.getBoundingClientRect().bottom||0);
-  const spaceBelow=document.documentElement.clientHeight-rect.bottom;
-  dialogue.toggleAttribute('data-above',spaceBelow<dialogue.offsetHeight && spaceAbove>spaceBelow);
+  const hero=stage.closest('.hero').getBoundingClientRect();
+  const nav=document.querySelector('.dk-nav').getBoundingClientRect();
+  const top=Math.max(0,nav.bottom,hero.top)+4;
+  const bottom=Math.min(document.documentElement.clientHeight,hero.bottom)-4;
+  const height=dialogue.offsetHeight;
+  const above=bottom-rect.bottom<height && rect.top-top>bottom-rect.bottom;
+  const edge=above?rect.top-height+4:rect.bottom-4;
+  const onScreen=rect.bottom>top && rect.top<bottom;
+  const y=onScreen?clamp(edge,top,Math.max(top,bottom-height)):edge;
+  dialogue.toggleAttribute('data-above',above);
+  dialogue.style.top=(y-stage.parentElement.getBoundingClientRect().top)+'px';
 }
 window.addEventListener('scroll',placeDialogue,{passive:true});
 window.addEventListener('resize',placeDialogue);
-function speak(){
-  clearTimeout(dwellTimer);clearTimeout(hideTimer);
-  const next=(lineIndex+1)%lines.length;
-  if(lineIndex>=0)lines[lineIndex].hidden=true;
-  dialogue.hidden=false;lines[next].hidden=false;lineIndex=next;placeDialogue();
+function showLine(index){
+  clearTimeout(hideTimer);
+  if(lineIndex!==index){
+    if(lineIndex>=0)lines[lineIndex].hidden=true;
+    lines[index].hidden=false;
+    lineIndex=index;
+  }
+  dialogue.hidden=false;
+  placeDialogue();
   if(!reduced.matches)hideTimer=setTimeout(hideWhenReady,7000);
 }
-function startDwell(){
-  clearTimeout(dwellTimer);
-  if(!quiet&&!document.hidden&&!reduced.matches&&dialogue.hidden&&!drag)dwellTimer=setTimeout(speak,350);
+function speak(){
+  showLine(nextLine);
+  nextLine=(nextLine+1)%lines.length;
+}
+function greet(){
+  if(document.hidden||drag||dialogue.contains(document.activeElement))return;
+  if(lineIndex===-1)nextLine=1%lines.length;
+  showLine(0);
+}
+const hint=stage.querySelector('.mech-hint');
+function beginHover(){
+  if(hover||document.hidden||drag)return;
+  hover=true;
+  hint.textContent='悬停问候 · 点击变形';
+  greet();wake();
+}
+function isHoverPointer(event){
+  return event.pointerType==='mouse'||(event.pointerType==='pen'&&event.pressure===0);
 }
 function scheduleIdle(){
   clearTimeout(idleTimer);
@@ -65,10 +92,14 @@ function scheduleIdle(){
 }
 function closeDialogue(){
   if(dialogue.hidden)return;
-  quiet=true;clearTimeout(dwellTimer);clearTimeout(hideTimer);clearTimeout(idleTimer);
+  quiet=true;clearTimeout(hideTimer);clearTimeout(idleTimer);
   const returnFocus=dialogue.contains(document.activeElement);
   dialogue.hidden=true;
-  if(returnFocus)view.focus({preventScroll:true});
+  if(returnFocus){
+    restoringFocus=true;
+    view.focus({preventScroll:true});
+    restoringFocus=false;
+  }
   try{sessionStorage.setItem('mech-dialogue-quiet','1');}catch{/* Storage is optional. */}
 }
 dismiss.addEventListener('click',closeDialogue);
@@ -102,20 +133,26 @@ function toggle(){
   wake();
 }
 view.disabled=false;view.setAttribute('aria-pressed','false');
-stage.querySelector('.mech-hint').hidden=false;
+if(hoverCapable.matches)hint.textContent='悬停问候 · 点击变形';
+hint.hidden=false;
 view.addEventListener('click',event=>{if(!suppressClick||event.detail===0)toggle();suppressClick=false;});
-view.addEventListener('focus',()=>{focused=view.matches(':focus-visible');if(focused)startDwell();wake();});
-view.addEventListener('blur',()=>{focused=false;clearTimeout(dwellTimer);wake();});
-view.addEventListener('pointerenter',event=>{hover=event.pointerType==='mouse'&&fine.matches;if(hover)startDwell();wake();});
-view.addEventListener('pointerleave',()=>{hover=false;aimX=aimY=0;clearTimeout(dwellTimer);wake();});
+view.addEventListener('focus',()=>{
+  focused=view.matches(':focus-visible');
+  if(focused&&!restoringFocus)greet();
+  wake();
+});
+view.addEventListener('blur',()=>{focused=false;wake();});
+view.addEventListener('pointerenter',event=>{if(isHoverPointer(event)&&!event.buttons)beginHover();});
+view.addEventListener('pointerleave',()=>{hover=false;aimX=aimY=0;wake();});
 view.addEventListener('pointerdown',event=>{
   if(!event.isPrimary||event.button!==0)return;
-  clearTimeout(dwellTimer);suppressClick=false;drag={id:event.pointerId,x:event.clientX,y:event.clientY,yaw:targetYaw,pitch:targetPitch};
+  suppressClick=false;drag={id:event.pointerId,x:event.clientX,y:event.clientY,yaw:targetYaw,pitch:targetPitch};
   view.setPointerCapture(event.pointerId);
 });
 view.addEventListener('pointermove',event=>{
   const rect=view.getBoundingClientRect();
-  if(event.pointerType==='mouse'&&fine.matches){
+  if(isHoverPointer(event)){
+    if(!event.buttons)beginHover();
     aimX=clamp((event.clientX-rect.left)/rect.width*2-1,-1,1);
     aimY=clamp((event.clientY-rect.top)/rect.height*2-1,-1,1);
   }
@@ -196,9 +233,9 @@ new IntersectionObserver(entries=>{
   scheduleIdle();visibility();
 },{threshold:[0,.60]}).observe(view);
 new ResizeObserver(resize).observe(view);
-document.addEventListener('visibilitychange',()=>{clearTimeout(dwellTimer);scheduleIdle();visibility();});
+document.addEventListener('visibilitychange',()=>{scheduleIdle();visibility();});
 reduced.addEventListener('change',()=>{
-  clearTimeout(dwellTimer);scheduleIdle();
+  scheduleIdle();
   if(reduced.matches){progress=target;spinQueued=false;spinTime=2;finish();}
   else if(!live())prepareFilm();
   wake();
@@ -229,4 +266,5 @@ function firstFrame(){
   resize();renderer.shadowMap.needsUpdate=true;model.pose(progress,yaw,pitch,time,signals);renderer.render(model.scene,model.camera);
   stage.setAttribute('data-live','');previous=performance.now()-36;wake();
 }
+if(hoverCapable.matches&&view.matches(':hover'))beginHover();
 start();

@@ -1,5 +1,6 @@
 """Render the static GitHub Pages site from site/profile.json and the two templates."""
 
+from hashlib import sha256
 import json
 import re
 from html import escape
@@ -16,6 +17,12 @@ PROFILES = {"Google Scholar": PROFILE["scholar"], "ResearchGate": PROFILE["resea
 TABS = {"": "About Me", "projects/": "Projects", "publications/": "Publications",
         "awards/": "Awards", "blogs/": "Blogs", "teams/": "Teams", "hobbies/": "Hobbies"}
 SECTIONS = {"glance": "Glance", "projects": "Projects", "publications": "Publications", "news": "News", "about": "About"}
+
+
+def mech_asset(extension):
+    path = f"assets/mech.{extension}"
+    digest = sha256((DOCS / path).read_text(encoding="utf-8").encode("utf-8")).hexdigest()[:12]
+    return f"{path}?v={digest}"
 
 
 def external(label, url, css=""):
@@ -42,8 +49,8 @@ def page(route, title, content):
     shared = dict(
         root=root, title=escape(title + " · Jiacheng Liu" if not home else "Jiacheng Liu 刘嘉成 · Human–AI Collaboration"),
         mode="lp" if home else "inner-page", backdrop='<div class="hud-bg" aria-hidden="true"></div>' if home else "",
-        home_styles='<link rel="stylesheet" href="assets/landing.css"><link rel="stylesheet" href="assets/mech.css">' if home else "",
-        home_script='<script type="module" src="assets/mech.js"></script><script type="module" src="assets/globe.js"></script>' if home else "",
+        home_styles=f'<link rel="stylesheet" href="assets/landing.css"><link rel="stylesheet" href="{mech_asset("css")}">' if home else "",
+        home_script=f'<script type="module" src="{mech_asset("js")}"></script><script type="module" src="assets/globe.js"></script>' if home else "",
         nav="\n".join(nav), content=body, footer_details=footer_details,
         profiles=" · ".join(external(label,url) for label,url in PROFILES.items()),
     )
