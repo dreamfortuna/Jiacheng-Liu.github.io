@@ -10,3 +10,20 @@
 .mech-film{background-size:600% 600%;background-repeat:no-repeat}
 .mech-hint{position:absolute;left:4%;bottom:3.75%;color:var(--text-mute);font-size:.73rem;letter-spacing:.08em;pointer-events:none}
 .mech-hint[hidden]{display:none}
+
+/* Dock speech at the lower edge of the frame, clear of the animated assemblies. */
+.mech-dialogue{position:absolute;z-index:3;inset-inline:0;top:calc(100% - .35rem);margin-inline:auto;
+  width:min(calc(100% - .8rem),25rem);box-sizing:border-box;display:grid;grid-template-columns:1fr auto;gap:.35rem;
+  align-items:center;padding:.35rem .4rem .35rem .8rem;background:var(--bg-1);color:var(--text);
+  border:1px solid var(--border-hi);border-radius:.55rem;box-shadow:var(--shadow-card)}
+.mech-dialogue::before{content:"";position:absolute;top:-.33rem;left:32%;width:.55rem;height:.55rem;
+  background:var(--bg-1);border-top:1px solid var(--border-hi);border-left:1px solid var(--border-hi);transform:rotate(45deg)}
+.mech-dialogue[data-above]{top:auto;bottom:calc(100% - .35rem)}
+.mech-dialogue[data-above]::before{top:auto;bottom:-.33rem;transform:rotate(225deg)}
+.mech-dialogue[hidden],.mech-dialogue p[hidden]{display:none}
+.mech-dialogue p{margin:0;font-size:.85rem;line-height:1.45;color:var(--text)}
+.mech-dialogue a{color:var(--accent-2);white-space:nowrap;text-decoration:underline;text-underline-offset:.14em}
+.mech-dismiss{display:grid;place-items:center;min-width:2rem;min-height:2rem;border:0;border-radius:.3rem;background:transparent;
+  color:var(--text-mute);font-family:inherit;font-size:1.15rem;line-height:1;cursor:pointer}
+.mech-dismiss:hover,.mech-dismiss:focus-visible{color:var(--text);background:var(--surface-2)}
+@media print{.mech-dialogue{display:none}}

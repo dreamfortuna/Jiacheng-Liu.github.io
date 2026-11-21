@@ -51,11 +51,20 @@
       </div>
       <div class="hero-stage">
         <div class="mech-stage hud-frame" data-form="upright">
-          <button class="mech-view" type="button" disabled aria-label="将机甲折叠为自动驾驶车">
+          <button class="mech-view" type="button" disabled aria-controls="mech-dialogue" aria-label="将机甲折叠为自动驾驶车">
             <img class="mech-poster" src="assets/mech-upright.webp" width="760" height="760" alt="珍珠白与深青色机甲，不对称的琥珀色肩甲下露出金属连杆和轮组。">
           </button>
           <small class="mech-hint" hidden>点击变形</small>
           <span class="sr-only mech-status" role="status"></span>
+        </div>
+        <div id="mech-dialogue" class="mech-dialogue" role="group" aria-label="机甲对话" hidden>
+          <div aria-live="polite" aria-atomic="true">
+            <p hidden>你好！想知道嘉成在研究什么吗？ <a href="#about">认识嘉成</a></p>
+            <p hidden>驾驶员什么时候会信任自动驾驶，又什么时候会接管？ <a href="publications/light.html">读论文</a></p>
+            <p hidden>从脑电信号到驾驶监控，来看看这些项目吧。 <a href="projects/light.html">看项目</a></p>
+            <p hidden>也在研究人和 AI 怎样协作？欢迎找嘉成聊聊。 <a href="mailto:LiuJiacheng25@buaa.edu.cn">写邮件</a></p>
+          </div>
+          <button type="button" class="mech-dismiss" aria-label="关闭对话">×</button>
         </div>
       </div>
     </div>

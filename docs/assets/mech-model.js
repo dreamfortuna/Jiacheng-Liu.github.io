@@ -157,7 +157,7 @@ export function makeMech(T) {
   const neck=assembly([0,2.76,0,0,0,0],[0,.78,-.38,-.05,0,0],"sensor");
   disc(neck,[0,.016,0],.156,.22,graphite,'y');
   const head=sub(neck,0,.215,0);
-  // Faceted split visor, concentric optical iris and offset amber rangefinder.
+  // Matched optical assemblies sit symmetrically on the same visor plane.
   shell(head,[[-.24,.32,.27,.06],[-.12,.54,.48],[.10,.57,.50],[.21,.40,.33,-.02]],graphite);
   for(const s of [-1,1]){
     blade(head,[[s*-.11,.20],[s*.05,.25],[s*.17,.14],[s*.16,-.02],[s*.02,-.115],[s*-.028,.09]],.081,ceramic,[s*.165,0,.12],[.03,s*.42,-s*.05]);
@@ -166,11 +166,15 @@ export function makeMech(T) {
   }
   blade(head,[[-.315,.085],[-.237,.15],[.276,.12],[.313,.064],[.218,-.036],[.044,-.072],[-.218,-.015]],.043,carbon,[0,0,.235]);
   blade(head,[[-.298,.115],[-.13,.195],[.221,.169],[.313,.121],[.257,.101],[-.155,.128]],.052,porcelain,[0,0,.25]);
-  for(const [x,y,r,m] of [[-.109,.04,.090,aqua],[.146,.045,.056,pilot]]){
-    const eye=sub(head,x,y,.309);optics.push(eye);disc(eye,[0,0,0],r,.030,steel);
-    disc(eye,[0,0,.019],r*.82,.023,glass);ring(eye,[0,0,.035],r*.63,.008,m);
-    solid(eye,new T.SphereGeometry(1,18,10),glazing,[0,0,.038],[0,0,0],[r*.43,r*.43,r*.23]);
-    disc(eye,[-.011,.010,.054],r*.16,.012,m);
+  const lensOffset=.126, lensRadius=.090;
+  for(const side of [-1,1]){
+    const eye=sub(head,side*lensOffset,.044,.309);
+    optics.push(eye);
+    disc(eye,[0,0,0],lensRadius,.030,steel);
+    disc(eye,[0,0,.019],lensRadius*.82,.023,glass);
+    ring(eye,[0,0,.035],lensRadius*.63,.008,aqua);
+    solid(eye,new T.SphereGeometry(1,18,10),glazing,[0,0,.038],[0,0,0],[lensRadius*.43,lensRadius*.43,lensRadius*.23]);
+    disc(eye,[-.011,.010,.054],lensRadius*.16,.012,aqua);
   }
   for(let j=0;j<3;j++)bar(head,[.075+j*.059,-.085,.24],.031,.065,.033,steel,[0,0,-.36]);
   // Helmet scanner becomes roof-mounted lidar in the vehicle.
@@ -378,7 +382,7 @@ export function makeMech(T) {
     const sway=Math.sin(time*1.42)*(1-progress);
     head.rotation.set(gazeY*.38-.10*attention,gazeX*.62+.058*Math.sin(time*.58)-.32*Math.sin(spin*.5),sway*.014);
     for(let i=0;i<optics.length;i++){
-      optics[i].position.x=(i===0?-.109:.146)+gazeX*.030;
+      optics[i].position.x=(i===0?-lensOffset:lensOffset)+gazeX*.030;
       optics[i].scale.y=1-Math.max(blink*.80,i===1?wink*.84:0);
     }
     lights[1].scale.y=1-wink*.85;

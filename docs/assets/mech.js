@@ -21,6 +21,59 @@ let sheet=null,film=null,sheetJob=null,starting=true;
 const live=()=>Boolean(model&&!lost);
 const asset=name=>new URL('mech-'+name+'.webp',base).href;
 
+// A manual click always speaks. Dismissing the bubble silences automatic prompts for this tab.
+const dialogue=document.getElementById('mech-dialogue');
+const lines=Array.from(dialogue.querySelectorAll('p'));
+const dismiss=dialogue.querySelector('.mech-dismiss');
+let lineIndex=-1,dwellTimer=0,hideTimer=0,idleTimer=0,idleCount=0,inDialogueView=false,quiet=false;
+try{quiet=sessionStorage.getItem('mech-dialogue-quiet')==='1';}catch{/* Storage is optional. */}
+
+function hideWhenReady(){
+  if(dialogue.hidden)return;
+  if(dialogue.contains(document.activeElement)||view.matches(':focus-visible')||
+    (fine.matches && stage.parentElement.matches(':hover'))){
+    hideTimer=setTimeout(hideWhenReady,1000);
+  }else dialogue.hidden=true;
+}
+function placeDialogue(){
+  if(dialogue.hidden)return;
+  const rect=stage.getBoundingClientRect();
+  const spaceAbove=rect.top-(document.querySelector('.dk-nav')?.getBoundingClientRect().bottom||0);
+  const spaceBelow=document.documentElement.clientHeight-rect.bottom;
+  dialogue.toggleAttribute('data-above',spaceBelow<dialogue.offsetHeight && spaceAbove>spaceBelow);
+}
+window.addEventListener('scroll',placeDialogue,{passive:true});
+window.addEventListener('resize',placeDialogue);
+function speak(){
+  clearTimeout(dwellTimer);clearTimeout(hideTimer);
+  const next=(lineIndex+1)%lines.length;
+  if(lineIndex>=0)lines[lineIndex].hidden=true;
+  dialogue.hidden=false;lines[next].hidden=false;lineIndex=next;placeDialogue();
+  if(!reduced.matches)hideTimer=setTimeout(hideWhenReady,7000);
+}
+function startDwell(){
+  clearTimeout(dwellTimer);
+  if(!quiet&&!document.hidden&&!reduced.matches&&dialogue.hidden&&!drag)dwellTimer=setTimeout(speak,350);
+}
+function scheduleIdle(){
+  clearTimeout(idleTimer);
+  if(quiet||reduced.matches||!inDialogueView||document.hidden||idleCount>=3)return;
+  idleTimer=setTimeout(()=>{
+    if(dialogue.hidden&&!drag){idleCount++;speak();}
+    scheduleIdle();
+  },idleCount===0?6000:22000+Math.random()*8000);
+}
+function closeDialogue(){
+  if(dialogue.hidden)return;
+  quiet=true;clearTimeout(dwellTimer);clearTimeout(hideTimer);clearTimeout(idleTimer);
+  const returnFocus=dialogue.contains(document.activeElement);
+  dialogue.hidden=true;
+  if(returnFocus)view.focus({preventScroll:true});
+  try{sessionStorage.setItem('mech-dialogue-quiet','1');}catch{/* Storage is optional. */}
+}
+dismiss.addEventListener('click',closeDialogue);
+document.addEventListener('keydown',event=>{if(event.key==='Escape')closeDialogue();});
+
 function showPoster(end){
   const name=end?'vehicle':'upright',src=asset(name);
   if(poster.src!==src)poster.src=src;
@@ -40,6 +93,7 @@ async function prepareFilm(){
   }catch{sheetJob=null;progress=target;finish();}
 }
 function toggle(){
+  speak();
   target=1-target;
   view.setAttribute('aria-label',target?'将自动驾驶车展开为机甲':'将机甲折叠为自动驾驶车');
   view.setAttribute('aria-pressed',String(Boolean(target)));stage.dataset.form='changing';
@@ -50,13 +104,13 @@ function toggle(){
 view.disabled=false;view.setAttribute('aria-pressed','false');
 stage.querySelector('.mech-hint').hidden=false;
 view.addEventListener('click',event=>{if(!suppressClick||event.detail===0)toggle();suppressClick=false;});
-view.addEventListener('focus',()=>{focused=view.matches(':focus-visible');wake();});
-view.addEventListener('blur',()=>{focused=false;wake();});
-view.addEventListener('pointerenter',event=>{hover=event.pointerType==='mouse'&&fine.matches;wake();});
-view.addEventListener('pointerleave',()=>{hover=false;aimX=aimY=0;wake();});
+view.addEventListener('focus',()=>{focused=view.matches(':focus-visible');if(focused)startDwell();wake();});
+view.addEventListener('blur',()=>{focused=false;clearTimeout(dwellTimer);wake();});
+view.addEventListener('pointerenter',event=>{hover=event.pointerType==='mouse'&&fine.matches;if(hover)startDwell();wake();});
+view.addEventListener('pointerleave',()=>{hover=false;aimX=aimY=0;clearTimeout(dwellTimer);wake();});
 view.addEventListener('pointerdown',event=>{
   if(!event.isPrimary||event.button!==0)return;
-  suppressClick=false;drag={id:event.pointerId,x:event.clientX,y:event.clientY,yaw:targetYaw,pitch:targetPitch};
+  clearTimeout(dwellTimer);suppressClick=false;drag={id:event.pointerId,x:event.clientX,y:event.clientY,yaw:targetYaw,pitch:targetPitch};
   view.setPointerCapture(event.pointerId);
 });
 view.addEventListener('pointermove',event=>{
@@ -136,10 +190,15 @@ function visibility(){
   if(!visible||document.hidden){cancelAnimationFrame(frame);frame=0;}
   else{previous=performance.now()-35;wake();}
 }
-new IntersectionObserver(entries=>{visible=entries[entries.length-1].isIntersecting;visibility();}).observe(view);
+new IntersectionObserver(entries=>{
+  const entry=entries[entries.length-1];
+  visible=entry.isIntersecting;inDialogueView=visible&&entry.intersectionRatio>=.60;
+  scheduleIdle();visibility();
+},{threshold:[0,.60]}).observe(view);
 new ResizeObserver(resize).observe(view);
-document.addEventListener('visibilitychange',visibility);
+document.addEventListener('visibilitychange',()=>{clearTimeout(dwellTimer);scheduleIdle();visibility();});
 reduced.addEventListener('change',()=>{
+  clearTimeout(dwellTimer);scheduleIdle();
   if(reduced.matches){progress=target;spinQueued=false;spinTime=2;finish();}
   else if(!live())prepareFilm();
   wake();
