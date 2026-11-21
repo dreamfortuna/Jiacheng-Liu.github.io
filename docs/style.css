@@ -26,7 +26,7 @@ header { border-bottom: 1px solid var(--line); background: #fafcfe }
 .nav a { text-decoration: none; color: var(--ink) }
 .monogram { display: grid; place-items: center; width: 2.1rem; height: 2.1rem; background: var(--ink); color: white; font-family: Georgia, serif; font-size: 1.16rem; font-style: italic }
 nav { gap: clamp(.9rem, 3vw, 2.2rem); font-size: .93rem }
-nav a:hover, .email:hover { text-decoration: underline }
+nav a:hover { text-decoration: underline }
 .hero { background: linear-gradient(115deg,#f6f9fc 5%,#eaf1f9 100%); border-bottom: 1px solid var(--line) }
 .hero-grid { display: grid; grid-template-columns: minmax(0,1.45fr) minmax(0,.84fr); align-items: center; gap: 8%; padding-block: clamp(2.8rem,5.8vw,5.9rem) }
 .institution, .kicker, .period, .portrait figcaption { font-family: "IBM Plex Mono", Consolas, monospace }
@@ -38,10 +38,9 @@ h1 { font-family: var(--serif); font-size: clamp(3.5rem,6vw,5.7rem); letter-spac
 h1 span { display: block; font-family: Georgia, serif; font-size: .64em; letter-spacing: -.04em; font-style: italic; font-weight: 400; margin-top: .1em; color: var(--blue) }
 .lead { font-size: clamp(1.13rem,1.7vw,1.45rem); line-height: 1.7; max-width: 24em; margin-top: 1.6rem; font-weight: 500 }
 .affiliation { color: var(--muted); margin-top: .55rem }
-.actions { gap: 1.7rem; margin-top: 1.6rem }
+.actions { flex-wrap: wrap; gap: .7rem 1.35rem; margin-top: 1.6rem; font-weight: 600 }
 .primary { color: white; background: var(--blue); border-radius: 3px; padding: .6rem 1.15rem; text-decoration: none; font-weight: 600 }
 .primary:hover { background: var(--ink) }
-.email { font-weight: 600 }
 .portrait { max-width: 23rem; width: 100%; justify-self: end }
 .photo { position: relative; isolation: isolate }
 .photo::before { content: ""; position: absolute; z-index: -1; inset: .7rem -.7rem -.7rem .7rem; border: 1px solid #859bb3 }
@@ -62,6 +61,12 @@ h2 { font-family: var(--serif); font-size: clamp(1.9rem,3.4vw,3rem); margin-top:
 .rows > div { display: grid; grid-template-columns: 7rem 1fr; gap: 1rem }
 dt { font-weight: 700 }
 .education { padding: 0; list-style: none }
+.publications { border-top: 1px solid var(--line) }
+.papers { padding: 0; list-style: none }
+.papers li { display: grid; grid-template-columns: 8rem minmax(0,1fr); gap: 1rem; padding-block: 1.3rem; border-top: 1px solid var(--line) }
+.papers h3 { font-size: 1.15rem; margin-bottom: .35rem }
+.papers h3 a { text-decoration-thickness: 1px }
+.papers cite { color: var(--muted) }
 footer { border-top: 1px solid var(--line); font-size: .94rem }
 footer .wrap { padding-block: 1.7rem; gap: .5rem 1rem; flex-wrap: wrap }
 @media (max-width: 700px) {
@@ -72,11 +77,13 @@ footer .wrap { padding-block: 1.7rem; gap: .5rem 1rem; flex-wrap: wrap }
   .photo img { aspect-ratio: 1.45; object-position: center 26% }
   .section-heading { align-items: start; flex-direction: column; gap: .4rem }
   .work-grid, .split { grid-template-columns: 1fr; gap: 1.5rem }
+  .papers li { grid-template-columns: 1fr; gap: .3rem }
 }
 @media (max-width: 440px) {
   .brand { font-size: 1rem; gap: .4rem }
   .monogram { width: 1.7rem; height: 1.7rem; font-size: 1rem }
   nav { gap: .75rem; font-size: .88rem }
+  .nav { flex-wrap: wrap; row-gap: .25rem; padding-block: .6rem }
   .rows > div { grid-template-columns: 1fr; gap: .3rem }
 }
 @media (max-width: 350px) { .monogram { display: none } }
