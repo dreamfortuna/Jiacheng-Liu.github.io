@@ -1,0 +1,390 @@
+{
+  "name": {
+    "en": "Jiacheng Liu",
+    "zh": "刘嘉成"
+  },
+  "name_html": {
+    "en": "Jiacheng <span class=\"grad\">Liu</span>",
+    "zh": "刘<span class=\"grad\">嘉成</span>"
+  },
+  "brand": {
+    "en": "Jiacheng <b>Liu</b>",
+    "zh": "刘<b>嘉成</b>"
+  },
+  "school": {
+    "en": "Beihang University",
+    "zh": "北京航空航天大学"
+  },
+  "site_title": {
+    "en": "Jiacheng Liu · Human–AI Interaction",
+    "zh": "刘嘉成 · 人机交互"
+  },
+  "description": {
+    "en": "Jiacheng Liu is a master’s student at Beihang University studying how drivers interact with automated driving systems.",
+    "zh": "刘嘉成，北京航空航天大学控制科学与工程硕士生，研究自动驾驶场景中的人机交互。"
+  },
+  "skip": {
+    "en": "Skip to content",
+    "zh": "跳到正文"
+  },
+  "navigation": {
+    "en": "Main navigation",
+    "zh": "主导航"
+  },
+  "menu": {
+    "en": "Navigation menu",
+    "zh": "导航菜单"
+  },
+  "sections": {
+    "en": "On this page",
+    "zh": "本页章节"
+  },
+  "to_light": {
+    "en": "Switch to light theme",
+    "zh": "切换到浅色模式"
+  },
+  "to_dark": {
+    "en": "Switch to dark theme",
+    "zh": "切换到深色模式"
+  },
+  "language_label": {
+    "en": "Switch to Chinese",
+    "zh": "切换到英文"
+  },
+  "home": {
+    "en": "About Me",
+    "zh": "关于我"
+  },
+  "projects": {
+    "en": "Projects",
+    "zh": "项目"
+  },
+  "publications": {
+    "en": "Publications",
+    "zh": "论文"
+  },
+  "awards": {
+    "en": "Awards",
+    "zh": "奖项"
+  },
+  "blogs": {
+    "en": "Blog",
+    "zh": "博客"
+  },
+  "teams": {
+    "en": "Teams",
+    "zh": "团队"
+  },
+  "hobbies": {
+    "en": "Hobbies",
+    "zh": "兴趣"
+  },
+  "cv": {
+    "en": "CV",
+    "zh": "简历"
+  },
+  "credits": {
+    "en": "Design credits",
+    "zh": "设计与署名"
+  },
+  "glance": {
+    "en": "At a glance",
+    "zh": "研究概览"
+  },
+  "news": {
+    "en": "News",
+    "zh": "动态"
+  },
+  "about": {
+    "en": "About",
+    "zh": "简介"
+  },
+  "eyebrow": {
+    "en": "Master’s student · Beihang University",
+    "zh": "北京航空航天大学 · 硕士研究生"
+  },
+  "type_lines": {
+    "en": [
+      "In automated driving, how do people decide when to trust AI and when to take over?",
+      "How can people and intelligent systems share tasks and make reliable decisions?",
+      "I study driver trust, behavior and situation awareness."
+    ],
+    "zh": [
+      "在自动驾驶中，人怎样判断何时信任人工智能、何时接管？",
+      "人和智能系统如何分配任务、共同作出可靠的决策？",
+      "我关注驾驶员的信任、行为与情境意识。"
+    ]
+  },
+  "view_projects": {
+    "en": "View projects",
+    "zh": "查看项目"
+  },
+  "email_label": {
+    "en": "Email",
+    "zh": "邮件联系"
+  },
+  "scholar": {
+    "en": "Google Scholar",
+    "zh": "谷歌学术"
+  },
+  "venues_label": {
+    "en": "Publication venues",
+    "zh": "发表期刊与会议"
+  },
+  "mech_fold": {
+    "en": "Transform the robot into an autonomous car",
+    "zh": "将机甲折叠为自动驾驶车"
+  },
+  "mech_unfold": {
+    "en": "Transform the autonomous car into a robot",
+    "zh": "将自动驾驶车展开为机甲"
+  },
+  "mech_car_alt": {
+    "en": "A four-wheeled autonomous car with roof-mounted lidar.",
+    "zh": "折叠完成的四轮自动驾驶车，车顶配备激光雷达。"
+  },
+  "mech_robot_alt": {
+    "en": "A pearl-white and dark teal robot with an amber shoulder plate, exposed linkages and four folding wheels.",
+    "zh": "珍珠白与深青色机甲，琥珀色肩甲下露出金属连杆和四组折叠车轮。"
+  },
+  "mech_folded": {
+    "en": "Transformation complete. Autonomous car.",
+    "zh": "已折叠为自动驾驶车。"
+  },
+  "mech_unfolded": {
+    "en": "Transformation complete. Robot.",
+    "zh": "已展开为机甲。"
+  },
+  "mech_tap": {
+    "en": "Tap to transform",
+    "zh": "点击变形"
+  },
+  "mech_hover": {
+    "en": "Hover to say hello · Click to transform",
+    "zh": "悬停问候 · 点击变形"
+  },
+  "dialogue": {
+    "en": "Robot messages",
+    "zh": "机甲对话"
+  },
+  "dismiss": {
+    "en": "Close message",
+    "zh": "关闭对话"
+  },
+  "greeting": {
+    "en": "Hi! Curious about Jiacheng’s research?",
+    "zh": "你好！想知道嘉成在研究什么吗？"
+  },
+  "meet": {
+    "en": "Meet Jiacheng",
+    "zh": "认识嘉成"
+  },
+  "trust_question": {
+    "en": "When do drivers trust automation, and when do they take over?",
+    "zh": "驾驶员什么时候会信任自动驾驶，又什么时候会接管？"
+  },
+  "read_papers": {
+    "en": "Read the papers",
+    "zh": "读论文"
+  },
+  "project_message": {
+    "en": "Explore projects on brain signals and driver monitoring.",
+    "zh": "从脑电信号到驾驶监控，来看看这些项目吧。"
+  },
+  "explore": {
+    "en": "Explore projects",
+    "zh": "看项目"
+  },
+  "contact_message": {
+    "en": "Studying how people and AI work together? Jiacheng would love to hear from you.",
+    "zh": "也在研究人和人工智能怎样协作？欢迎找嘉成聊聊。"
+  },
+  "write": {
+    "en": "Get in touch",
+    "zh": "写邮件"
+  },
+  "glance_title": {
+    "en": "I study how <b>people and intelligent systems</b> perceive situations, share tasks and <b>make reliable decisions</b> together.",
+    "zh": "我研究<b>人和智能系统</b>如何共同感知、分配任务，并作出<b>可靠的决策</b>。"
+  },
+  "featured": {
+    "en": "Featured projects",
+    "zh": "精选项目"
+  },
+  "all_projects": {
+    "en": "All projects",
+    "zh": "全部项目"
+  },
+  "project_intro": {
+    "en": "Driver monitoring, aviation oxygen systems and EEG-based risk detection.",
+    "zh": "智能驾驶监控、航空供氧与基于脑电的交互风险预警。"
+  },
+  "selected": {
+    "en": "Selected publications",
+    "zh": "代表论文"
+  },
+  "all_publications": {
+    "en": "All publications",
+    "zh": "全部论文"
+  },
+  "updates": {
+    "en": "News & updates",
+    "zh": "最新动态"
+  },
+  "research": {
+    "en": "Research interests",
+    "zh": "研究方向"
+  },
+  "undergrad": {
+    "en": "Undergraduate research",
+    "zh": "本科阶段科研实践"
+  },
+  "published": {
+    "en": "Journal and conference papers",
+    "zh": "期刊与会议论文"
+  },
+  "index_label": {
+    "en": "Index",
+    "zh": "索引"
+  },
+  "open_project": {
+    "en": "View project",
+    "zh": "查看项目"
+  },
+  "open_index": {
+    "en": "Browse all projects",
+    "zh": "浏览全部项目"
+  },
+  "portrait_alt": {
+    "en": "Jiacheng Liu on a mountain trail.",
+    "zh": "刘嘉成在山间步道上的照片。"
+  },
+  "portrait_caption": {
+    "en": "Beijing, China",
+    "zh": "中国北京"
+  },
+  "bio_education": {
+    "en": "I’m <b>Jiacheng Liu</b>, a master’s student in Control Science and Engineering at Beihang University. I also studied Aircraft Quality and Reliability at Beihang as an undergraduate.",
+    "zh": "我是<b>刘嘉成</b>，北京航空航天大学控制科学与工程专业硕士生，本科就读于北航飞行器质量与可靠性专业。"
+  },
+  "bio_research": {
+    "en": "I study human–AI interaction in automated driving, particularly how drivers understand, trust and work with automation. I plan to extend this work to embodied AI and logical reasoning, exploring how people understand an agent’s actions and reasoning.",
+    "zh": "我目前研究自动驾驶场景中的人机交互，关注驾驶员如何理解、信任并与自动化系统协作。今后，我希望把这些问题拓展到更多具身智能和逻辑人工智能场景，研究人如何理解智能体的行动与推理。"
+  },
+  "contact_prefix": {
+    "en": "You can reach me at",
+    "zh": "欢迎通过"
+  },
+  "contact_suffix": {
+    "en": ".",
+    "zh": "与我交流。"
+  },
+  "location_latest": {
+    "en": "Location & latest work",
+    "zh": "所在地与最新成果"
+  },
+  "beijing_school": {
+    "en": "Beijing · Beihang University",
+    "zh": "北京 · 北京航空航天大学"
+  },
+  "latest": {
+    "en": "Latest publication",
+    "zh": "最新论文"
+  },
+  "contribution": {
+    "en": "My contribution",
+    "zh": "个人贡献"
+  },
+  "projects_description": {
+    "en": "Research projects I contributed to as an undergraduate.",
+    "zh": "本科阶段的科研项目与个人贡献。"
+  },
+  "journals": {
+    "en": "Journal articles",
+    "zh": "期刊论文"
+  },
+  "conferences": {
+    "en": "Conference papers",
+    "zh": "会议论文"
+  },
+  "award_empty": {
+    "en": "Award details will be added here.",
+    "zh": "奖项记录待补充。"
+  },
+  "blog_empty": {
+    "en": "Posts will appear here.",
+    "zh": "文章待发布。"
+  },
+  "team_empty": {
+    "en": "Team information will be added here.",
+    "zh": "团队介绍待补充。"
+  },
+  "hobby_empty": {
+    "en": "More about my interests and activities will appear here.",
+    "zh": "兴趣与活动待补充。"
+  },
+  "light": {
+    "en": "Light theme",
+    "zh": "亮色版"
+  },
+  "dark": {
+    "en": "Dark theme",
+    "zh": "深色版"
+  },
+  "credit_light": {
+    "en": "The light theme shares the dark theme’s layout and interactions.",
+    "zh": "亮色配色沿用深色版的页面与交互。"
+  },
+  "credit_design": {
+    "en": "The layout and some animations are adapted from",
+    "zh": "页面布局与部分动效改编自"
+  },
+  "credit_source": {
+    "en": "Yuhang Wang’s personal website",
+    "zh": "Yuhang Wang 的个人主页"
+  },
+  "mit": {
+    "en": "MIT license",
+    "zh": "MIT 许可证"
+  },
+  "font_license": {
+    "en": "SIL Open Font License",
+    "zh": "SIL 开放字体许可证"
+  },
+  "model": {
+    "en": "Interactive model",
+    "zh": "交互模型"
+  },
+  "credit_model": {
+    "en": "The robot and autonomous car share a set of original 3D parts, rendered with Three.js.",
+    "zh": "首页机甲与自动驾驶车由同一套原创三维零件组成，使用 Three.js 渲染。"
+  },
+  "coastline": {
+    "en": "Globe coastlines are from",
+    "zh": "地球仪的海岸线数据来自"
+  },
+  "public_domain": {
+    "en": "(public domain).",
+    "zh": "（公有领域）。"
+  },
+  "cv_subtitle": {
+    "en": "Master’s student in Control Science and Engineering · Beihang University",
+    "zh": "北京航空航天大学 · 控制科学与工程硕士生"
+  },
+  "education": {
+    "en": "Education",
+    "zh": "教育经历"
+  },
+  "research_projects": {
+    "en": "Research projects",
+    "zh": "科研项目"
+  },
+  "download": {
+    "en": "Download PDF",
+    "zh": "下载简历"
+  },
+  "join": {
+    "en": ", ",
+    "zh": "、"
+  }
+}

@@ -1,34 +1,67 @@
 {
-  "scholar": "https://scholar.google.com/citations?user=9eZ3zlUAAAAJ&hl=zh-CN",
+  "scholar": {
+    "en": "https://scholar.google.com/citations?user=9eZ3zlUAAAAJ&hl=en",
+    "zh": "https://scholar.google.com/citations?user=9eZ3zlUAAAAJ&hl=zh-CN"
+  },
   "researchgate": "https://www.researchgate.net/profile/Jiacheng-Liu-33",
   "github": "https://github.com/dreamfortuna",
   "email": "LiuJiacheng25@buaa.edu.cn",
   "projects": [
     {
       "slug": "driving-safety",
-      "name": "智能驾驶人机安全综合监控系统",
-      "en": "Driving Safety Monitoring",
+      "name": {
+        "en": "Integrated Human–Machine Safety Monitoring for Automated Driving",
+        "zh": "智能驾驶人机安全综合监控系统"
+      },
       "period": "2023.04 — 2024.04",
-      "role": "我负责项目整体规划和软硬件架构设计，并参与实验设计、数据分析与软硬件开发。"
+      "role": {
+        "en": "I planned the project, designed the hardware and software architecture, and contributed to experimental design, data analysis and system development.",
+        "zh": "我负责项目整体规划和软硬件架构设计，并参与实验设计、数据分析与软硬件开发。"
+      },
+      "short": {
+        "en": "Driving Safety Monitoring",
+        "zh": "智能驾驶安全监控"
+      }
     },
     {
       "slug": "aviation-oxygen",
-      "name": "人机协同的航空供氧与低压防护技术",
-      "en": "Aviation Oxygen & Protection",
+      "name": {
+        "en": "Human–Machine Collaboration in Aviation Oxygen Supply and Low-Pressure Protection",
+        "zh": "人机协同的航空供氧与低压防护技术"
+      },
       "period": "2023.04 — 2023.12",
-      "role": "负责信号采集和数据分析，参与实验平台搭建。"
+      "role": {
+        "en": "I designed the experimental protocol, analyzed the data and helped develop the hardware and software.",
+        "zh": "负责信号采集和数据分析，参与实验平台搭建。"
+      },
+      "short": {
+        "en": "Aviation Oxygen & Protection",
+        "zh": "航空供氧与防护"
+      }
     },
     {
       "slug": "eeg-trust",
-      "name": "基于脑电信号的 AI 交互风险预警系统",
-      "en": "EEG & Interaction Risk",
+      "name": {
+        "en": "EEG-Based Early Warning for Human–AI Interaction Risks",
+        "zh": "基于脑电信号的人工智能交互风险预警系统"
+      },
       "period": "2022.04 — 2023.04",
-      "role": "负责相关文献检索，协助团队开展实验。"
+      "role": {
+        "en": "I reviewed the literature and helped the team conduct experiments.",
+        "zh": "负责相关文献检索，协助团队开展实验。"
+      },
+      "short": {
+        "en": "EEG & Interaction Risk",
+        "zh": "脑电与交互风险"
+      }
     }
   ],
   "papers": [
     {
-      "title": "A Semi-Markov Process-Based Approach to Modeling Situation Awareness Reliability in Continuous Supervisory Tasks",
+      "title": {
+        "en": "A Semi-Markov Process-Based Approach to Modeling Situation Awareness Reliability in Continuous Supervisory Tasks",
+        "zh": "基于半马尔可夫过程的连续监督任务情境意识可靠性建模方法"
+      },
       "doi": "https://doi.org/10.1016/j.ress.2026.113872",
       "authors": [
         "Song Ding",
@@ -37,12 +70,18 @@
         "Xing Pan",
         "Qingxing Qu"
       ],
-      "venue": "Reliability Engineering & System Safety",
+      "venue": {
+        "en": "Reliability Engineering & System Safety",
+        "zh": "可靠性工程与系统安全"
+      },
       "year": "2026",
       "badge": "RESS"
     },
     {
-      "title": "Modeling Psychological and Behavioral Trust Dynamics in Human-ADS Interaction: A Cognitive Process Perspective",
+      "title": {
+        "en": "Modeling Psychological and Behavioral Trust Dynamics in Human-ADS Interaction: A Cognitive Process Perspective",
+        "zh": "人类与自动驾驶系统交互中心理与行为信任的动态建模：认知过程视角"
+      },
       "doi": "https://doi.org/10.1109/TITS.2026.3725655",
       "authors": [
         "Xing Pan",
@@ -50,12 +89,18 @@
         "Song Ding",
         "Chongfeng Li"
       ],
-      "venue": "IEEE Transactions on Intelligent Transportation Systems",
+      "venue": {
+        "en": "IEEE Transactions on Intelligent Transportation Systems",
+        "zh": "IEEE 智能交通系统汇刊"
+      },
       "year": "2026",
       "badge": "IEEE T-ITS"
     },
     {
-      "title": "Probabilistic risk uncertainty assessment for driver over-trust and under-trust in Level 3 human-automated driving systems cooperative driving based on the drift-diffusion model",
+      "title": {
+        "en": "Probabilistic risk uncertainty assessment for driver over-trust and under-trust in Level 3 human-automated driving systems cooperative driving based on the drift-diffusion model",
+        "zh": "基于漂移扩散模型的三级自动驾驶人机协同驾驶中驾驶员过度信任与信任不足的概率风险不确定性评估"
+      },
       "doi": "https://doi.org/10.1016/j.ress.2026.112212",
       "authors": [
         "Song Ding",
@@ -64,12 +109,18 @@
         "Jiacheng Liu",
         "Fu Guo"
       ],
-      "venue": "Reliability Engineering & System Safety",
+      "venue": {
+        "en": "Reliability Engineering & System Safety",
+        "zh": "可靠性工程与系统安全"
+      },
       "year": "2026",
       "badge": "RESS"
     },
     {
-      "title": "Intelligent Driving Safety Monitoring Based on Machine Learning ——An Example of Students Research Training Program in the Context of New Engineering Disciplines",
+      "title": {
+        "en": "Intelligent Driving Safety Monitoring Based on Machine Learning ——An Example of Students Research Training Program in the Context of New Engineering Disciplines",
+        "zh": "基于机器学习的智能驾驶安全监控：以新工科背景下的大学生科研训练项目为例"
+      },
       "doi": "https://doi.org/10.1145/3672758.3672899",
       "authors": [
         "Jiacheng Liu",
@@ -79,12 +130,18 @@
         "Ruoyan Zeng",
         "Xing Pan"
       ],
-      "venue": "3rd International Conference on Computer, Artificial Intelligence and Control Engineering",
+      "venue": {
+        "en": "3rd International Conference on Computer, Artificial Intelligence and Control Engineering",
+        "zh": "第三届计算机、人工智能与控制工程国际会议"
+      },
       "year": "2024",
       "badge": "ACM"
     },
     {
-      "title": "Trust State Monitoring of Human-Machine Co-Driving Based on EEG Signals in Intelligent Driving Scenarios",
+      "title": {
+        "en": "Trust State Monitoring of Human-Machine Co-Driving Based on EEG Signals in Intelligent Driving Scenarios",
+        "zh": "智能驾驶场景下基于脑电信号的人机共驾信任状态监测"
+      },
       "doi": "https://doi.org/10.1109/ICRMS59672.2023.00070",
       "authors": [
         "Wenyan Cao",
@@ -95,35 +152,68 @@
         "Jiacheng Liu",
         "Xing Pan"
       ],
-      "venue": "14th International Conference on Reliability, Maintainability and Safety",
+      "venue": {
+        "en": "14th International Conference on Reliability, Maintainability and Safety",
+        "zh": "第十四届可靠性、维修性与安全性国际会议"
+      },
       "year": "2023",
       "badge": "ICRMS"
     }
   ],
-  "interests": [
-    [
-      "人智协同",
-      "人和自动化系统如何分配任务？我关注人在环决策、人机信任，以及控制权何时应当切换。"
+  "interests": {
+    "en": [
+      [
+        "Human–AI collaboration",
+        "How should people and automation share tasks? I study human-in-the-loop decisions, trust and when control should change hands."
+      ],
+      [
+        "Human-like agents",
+        "I study how to model agents for collaborative tasks and assess how closely their behavior reflects human cognition and action."
+      ],
+      [
+        "Human reliability",
+        "When are people more likely to make mistakes in complex systems? I study how context affects performance and how to account for it in risk assessment."
+      ]
     ],
-    [
-      "类人智能体",
-      "面向协作任务，我关注如何建立智能体模型，以及如何评估它的行为与人的认知和行为是否一致。"
-    ],
-    [
-      "人因可靠性",
-      "复杂系统中的人何时容易出错？我关注情境因素如何影响人的表现，以及如何将这些影响纳入风险评估。"
+    "zh": [
+      [
+        "人智协同",
+        "人和自动化系统如何分配任务？我关注人在环决策、人机信任，以及控制权何时应当切换。"
+      ],
+      [
+        "类人智能体",
+        "面向协作任务，我关注如何建立智能体模型，以及如何评估它的行为与人的认知和行为是否一致。"
+      ],
+      [
+        "人因可靠性",
+        "复杂系统中的人何时容易出错？我关注情境因素如何影响人的表现，以及如何将这些影响纳入风险评估。"
+      ]
     ]
-  ],
-  "education": [
-    [
-      "2025 — 至今",
-      "控制科学与工程 · 硕士在读",
-      "北京航空航天大学"
+  },
+  "education": {
+    "en": [
+      [
+        "2025 – present",
+        "Master’s student in Control Science and Engineering",
+        "Beihang University"
+      ],
+      [
+        "2021 – 2025",
+        "B.Eng. in Aircraft Quality and Reliability",
+        "Beihang University"
+      ]
     ],
-    [
-      "2021 — 2025",
-      "飞行器质量与可靠性 · 工学学士",
-      "北京航空航天大学"
+    "zh": [
+      [
+        "2025 — 至今",
+        "控制科学与工程 · 硕士在读",
+        "北京航空航天大学"
+      ],
+      [
+        "2021 — 2025",
+        "飞行器质量与可靠性 · 工学学士",
+        "北京航空航天大学"
+      ]
     ]
-  ]
+  }
 }

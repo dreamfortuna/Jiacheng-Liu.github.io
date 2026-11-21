@@ -16,8 +16,22 @@
 .inner-page, .lp { overflow-wrap: break-word }
 .inner-page .dk-page p, .inner-page .dk-page li { max-width: 88ch }
 .foot-copy, .foot-links { text-align: center }
-.dk-nav .day-switch { flex: none; color: var(--text-dim); padding: .35rem .65rem; font-size: .83rem; border: 1px solid var(--border); border-radius: 99px }
-@media (min-width:901px) and (max-width:1060px) { .dk-links a { padding-inline:.48rem } }
+.nav-tools { display:flex; flex:none; align-items:center; gap:.38rem }
+.dk-nav .nav-tools a { display:inline-flex; align-items:center; justify-content:center; gap:.35rem; height:2.5rem; box-sizing:border-box; border:1px solid var(--border-hi); border-radius:99px; color:var(--text-dim); line-height:1 }
+.dk-nav .nav-tools a:hover { color:var(--accent-2); background:var(--surface-2) }
+.nav-tools svg { display:block; width:1.1rem; height:1.1rem; fill:none; stroke:currentColor; stroke-width:1.65; stroke-linecap:round; stroke-linejoin:round }
+.nav-tools .day-switch { width:2.5rem }
+.nav-tools .language-switch { padding:0 .6rem; font-size:.8rem; font-weight:600; white-space:nowrap }
+[data-theme="dark"] .day-switch .moon, [data-theme="light"] .day-switch .sun { display:none }
+@media (min-width:901px) and (max-width:1120px) {
+  .dk-nav-inner { gap:.55rem }
+  .dk-links a { padding-inline:.42rem; letter-spacing:0 }
+}
+@media (max-width:440px) {
+  .dk-nav-inner { gap:.45rem; padding-inline:.85rem }
+  .nav-tools { gap:.28rem }
+  .nav-tools .language-switch { padding-inline:.48rem }
+}
 .lp .stat, .lp .stat:nth-child(n) { grid-column: auto; border-top: 0 }
 .lp .stats, .lp .focus-grid { grid-template-columns: repeat(3,minmax(0,1fr)) }
 .lp .focus-item:nth-child(n) { border-top: 0 }

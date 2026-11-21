@@ -76,7 +76,7 @@ const hint=stage.querySelector('.mech-hint');
 function beginHover(){
   if(hover||document.hidden||drag)return;
   hover=true;
-  hint.textContent='悬停问候 · 点击变形';
+  hint.textContent=hint.dataset.hover;
   greet();wake();
 }
 function isHoverPointer(event){
@@ -108,12 +108,12 @@ document.addEventListener('keydown',event=>{if(event.key==='Escape')closeDialogu
 function showPoster(end){
   const name=end?'vehicle':'upright',src=asset(name);
   if(poster.src!==src)poster.src=src;
-  poster.alt=end?'折叠完成的四轮自动驾驶车，车顶配备激光雷达。':'珍珠白与深青色机甲，外露的金属连杆连接装甲和轮组。';
+  poster.alt=end?poster.dataset.car:poster.dataset.robot;
 }
 function finish(){
   showPoster(target);stage.removeAttribute('data-sequence');
   stage.dataset.form=target?'vehicle':'upright';
-  status.textContent=target?'已折叠为自动驾驶车。':'已展开为机甲。';
+  status.textContent=target?status.dataset.folded:status.dataset.unfolded;
 }
 async function prepareFilm(){
   if(sheetJob||navigator.connection?.saveData||reduced.matches)return;
@@ -126,14 +126,14 @@ async function prepareFilm(){
 function toggle(){
   speak();
   target=1-target;
-  view.setAttribute('aria-label',target?'将自动驾驶车展开为机甲':'将机甲折叠为自动驾驶车');
+  view.setAttribute('aria-label',target?view.dataset.unfold:view.dataset.fold);
   view.setAttribute('aria-pressed',String(Boolean(target)));stage.dataset.form='changing';
   reaction=reactions[action++%reactions.length];reactionTime=0;spinQueued=reaction==='spin'&&!reduced.matches;
   if(reduced.matches||(!live()&&!sheetJob&&!starting)){progress=target;finish();}
   wake();
 }
 view.disabled=false;view.setAttribute('aria-pressed','false');
-if(hoverCapable.matches)hint.textContent='悬停问候 · 点击变形';
+if(hoverCapable.matches)hint.textContent=hint.dataset.hover;
 hint.hidden=false;
 view.addEventListener('click',event=>{if(!suppressClick||event.detail===0)toggle();suppressClick=false;});
 view.addEventListener('focus',()=>{

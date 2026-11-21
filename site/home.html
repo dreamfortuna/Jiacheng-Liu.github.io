@@ -3,29 +3,29 @@
     <div class="hero-scene" aria-hidden="true"><div class="hud-horizon"></div><div class="hud-floor"></div></div>
     <div class="lp-wrap hero-grid">
       <div class="hero-copy">
-        <p class="hud-idx hero-eyebrow"><span class="hud-no" aria-hidden="true">//</span><span class="hud-tag">Master’s Student · Beihang University</span></p>
-        <h1 class="hero-name">Jiacheng <span class="grad">Liu</span> <span class="hero-cn">刘嘉成</span></h1>
-        <p class="typewriter"><span class="tw" data-lines='["在自动驾驶中，人怎样判断何时信任 AI、何时接管？","Human–AI collaboration, trust and reliable decision-making.","研究自动驾驶中人的信任、行为与情境意识。"]'>在自动驾驶中，人怎样判断何时信任 AI、何时接管？</span><span class="caret" aria-hidden="true"></span></p>
-        <div class="cta-row"><a class="btn primary" href="projects/">View Projects</a>$buttons<a class="btn" href="mailto:$email">Email</a></div>
-        <ul class="venue-wall" aria-label="发表期刊与会议" role="list">$venues</ul>
-        <nav class="hero-jump" aria-label="本页章节">$jumps</nav>
+        <p class="hud-idx hero-eyebrow"><span class="hud-no" aria-hidden="true">//</span><span class="hud-tag">$eyebrow</span></p>
+        <h1 class="hero-name">$name_html</h1>
+        <p class="typewriter"><span class="tw" data-lines='$line_json'>$first_line</span><span class="caret" aria-hidden="true"></span></p>
+        <div class="cta-row"><a class="btn primary" href="projects/">$view_projects</a>$buttons<a class="btn" href="mailto:$email">$email_label</a></div>
+        <ul class="venue-wall" aria-label="$venues_label" role="list">$venues</ul>
+        <nav class="hero-jump" aria-label="$sections">$jumps</nav>
       </div>
       <div class="hero-stage">
         <div class="mech-stage hud-frame" data-form="upright">
-          <button class="mech-view" type="button" disabled aria-controls="mech-dialogue" aria-label="将机甲折叠为自动驾驶车">
-            <img class="mech-poster" src="assets/mech-upright.webp" width="760" height="760" alt="珍珠白与深青色机甲，不对称的琥珀色肩甲下露出金属连杆和轮组。">
+          <button class="mech-view" type="button" disabled aria-controls="mech-dialogue" aria-label="$mech_fold" data-fold="$mech_fold" data-unfold="$mech_unfold">
+            <img class="mech-poster" src="${assets}assets/mech-upright.webp" width="760" height="760" alt="$mech_robot_alt" data-robot="$mech_robot_alt" data-car="$mech_car_alt">
           </button>
-          <small class="mech-hint" hidden>点击变形</small>
-          <span class="sr-only mech-status" role="status"></span>
+          <small class="mech-hint" data-hover="$mech_hover" hidden>$mech_tap</small>
+          <span class="sr-only mech-status" role="status" data-folded="$mech_folded" data-unfolded="$mech_unfolded"></span>
         </div>
-        <div id="mech-dialogue" class="mech-dialogue" role="group" aria-label="机甲对话" hidden>
+        <div id="mech-dialogue" class="mech-dialogue" role="group" aria-label="$dialogue" hidden>
           <div aria-live="polite" aria-atomic="true">
-            <p hidden>你好！想知道嘉成在研究什么吗？ <a href="#about">认识嘉成</a></p>
-            <p hidden>驾驶员什么时候会信任自动驾驶，又什么时候会接管？ <a href="publications/">读论文</a></p>
-            <p hidden>从脑电信号到驾驶监控，来看看这些项目吧。 <a href="projects/">看项目</a></p>
-            <p hidden>也在研究人和 AI 怎样协作？欢迎找嘉成聊聊。 <a href="mailto:$email">写邮件</a></p>
+            <p hidden>$greeting <a href="#about">$meet</a></p>
+            <p hidden>$trust_question <a href="publications/">$read_papers</a></p>
+            <p hidden>$project_message <a href="projects/">$explore</a></p>
+            <p hidden>$contact_message <a href="mailto:$email">$write</a></p>
           </div>
-          <button type="button" class="mech-dismiss" aria-label="关闭对话">×</button>
+          <button type="button" class="mech-dismiss" aria-label="$dismiss">×</button>
         </div>
       </div>
     </div>
@@ -51,10 +51,10 @@
   <section class="lp-sec about" id="about" aria-labelledby="about-title">
     <div class="lp-wrap">$about_head
       <div class="about-grid reveal">
-        <figure class="about-portrait hud-frame"><img class="portrait" src="portrait.webp" width="900" height="965" loading="lazy" alt="刘嘉成在山间步道上的照片"><figcaption>05 · Beijing, China</figcaption></figure>
+        <figure class="about-portrait hud-frame"><img class="portrait" src="${assets}portrait.webp" width="900" height="965" loading="lazy" alt="$portrait_alt"><figcaption>05 · $portrait_caption</figcaption></figure>
         <div class="about-body">
-          <p>我是<b>刘嘉成（Jiacheng Liu）</b>，北京航空航天大学控制科学与工程专业硕士生，本科就读于北航飞行器质量与可靠性专业。</p>
-          <p>我目前研究自动驾驶场景中的人机交互，关注驾驶员如何理解、信任并与自动化系统协作。今后，我希望把这些问题拓展到更多具身 AI 和逻辑 AI 场景，研究人如何理解智能体的行动与推理。欢迎通过 <a href="mailto:$email">$email</a> 与我交流。</p>
+          <p>$bio_education</p>
+          <p>$bio_research $contact_prefix <a href="mailto:$email">$email</a>$contact_suffix</p>
           <div class="chips">$chips</div>
           <ol class="tl tl--edu" id="background" role="list">$education</ol>
         </div>

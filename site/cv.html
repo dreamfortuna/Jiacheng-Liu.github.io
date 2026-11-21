@@ -1,10 +1,10 @@
 <!doctype html>
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>刘嘉成 · Academic CV</title>
+<html lang="$html_lang"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>$name · $cv</title>
 <style>
 @page { size:A4; margin:17mm 19mm }
 * { box-sizing:border-box }
 body { color:#182d42; font:10.5pt/1.52 "Microsoft YaHei",Arial,sans-serif; margin:0 auto; max-width:172mm }
+html[lang="en"] body { font-family:Arial,"Segoe UI",sans-serif }
 h1 { font-size:26pt; letter-spacing:.02em; margin:0; line-height:1.35 }
 h1 span { font:18pt Georgia,serif; margin-left:4mm; color:#274d70 }
 h2 { font-size:13pt; color:#16547a; border-bottom:1px solid #afc3d3; margin:5mm 0 2mm; padding-bottom:1mm }
@@ -16,14 +16,17 @@ a { color:#155578; text-underline-offset:2px }
 .paper { margin:2mm 0; line-height:1.4; font-family:Arial,"Microsoft YaHei",sans-serif }
 .paper a { font-weight:600 }
 .paper small { display:block; color:#334d60 }
+.print-tools { text-align:right; font-size:.85rem }
+@media print { .print-tools { display:none } }
 @media screen { body { padding:1.5rem } }
 </style></head>
 <body>
-<h1>刘嘉成 <span>Jiacheng Liu</span></h1>
-<p>北京航空航天大学 · 控制科学与工程硕士生</p>
+<nav class="print-tools"><a href="$other_cv" hreflang="$other_lang" lang="$other_lang">$language_name</a> · <a href="$pdf">$download</a></nav>
+<h1>$name</h1>
+<p>$cv_subtitle</p>
 <p class="contact"><a href="mailto:$email">$email</a> · $links</p>
-<h2>研究方向</h2><p>$interests</p>
-<h2>教育经历</h2>$education
-<h2>科研项目</h2>$projects
-<h2>代表论文</h2>$papers
+<h2>$research</h2><p>$interests</p>
+<h2>$education_title</h2>$education
+<h2>$research_projects</h2>$projects
+<h2>$selected</h2>$papers
 </body></html>

@@ -1,33 +1,45 @@
 <!doctype html>
-<html lang="zh-CN" class="no-js" data-theme="$theme">
+<html lang="$html_lang" class="no-js" data-theme="$theme">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="$chrome">
-  <meta name="description" content="刘嘉成，北京航空航天大学控制科学与工程硕士生。研究方向包括人智协同、类人智能体与人因可靠性。">
-  <title>$title</title>
-  <link rel="canonical" href="./">
-  <link rel="icon" type="image/png" href="${root}assets/favicon.png">
-  <link rel="preload" as="font" type="font/woff2" href="${root}assets/inter-latin-var.woff2" crossorigin>
-  <link rel="stylesheet" href="${root}assets/site-dark.css">
-  <link rel="stylesheet" href="${root}assets/hud.css">
+  <meta name="description" content="$description">
+  <title>$page_title</title>
+  <link rel="canonical" href="$canonical">
+  <link rel="alternate" hreflang="en" href="$english_url">
+  <link rel="alternate" hreflang="zh-CN" href="$chinese_url">
+  <link rel="alternate" hreflang="x-default" href="$english_url">
+  <link rel="icon" type="image/png" href="${assets}assets/favicon.png">
+  <link rel="preload" as="font" type="font/woff2" href="${assets}assets/inter-latin-var.woff2" crossorigin>
+  <link rel="stylesheet" href="${assets}assets/site-dark.css">
+  <link rel="stylesheet" href="${assets}assets/hud.css">
   $home_styles
-  <link rel="stylesheet" href="${root}style.css">
-  <link rel="stylesheet" href="${root}assets/day.css">
+  <link rel="stylesheet" href="${assets}$site_css">
+  <link rel="stylesheet" href="${assets}assets/day.css">
   <script>document.documentElement.className = 'js';</script>
-  <script defer src="${root}assets/fx.js"></script>
-  <script defer src="${root}assets/day.js"></script>
+  <script defer src="${assets}assets/fx.js"></script>
+  <script defer src="${assets}$theme_js"></script>
   $home_script
 </head>
 <body class="dark-site $mode">
-  <a class="skip" href="#main">跳到正文</a>
+  <a class="skip" href="#main">$skip</a>
   $backdrop
-  <nav class="dk-nav" aria-label="主导航">
+  <nav class="dk-nav" aria-label="$navigation">
     <div class="dk-nav-inner">
-      <a class="dk-brand" href="$root">Jiacheng <b>Liu</b></a>
-      <button class="dk-burger" type="button" aria-label="导航菜单" aria-controls="dk-links" aria-expanded="false"><span></span></button>
+      <a class="dk-brand" href="$root">$brand</a>
+      <button class="dk-burger" type="button" aria-label="$menu" aria-controls="dk-links" aria-expanded="false"><span></span></button>
       <ul class="dk-links" id="dk-links">$nav</ul>
-      <a class="day-switch" href="$switch_url" aria-label="切换为${switch_label}版">$switch_label</a>
+      <div class="nav-tools">
+        <a class="day-switch" href="$switch_url" title="$switch_label" aria-label="$switch_label" data-to-light="$to_light" data-to-dark="$to_dark">
+          <svg class="sun" aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg>
+          <svg class="moon" aria-hidden="true" viewBox="0 0 24 24"><path d="M20.8 13a8.8 8.8 0 0 1-9.9-9.8A9 9 0 1 0 20.8 13Z"/></svg>
+        </a>
+        <a class="language-switch" href="$language_href" data-dark="$other_dark" data-light="$other_light" hreflang="$other_lang" aria-label="$language_label" title="$language_label">
+          <svg aria-hidden="true" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><ellipse cx="12" cy="12" rx="4" ry="9"/><path d="M3 12h18"/></svg>
+          <span lang="$other_lang">$language_name</span>
+        </a>
+      </div>
     </div>
   </nav>
   $content
@@ -35,7 +47,7 @@
     <div class="lp-wrap">
       $footer_details
       <p class="foot-links">$profiles</p>
-      <p class="foot-copy">Jiacheng Liu · Beihang University · <a href="${root}credits/">Design credits</a></p>
+      <p class="foot-copy">$name · $school · <a href="${root}credits/">$credits</a></p>
     </div>
   </footer>
 </body>
