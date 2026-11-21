@@ -2,6 +2,10 @@
 (function () {
   "use strict";
   var reduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var daySwitch = document.querySelector(".day-switch");
+  if (daySwitch) daySwitch.addEventListener("click", function () {
+    daySwitch.hash = document.getElementById(location.hash.slice(1)) ? location.hash : "";
+  });
 
   /* nav scroll state + hamburger */
   var nav = document.querySelector(".dk-nav");

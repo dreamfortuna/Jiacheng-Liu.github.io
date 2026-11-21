@@ -9,8 +9,8 @@ let buildRig = null, K = null, ACCENTS = null; // moti-rig.js is imported in boo
 
 const LINES = [
   ['来看看嘉成的研究方向吧。', '#about', 'About Jiacheng'],
-  ['人在驾驶时，如何判断该相信自动化系统到什么程度？', 'publications/', 'Publications'],
-  ['从脑电信号到驾驶监控，看看这些人机协作项目。', 'projects/', 'Projects'],
+  ['人在驾驶时，如何判断该相信自动化系统到什么程度？', 'publications/night.html', 'Publications'],
+  ['从脑电信号到驾驶监控，看看这些人机协作项目。', 'projects/night.html', 'Projects'],
   ['想交流人因可靠性或人机信任？欢迎给嘉成写信。', 'mailto:LiuJiacheng25@buaa.edu.cn', 'Email'],
 ];
 const CYCLE = ['honk', 'spin', 'wink'], SNAP_T = 1.3, TAU = Math.PI * 2;

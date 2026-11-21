@@ -16,6 +16,8 @@
 .inner-page, .lp { overflow-wrap: break-word }
 .inner-page .dk-page p, .inner-page .dk-page li { max-width: 88ch }
 .foot-copy, .foot-links { text-align: center }
+.dk-nav .day-switch { flex: none; color: var(--text-dim); padding: .35rem .65rem; font-size: .83rem; border: 1px solid var(--border); border-radius: 99px }
+@media (min-width:901px) and (max-width:1060px) { .dk-links a { padding-inline:.48rem } }
 .lp .stat, .lp .stat:nth-child(n) { grid-column: auto; border-top: 0 }
 .lp .stats, .lp .focus-grid { grid-template-columns: repeat(3,minmax(0,1fr)) }
 .lp .focus-item:nth-child(n) { border-top: 0 }
