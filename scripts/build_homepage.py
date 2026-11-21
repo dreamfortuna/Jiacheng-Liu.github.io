@@ -42,8 +42,8 @@ def page(route, title, content):
     shared = dict(
         root=root, title=escape(title + " · Jiacheng Liu" if not home else "Jiacheng Liu 刘嘉成 · Human–AI Collaboration"),
         mode="lp" if home else "inner-page", backdrop='<div class="hud-bg" aria-hidden="true"></div>' if home else "",
-        home_styles='<link rel="stylesheet" href="assets/landing.css"><link rel="stylesheet" href="assets/gimbal.css">' if home else "",
-        home_script='<script type="module" src="assets/gimbal.js"></script><script type="module" src="assets/globe.js"></script>' if home else "",
+        home_styles='<link rel="stylesheet" href="assets/landing.css"><link rel="stylesheet" href="assets/mech.css">' if home else "",
+        home_script='<script type="module" src="assets/mech.js"></script><script type="module" src="assets/globe.js"></script>' if home else "",
         nav="\n".join(nav), content=body, footer_details=footer_details,
         profiles=" · ".join(external(label,url) for label,url in PROFILES.items()),
     )
@@ -165,7 +165,7 @@ def other_pages():
       <a href="https://github.com/WangYuhang-cmd/WangYuhang-cmd.github.io">Yuhang Wang’s personal website</a>.
       <a href="../assets/licenses/reference-site-MIT.txt">MIT license</a>.</p>
       <p><a href="../assets/licenses/three-MIT.txt">Three.js · MIT</a> · <a href="../assets/licenses/Inter-OFL.txt">Inter · SIL Open Font License</a>.</p>
-      <h2>衡枢 · GIMBAL</h2><p>为本主页设计的可变形物理 AI 形象。模型、变形机构与驾驶意图演示均用 Three.js 在浏览器内生成。</p>
+      <h2>交互模型</h2><p>首页机甲与自动驾驶车由同一套原创三维零件组成，使用 Three.js 渲染。</p>
       <p>Globe coastlines from <a href="https://www.naturalearthdata.com/">Natural Earth</a> (public domain).</p>''')
 
 

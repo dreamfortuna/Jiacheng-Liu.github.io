@@ -1,0 +1,12 @@
+/* The hero owns the position and the two background palettes. */
+.mech-view,.mech-view canvas,.mech-poster,.mech-film{position:absolute;inset:0;width:100%;height:100%;display:block}
+.mech-view{margin:0;padding:0;border:0;border-radius:inherit;background:transparent;touch-action:pan-y;user-select:none;-webkit-user-select:none;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.mech-view:disabled{cursor:default}
+.mech-view:focus-visible{outline:2px solid var(--accent-2);outline-offset:-4px}
+.mech-view canvas,.mech-poster,.mech-film{pointer-events:none}
+.mech-stage[data-live] .mech-poster,.mech-stage[data-sequence] .mech-poster{visibility:hidden}
+.mech-view canvas,.mech-film{visibility:hidden}
+.mech-stage[data-live] canvas,.mech-stage[data-sequence] .mech-film{visibility:visible}
+.mech-film{background-size:600% 600%;background-repeat:no-repeat}
+.mech-hint{position:absolute;left:4%;bottom:3.75%;color:var(--text-mute);font-size:.73rem;letter-spacing:.08em;pointer-events:none}
+.mech-hint[hidden]{display:none}

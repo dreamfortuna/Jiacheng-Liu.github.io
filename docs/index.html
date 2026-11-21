@@ -11,13 +11,13 @@
   <link rel="preload" as="font" type="font/woff2" href="./assets/inter-latin-var.woff2" crossorigin>
   <link rel="stylesheet" href="./assets/site-dark.css">
   <link rel="stylesheet" href="./assets/hud.css">
-  <link rel="stylesheet" href="assets/landing.css"><link rel="stylesheet" href="assets/gimbal.css">
+  <link rel="stylesheet" href="assets/landing.css"><link rel="stylesheet" href="assets/mech.css">
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="./assets/day.css">
   <script>document.documentElement.className = 'js';</script>
   <script defer src="./assets/fx.js"></script>
   <script defer src="./assets/day.js"></script>
-  <script type="module" src="assets/gimbal.js"></script><script type="module" src="assets/globe.js"></script>
+  <script type="module" src="assets/mech.js"></script><script type="module" src="assets/globe.js"></script>
 </head>
 <body class="dark-site lp">
   <a class="skip" href="#main">跳到正文</a>
@@ -50,26 +50,13 @@
         <nav class="hero-jump" aria-label="本页章节"><a href="#glance"><span class="hud-no">01</span>Glance</a><a href="#projects"><span class="hud-no">02</span>Projects</a><a href="#publications"><span class="hud-no">03</span>Publications</a><a href="#news"><span class="hud-no">04</span>News</a><a href="#about"><span class="hud-no">05</span>About</a></nav>
       </div>
       <div class="hero-stage">
-        <section class="gimbal-stage hud-frame" aria-labelledby="gimbal-title" data-form="walker">
-          <div class="gimbal-heading"><h2 id="gimbal-title">衡枢 <span>/ GIMBAL</span></h2>
-            <details class="gimbal-links"><summary>研究导航</summary><div><a href="#about">关于我</a><a href="projects/">研究项目</a><a href="publications/">论文</a><a href="mailto:LiuJiacheng25@buaa.edu.cn">联系我</a></div></details>
-          </div>
-          <div class="gimbal-view">
-            <img class="gimbal-poster" src="assets/gimbal-walker.webp" width="760" height="760" alt="衡枢，带有双目感知器和四个折叠车轮的白色与琥珀色机甲。">
-          </div>
-          <div class="gimbal-intent" role="group" aria-label="给出驾驶意图" hidden>
-            <span>驾驶意图</span>
-            <button type="button" data-intent="-1" aria-pressed="false">左转</button>
-            <button type="button" data-intent="0" aria-pressed="true">直行</button>
-            <button type="button" data-intent="1" aria-pressed="false">右转</button>
-          </div>
-          <div class="gimbal-controls" hidden>
-            <div class="gimbal-toolbar"><div><span class="gimbal-state">协作机甲</span><small class="gimbal-hint"></small></div>
-              <button class="gimbal-transform" type="button">切换驾驶态</button>
-            </div>
-          </div>
-          <span class="sr-only gimbal-announcement" role="status"></span>
-        </section>
+        <div class="mech-stage hud-frame" data-form="upright">
+          <button class="mech-view" type="button" disabled aria-label="将机甲折叠为自动驾驶车">
+            <img class="mech-poster" src="assets/mech-upright.webp" width="760" height="760" alt="珍珠白与深青色机甲，不对称的琥珀色肩甲下露出金属连杆和轮组。">
+          </button>
+          <small class="mech-hint" hidden>点击变形</small>
+          <span class="sr-only mech-status" role="status"></span>
+        </div>
       </div>
     </div>
   </header>
