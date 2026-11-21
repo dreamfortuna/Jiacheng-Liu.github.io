@@ -1,0 +1,83 @@
+:root {
+  color-scheme: light;
+  --ink: #152f51;
+  --muted: #4d637a;
+  --blue: #164ea6;
+  --line: #cbd7e2;
+  --wash: #eff4fa;
+  --serif: "STIX Two Text", Georgia, "Songti SC", "SimSun", serif;
+  font-family: "Inter", "Microsoft YaHei", "PingFang SC", sans-serif;
+  color: var(--ink);
+  scroll-behavior: smooth;
+}
+* { box-sizing: border-box }
+body, figure, h1, h2, h3, p, dl, dd, ol { margin: 0 }
+body { background: white; line-height: 1.7 }
+a { color: var(--blue); text-underline-offset: .28em }
+a:focus-visible { outline: 3px solid #ad6416; outline-offset: 4px }
+.skip { position: fixed; top: -5rem; left: 1rem; padding: .4rem 1rem; background: white; z-index: 2 }
+.skip:focus { top: .5rem }
+.wrap { width: min(71rem, 88%); margin-inline: auto }
+header { border-bottom: 1px solid var(--line); background: #fafcfe }
+.nav, nav, .brand, .actions, .section-heading, figcaption, footer .wrap { display: flex; align-items: center }
+.nav, .section-heading, figcaption, footer .wrap { justify-content: space-between }
+.nav { min-height: 4.4rem; gap: 1rem }
+.brand { gap: .7rem; font-family: var(--serif); font-weight: 700; font-size: 1.2rem; white-space: nowrap }
+.nav a { text-decoration: none; color: var(--ink) }
+.monogram { display: grid; place-items: center; width: 2.1rem; height: 2.1rem; background: var(--ink); color: white; font-family: Georgia, serif; font-size: 1.16rem; font-style: italic }
+nav { gap: clamp(.9rem, 3vw, 2.2rem); font-size: .93rem }
+nav a:hover, .email:hover { text-decoration: underline }
+.hero { background: linear-gradient(115deg,#f6f9fc 5%,#eaf1f9 100%); border-bottom: 1px solid var(--line) }
+.hero-grid { display: grid; grid-template-columns: minmax(0,1.45fr) minmax(0,.84fr); align-items: center; gap: 8%; padding-block: clamp(2.8rem,5.8vw,5.9rem) }
+.institution, .kicker, .period, .portrait figcaption { font-family: "IBM Plex Mono", Consolas, monospace }
+.institution, .kicker { color: var(--blue); font-size: .84rem; letter-spacing: .14em; text-transform: uppercase }
+.institution { display: flex; align-items: center; gap: .8rem; margin-bottom: 1.4rem }
+.institution::before { content: ""; width: 2rem; height: 2px; background: currentColor }
+h1, h2, h3 { line-height: 1.35 }
+h1 { font-family: var(--serif); font-size: clamp(3.5rem,6vw,5.7rem); letter-spacing: .04em; line-height: 1.12 }
+h1 span { display: block; font-family: Georgia, serif; font-size: .64em; letter-spacing: -.04em; font-style: italic; font-weight: 400; margin-top: .1em; color: var(--blue) }
+.lead { font-size: clamp(1.13rem,1.7vw,1.45rem); line-height: 1.7; max-width: 24em; margin-top: 1.6rem; font-weight: 500 }
+.affiliation { color: var(--muted); margin-top: .55rem }
+.actions { gap: 1.7rem; margin-top: 1.6rem }
+.primary { color: white; background: var(--blue); border-radius: 3px; padding: .6rem 1.15rem; text-decoration: none; font-weight: 600 }
+.primary:hover { background: var(--ink) }
+.email { font-weight: 600 }
+.portrait { max-width: 23rem; width: 100%; justify-self: end }
+.photo { position: relative; isolation: isolate }
+.photo::before { content: ""; position: absolute; z-index: -1; inset: .7rem -.7rem -.7rem .7rem; border: 1px solid #859bb3 }
+.photo img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1.04; object-fit: cover; object-position: center 42% }
+figcaption { font-size: .82rem; margin-top: 1.25rem; color: var(--muted) }
+.section { padding-block: clamp(3.1rem,6vw,5.5rem) }
+.section-heading { gap: 1rem; align-items: end; margin-bottom: 1.7rem }
+h2 { font-family: var(--serif); font-size: clamp(1.9rem,3.4vw,3rem); margin-top: .35rem }
+.section-note, .period { color: var(--muted); font-size: .88rem }
+.work-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4% }
+.featured { background: #e3edf9; padding: clamp(1.6rem,3.3vw,3rem); border-top: 3px solid var(--blue) }
+.featured h3 { font-family: var(--serif); font-size: clamp(1.7rem,2.7vw,2.5rem); margin: 1.25rem 0 .8rem }
+.work-grid article p:last-child, dd, .education li > p:last-child { color: var(--muted) }
+.more-projects article, .rows > div, .education li { border-top: 1px solid var(--line); padding-block: 1.25rem }
+.more-projects h3, .education h3 { font-size: 1.15rem; margin: .33rem 0 }
+.tint { background: var(--wash) }
+.split { display: grid; grid-template-columns: 1fr 1.7fr; gap: 8% }
+.rows > div { display: grid; grid-template-columns: 7rem 1fr; gap: 1rem }
+dt { font-weight: 700 }
+.education { padding: 0; list-style: none }
+footer { border-top: 1px solid var(--line); font-size: .94rem }
+footer .wrap { padding-block: 1.7rem; gap: .5rem 1rem; flex-wrap: wrap }
+@media (max-width: 700px) {
+  .wrap { width: 88% }
+  .nav { min-height: 3.8rem }
+  .hero-grid { grid-template-columns: 1fr; gap: 2.5rem }
+  .portrait { justify-self: start; width: min(94%, 24rem) }
+  .photo img { aspect-ratio: 1.45; object-position: center 26% }
+  .section-heading { align-items: start; flex-direction: column; gap: .4rem }
+  .work-grid, .split { grid-template-columns: 1fr; gap: 1.5rem }
+}
+@media (max-width: 440px) {
+  .brand { font-size: 1rem; gap: .4rem }
+  .monogram { width: 1.7rem; height: 1.7rem; font-size: 1rem }
+  nav { gap: .75rem; font-size: .88rem }
+  .rows > div { grid-template-columns: 1fr; gap: .3rem }
+}
+@media (max-width: 350px) { .monogram { display: none } }
+@media (prefers-reduced-motion: reduce) { :root { scroll-behavior: auto } }
