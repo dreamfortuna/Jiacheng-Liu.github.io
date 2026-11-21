@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="zh-CN" class="no-js">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#070d1d">
+  <meta name="description" content="刘嘉成，北京航空航天大学控制科学与工程硕士生。研究方向包括人智协同、类人智能体与人因可靠性。">
+  <title>$title</title>
+  <link rel="icon" type="image/png" href="${root}assets/favicon.png">
+  <link rel="preload" as="font" type="font/woff2" href="${root}assets/inter-latin-var.woff2" crossorigin>
+  <link rel="stylesheet" href="${root}assets/site-dark.css">
+  <link rel="stylesheet" href="${root}assets/hud.css">
+  $home_styles
+  <link rel="stylesheet" href="${root}style.css">
+  <script>document.documentElement.className = 'js';</script>
+  <script defer src="${root}assets/fx.js"></script>
+  $home_script
+</head>
+<body class="dark-site $mode">
+  <a class="skip" href="#main">跳到正文</a>
+  $backdrop
+  <nav class="dk-nav" aria-label="主导航">
+    <div class="dk-nav-inner">
+      <a class="dk-brand" href="$root">Jiacheng <b>Liu</b></a>
+      <button class="dk-burger" type="button" aria-label="导航菜单" aria-controls="dk-links" aria-expanded="false"><span></span></button>
+      <ul class="dk-links" id="dk-links">$nav</ul>
+    </div>
+  </nav>
+  $content
+  <footer class="dk-footer">
+    <div class="lp-wrap">
+      $footer_details
+      <p class="foot-links">$profiles</p>
+      <p class="foot-copy">Jiacheng Liu · Beihang University · <a href="${root}credits/">Design credits</a></p>
+    </div>
+  </footer>
+</body>
+</html>

@@ -1,0 +1,59 @@
+<main id="main">
+  <header class="hero" id="top">
+    <div class="hero-scene" aria-hidden="true"><div class="hud-horizon"></div><div class="hud-floor"></div></div>
+    <div class="lp-wrap hero-grid">
+      <div class="hero-copy">
+        <p class="hud-idx hero-eyebrow"><span class="hud-no" aria-hidden="true">//</span><span class="hud-tag">Master’s Student · Beihang University</span></p>
+        <h1 class="hero-name">Jiacheng <span class="grad">Liu</span> <span class="hero-cn">刘嘉成</span></h1>
+        <p class="typewriter"><span class="tw" data-lines='["人和智能系统如何共同感知、分配任务，并作出可靠的决策？","Human–AI collaboration, trust and reliable decision-making.","研究自动驾驶中人的信任、行为与情境意识。"]'>人和智能系统如何共同感知、分配任务，并作出可靠的决策？</span><span class="caret" aria-hidden="true"></span></p>
+        <div class="cta-row"><a class="btn primary" href="projects/">View Projects</a>$buttons<a class="btn" href="mailto:$email">Email</a></div>
+        <ul class="venue-wall" aria-label="发表期刊与会议" role="list">$venues</ul>
+        <nav class="hero-jump" aria-label="本页章节">$jumps</nav>
+      </div>
+      <div class="hero-stage">
+        <div id="moti-stage" class="moti-stage hud-frame" data-moti="poster">
+          <button class="moti-hit" type="button" aria-label="和小车互动，了解刘嘉成的研究">
+            <picture><img src="assets/moti-poster.webp" width="880" height="880" alt="" decoding="async"></picture>
+          </button>
+          <span class="moti-tag" aria-hidden="true">MOTI · ROBOCAR</span>
+          <div class="moti-bubble" role="group" aria-label="小车消息" hidden>
+            <p class="moti-bubble__text"></p><a class="moti-bubble__cta" href="#about"></a>
+            <button class="moti-bubble__x" type="button" aria-label="关闭">×</button>
+          </div>
+          <p id="moti-live" class="sr-only" aria-live="polite"></p>
+        </div>
+      </div>
+    </div>
+  </header>
+  <section class="lp-sec glance" id="glance" aria-labelledby="glance-title">
+    <div class="lp-wrap">
+      $glance_head
+      <div class="hud-frame hud-frame--band glance-frame reveal">
+        <ul class="stats" role="list">$stats</ul>
+        <ul class="focus-grid" id="research" role="list">$interests</ul>
+      </div>
+    </div>
+  </section>
+  <section class="lp-sec projects" id="projects" aria-labelledby="projects-title">
+    <div class="lp-wrap" id="work">$projects_head<div class="bento personal-bento">$tiles</div></div>
+  </section>
+  <section class="lp-sec pubs-sec" id="publications" aria-labelledby="publications-title">
+    <div class="lp-wrap">$papers_head<ol class="pubs" role="list">$papers</ol></div>
+  </section>
+  <section class="lp-sec news" id="news" aria-labelledby="news-title">
+    <div class="lp-wrap">$news_head<div class="hud-frame hud-panel reveal"><ol class="tl" role="list">$news</ol></div></div>
+  </section>
+  <section class="lp-sec about" id="about" aria-labelledby="about-title">
+    <div class="lp-wrap">$about_head
+      <div class="about-grid reveal">
+        <figure class="about-portrait hud-frame"><img class="portrait" src="portrait.webp" width="900" height="965" loading="lazy" alt="刘嘉成在山间步道上的照片"><figcaption>05 · Beijing, China</figcaption></figure>
+        <div class="about-body">
+          <p>我是<b>刘嘉成（Jiacheng Liu）</b>，北京航空航天大学控制科学与工程专业硕士生，本科就读于北航飞行器质量与可靠性专业。</p>
+          <p>我关注人和智能系统如何共同感知、分配任务，并作出可靠的决策。欢迎通过 <a href="mailto:$email">$email</a> 与我交流。</p>
+          <div class="chips">$chips</div>
+          <ol class="tl tl--edu" id="background" role="list">$education</ol>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>

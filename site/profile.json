@@ -1,0 +1,129 @@
+{
+  "scholar": "https://scholar.google.com/citations?user=9eZ3zlUAAAAJ&hl=zh-CN",
+  "researchgate": "https://www.researchgate.net/profile/Jiacheng-Liu-33",
+  "github": "https://github.com/dreamfortuna",
+  "email": "LiuJiacheng25@buaa.edu.cn",
+  "projects": [
+    {
+      "slug": "driving-safety",
+      "name": "智能驾驶人机安全综合监控系统",
+      "en": "Driving Safety Monitoring",
+      "period": "2023.04 — 2024.04",
+      "role": "我负责项目整体规划和软硬件架构设计，并参与实验设计、数据分析与软硬件开发。"
+    },
+    {
+      "slug": "aviation-oxygen",
+      "name": "人机协同的航空供氧与低压防护技术",
+      "en": "Aviation Oxygen & Protection",
+      "period": "2023.04 — 2023.12",
+      "role": "负责信号采集和数据分析，参与实验平台搭建。"
+    },
+    {
+      "slug": "eeg-trust",
+      "name": "基于脑电信号的 AI 交互风险预警系统",
+      "en": "EEG & Interaction Risk",
+      "period": "2022.04 — 2023.04",
+      "role": "负责相关文献检索，协助团队开展实验。"
+    }
+  ],
+  "papers": [
+    {
+      "title": "A Semi-Markov Process-Based Approach to Modeling Situation Awareness Reliability in Continuous Supervisory Tasks",
+      "doi": "https://doi.org/10.1016/j.ress.2026.113872",
+      "authors": [
+        "Song Ding",
+        "Jiacheng Liu",
+        "Lunhu Hu",
+        "Xing Pan",
+        "Qingxing Qu"
+      ],
+      "venue": "Reliability Engineering & System Safety",
+      "year": "2026",
+      "badge": "RESS"
+    },
+    {
+      "title": "Modeling Psychological and Behavioral Trust Dynamics in Human-ADS Interaction: A Cognitive Process Perspective",
+      "doi": "https://doi.org/10.1109/TITS.2026.3725655",
+      "authors": [
+        "Xing Pan",
+        "Jiacheng Liu",
+        "Song Ding",
+        "Chongfeng Li"
+      ],
+      "venue": "IEEE Transactions on Intelligent Transportation Systems",
+      "year": "2026",
+      "badge": "IEEE T-ITS"
+    },
+    {
+      "title": "Probabilistic risk uncertainty assessment for driver over-trust and under-trust in Level 3 human-automated driving systems cooperative driving based on the drift-diffusion model",
+      "doi": "https://doi.org/10.1016/j.ress.2026.112212",
+      "authors": [
+        "Song Ding",
+        "Lunhu Hu",
+        "Xing Pan",
+        "Jiacheng Liu",
+        "Fu Guo"
+      ],
+      "venue": "Reliability Engineering & System Safety",
+      "year": "2026",
+      "badge": "RESS"
+    },
+    {
+      "title": "Intelligent Driving Safety Monitoring Based on Machine Learning ——An Example of Students Research Training Program in the Context of New Engineering Disciplines",
+      "doi": "https://doi.org/10.1145/3672758.3672899",
+      "authors": [
+        "Jiacheng Liu",
+        "Haoyue Luo",
+        "Yushu Gao",
+        "Ruiyu Liang",
+        "Ruoyan Zeng",
+        "Xing Pan"
+      ],
+      "venue": "3rd International Conference on Computer, Artificial Intelligence and Control Engineering",
+      "year": "2024",
+      "badge": "ACM"
+    },
+    {
+      "title": "Trust State Monitoring of Human-Machine Co-Driving Based on EEG Signals in Intelligent Driving Scenarios",
+      "doi": "https://doi.org/10.1109/ICRMS59672.2023.00070",
+      "authors": [
+        "Wenyan Cao",
+        "Rencheng Zheng",
+        "Song Ding",
+        "Jiayue Wu",
+        "Jie Cheng",
+        "Jiacheng Liu",
+        "Xing Pan"
+      ],
+      "venue": "14th International Conference on Reliability, Maintainability and Safety",
+      "year": "2023",
+      "badge": "ICRMS"
+    }
+  ],
+  "interests": [
+    [
+      "人智协同",
+      "人和自动化系统如何分配任务？我关注人在环决策、人机信任，以及控制权何时应当切换。"
+    ],
+    [
+      "类人智能体",
+      "面向协作任务，我关注如何建立智能体模型，以及如何评估它的行为与人的认知和行为是否一致。"
+    ],
+    [
+      "人因可靠性",
+      "复杂系统中的人何时容易出错？我关注情境因素如何影响人的表现，以及如何将这些影响纳入风险评估。"
+    ]
+  ],
+  "education": [
+    [
+      "2025 — 至今",
+      "控制科学与工程 · 硕士在读",
+      "北京航空航天大学"
+    ],
+    [
+      "2021 — 2025",
+      "飞行器质量与可靠性 · 工学学士",
+      "北京航空航天大学"
+    ]
+  ]
+}
