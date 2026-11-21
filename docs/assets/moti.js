@@ -9,8 +9,8 @@ let buildRig = null, K = null, ACCENTS = null; // moti-rig.js is imported in boo
 
 const LINES = [
   ['来看看嘉成的研究方向吧。', '#about', 'About Jiacheng'],
-  ['人在驾驶时，如何判断该相信自动化系统到什么程度？', 'publications/night.html', 'Publications'],
-  ['从脑电信号到驾驶监控，看看这些人机协作项目。', 'projects/night.html', 'Projects'],
+  ['人在驾驶时，如何判断该相信自动化系统到什么程度？', 'publications/', 'Publications'],
+  ['从脑电信号到驾驶监控，看看这些人机协作项目。', 'projects/', 'Projects'],
   ['想交流人因可靠性或人机信任？欢迎给嘉成写信。', 'mailto:LiuJiacheng25@buaa.edu.cn', 'Email'],
 ];
 const CYCLE = ['honk', 'spin', 'wink'], SNAP_T = 1.3, TAU = Math.PI * 2;
@@ -46,7 +46,9 @@ function say(i = nextLine()) {
   if (!bubble) return false;
   const idx = (((i - 1) % LINES.length) + LINES.length) % LINES.length, [text, href, label] = LINES[idx];
   bubble.querySelector('.moti-bubble__text').textContent = text;
-  const cta = bubble.querySelector('.moti-bubble__cta'); cta.href = href; cta.textContent = `${label} →`;
+  const cta = bubble.querySelector('.moti-bubble__cta');
+  cta.href = href.endsWith('/') && document.documentElement.dataset.theme === 'light' ? href + 'light.html' : href;
+  cta.textContent = `${label} →`;
   bubble.hidden = false; bubble.classList.remove('is-in'); void bubble.offsetWidth; bubble.classList.add('is-in');
   placeBubble(); if (liveEl) liveEl.textContent = `Moti says: ${text}`;
   app.lineIdx = idx + 1; if (rig) rig.state.talk = 1.4;

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="zh-CN" class="no-js">
+<html lang="zh-CN" class="no-js" data-theme="dark">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -13,8 +13,10 @@
   <link rel="stylesheet" href="./assets/hud.css">
   <link rel="stylesheet" href="assets/landing.css"><link rel="stylesheet" href="assets/moti.css">
   <link rel="stylesheet" href="./style.css">
+  <link rel="stylesheet" href="./assets/day.css">
   <script>document.documentElement.className = 'js';</script>
   <script defer src="./assets/fx.js"></script>
+  <script defer src="./assets/day.js"></script>
   <script type="module" src="assets/moti.js"></script><script type="module" src="assets/globe.js"></script>
 </head>
 <body class="dark-site lp">
@@ -22,17 +24,17 @@
   <div class="hud-bg" aria-hidden="true"></div>
   <nav class="dk-nav" aria-label="主导航">
     <div class="dk-nav-inner">
-      <a class="dk-brand" href="./night.html">Jiacheng <b>Liu</b></a>
+      <a class="dk-brand" href="./">Jiacheng <b>Liu</b></a>
       <button class="dk-burger" type="button" aria-label="导航菜单" aria-controls="dk-links" aria-expanded="false"><span></span></button>
-      <ul class="dk-links" id="dk-links"><li><a href="./night.html" class="current" aria-current="page">About Me</a></li>
-<li><a href="./projects/night.html">Projects</a></li>
-<li><a href="./publications/night.html">Publications</a></li>
-<li><a href="./awards/night.html">Awards</a></li>
-<li><a href="./blogs/night.html">Blogs</a></li>
-<li><a href="./teams/night.html">Teams</a></li>
-<li><a href="./hobbies/night.html">Hobbies</a></li>
+      <ul class="dk-links" id="dk-links"><li><a href="./" class="current" aria-current="page">About Me</a></li>
+<li><a href="./projects/">Projects</a></li>
+<li><a href="./publications/">Publications</a></li>
+<li><a href="./awards/">Awards</a></li>
+<li><a href="./blogs/">Blogs</a></li>
+<li><a href="./teams/">Teams</a></li>
+<li><a href="./hobbies/">Hobbies</a></li>
 <li><a class="cv-btn" href="./file/CV-Jiacheng-Liu.pdf" target="_blank" rel="noopener">CV</a></li></ul>
-      <a class="day-switch" href="./index.html" aria-label="切换为亮色版">亮色</a>
+      <a class="day-switch" href="light.html" aria-label="切换为亮色版">亮色</a>
     </div>
   </nav>
   <main id="main">
@@ -43,7 +45,7 @@
         <p class="hud-idx hero-eyebrow"><span class="hud-no" aria-hidden="true">//</span><span class="hud-tag">Master’s Student · Beihang University</span></p>
         <h1 class="hero-name">Jiacheng <span class="grad">Liu</span> <span class="hero-cn">刘嘉成</span></h1>
         <p class="typewriter"><span class="tw" data-lines='["人和智能系统如何共同感知、分配任务，并作出可靠的决策？","Human–AI collaboration, trust and reliable decision-making.","研究自动驾驶中人的信任、行为与情境意识。"]'>人和智能系统如何共同感知、分配任务，并作出可靠的决策？</span><span class="caret" aria-hidden="true"></span></p>
-        <div class="cta-row"><a class="btn primary" href="projects/night.html">View Projects</a><a class="btn" href="https://scholar.google.com/citations?user=9eZ3zlUAAAAJ&amp;hl=zh-CN" target="_blank" rel="noopener">Google Scholar</a><a class="btn" href="https://www.researchgate.net/profile/Jiacheng-Liu-33" target="_blank" rel="noopener">ResearchGate</a><a class="btn" href="https://github.com/dreamfortuna" target="_blank" rel="noopener">GitHub</a><a class="btn" href="mailto:LiuJiacheng25@buaa.edu.cn">Email</a></div>
+        <div class="cta-row"><a class="btn primary" href="projects/">View Projects</a><a class="btn" href="https://scholar.google.com/citations?user=9eZ3zlUAAAAJ&amp;hl=zh-CN" target="_blank" rel="noopener">Google Scholar</a><a class="btn" href="https://www.researchgate.net/profile/Jiacheng-Liu-33" target="_blank" rel="noopener">ResearchGate</a><a class="btn" href="https://github.com/dreamfortuna" target="_blank" rel="noopener">GitHub</a><a class="btn" href="mailto:LiuJiacheng25@buaa.edu.cn">Email</a></div>
         <ul class="venue-wall" aria-label="发表期刊与会议" role="list"><li><span class="venue-pill">RESS 2026</span></li><li><span class="venue-pill">IEEE T-ITS 2026</span></li><li><span class="venue-pill">ACM 2024</span></li><li><span class="venue-pill">ICRMS 2023</span></li></ul>
         <nav class="hero-jump" aria-label="本页章节"><a href="#glance"><span class="hud-no">01</span>Glance</a><a href="#projects"><span class="hud-no">02</span>Projects</a><a href="#publications"><span class="hud-no">03</span>Publications</a><a href="#news"><span class="hud-no">04</span>News</a><a href="#about"><span class="hud-no">05</span>About</a></nav>
       </div>
@@ -76,22 +78,22 @@
   <section class="lp-sec projects" id="projects" aria-labelledby="projects-title">
     <div class="lp-wrap" id="work"><header class="sec-head">
       <p class="hud-idx"><span class="hud-no">02</span><span class="hud-rule"></span><span class="hud-tag">Projects</span></p>
-      <h2 id="projects-title" class="sec-title">Featured Projects</h2><p class="sec-lede">智能驾驶监控、航空供氧与脑电交互风险预警。</p><a class="sec-more" href="projects/night.html">All projects <span aria-hidden="true">→</span></a></header><div class="bento personal-bento"><a class="tile tile--lg hud-frame reveal tilt-card spot-only" href="projects/driving-safety/night.html" data-project="driving-safety" style="--i:0">
+      <h2 id="projects-title" class="sec-title">Featured Projects</h2><p class="sec-lede">智能驾驶监控、航空供氧与脑电交互风险预警。</p><a class="sec-more" href="projects/">All projects <span aria-hidden="true">→</span></a></header><div class="bento personal-bento"><a class="tile tile--lg hud-frame reveal tilt-card spot-only" href="projects/driving-safety/" data-project="driving-safety" style="--i:0">
       <span class="tile-idx" aria-hidden="true">01</span>
       <figure class="tile-media"><img src="assets/driving-safety.webp" width="620" height="388" loading="lazy" alt=""></figure>
       <div class="tile-body"><p class="tile-venue"><span class="tile-dot"></span>2023.04 — 2024.04</p>
       <h3 class="tile-title">Driving Safety Monitoring</h3><p class="tile-sub">智能驾驶人机安全综合监控系统</p><p class="tile-blurb">我负责项目整体规划和软硬件架构设计，并参与实验设计、数据分析与软硬件开发。</p>
-      <span class="tile-cta">Open project <span aria-hidden="true">→</span></span></div></a><a class="tile tile--lg hud-frame reveal tilt-card spot-only" href="projects/aviation-oxygen/night.html" data-project="aviation-oxygen" style="--i:1">
+      <span class="tile-cta">Open project <span aria-hidden="true">→</span></span></div></a><a class="tile tile--lg hud-frame reveal tilt-card spot-only" href="projects/aviation-oxygen/" data-project="aviation-oxygen" style="--i:1">
       <span class="tile-idx" aria-hidden="true">02</span>
       <figure class="tile-media"><img src="assets/aviation-oxygen.webp" width="620" height="388" loading="lazy" alt=""></figure>
       <div class="tile-body"><p class="tile-venue"><span class="tile-dot"></span>2023.04 — 2023.12</p>
       <h3 class="tile-title">Aviation Oxygen &amp; Protection</h3><p class="tile-sub">人机协同的航空供氧与低压防护技术</p><p class="tile-blurb">负责信号采集和数据分析，参与实验平台搭建。</p>
-      <span class="tile-cta">Open project <span aria-hidden="true">→</span></span></div></a><a class="tile  hud-frame reveal tilt-card spot-only" href="projects/eeg-trust/night.html" data-project="eeg-trust" style="--i:2">
+      <span class="tile-cta">Open project <span aria-hidden="true">→</span></span></div></a><a class="tile  hud-frame reveal tilt-card spot-only" href="projects/eeg-trust/" data-project="eeg-trust" style="--i:2">
       <span class="tile-idx" aria-hidden="true">03</span>
       <figure class="tile-media"><img src="assets/eeg-trust.webp" width="620" height="388" loading="lazy" alt=""></figure>
       <div class="tile-body"><p class="tile-venue"><span class="tile-dot"></span>2022.04 — 2023.04</p>
       <h3 class="tile-title">EEG &amp; Interaction Risk</h3><p class="tile-sub">基于脑电信号的 AI 交互风险预警系统</p><p class="tile-blurb">负责相关文献检索，协助团队开展实验。</p>
-      <span class="tile-cta">Open project <span aria-hidden="true">→</span></span></div></a><a class="tile tile--all hud-frame reveal tilt-card spot-only" data-project="index" href="projects/night.html">
+      <span class="tile-cta">Open project <span aria-hidden="true">→</span></span></div></a><a class="tile tile--all hud-frame reveal tilt-card spot-only" data-project="index" href="projects/">
       <span class="tile-idx" aria-hidden="true">04</span><div class="tile-body"><p class="tile-venue">Index</p>
       <h3 class="tile-title">All projects <span>→</span></h3><ul class="tile-index"><li><span class="tile-dot"></span><span class="ti-name">Driving Safety Monitoring</span></li><li><span class="tile-dot"></span><span class="ti-name">Aviation Oxygen &amp; Protection</span></li><li><span class="tile-dot"></span><span class="ti-name">EEG &amp; Interaction Risk</span></li></ul>
       <span class="tile-cta">Open the index <span aria-hidden="true">→</span></span></div></a></div></div>
@@ -99,7 +101,7 @@
   <section class="lp-sec pubs-sec" id="publications" aria-labelledby="publications-title">
     <div class="lp-wrap"><header class="sec-head">
       <p class="hud-idx"><span class="hud-no">03</span><span class="hud-rule"></span><span class="hud-tag">Publications</span></p>
-      <h2 id="publications-title" class="sec-title">Selected Publications</h2><a class="sec-more" href="publications/night.html">All publications <span aria-hidden="true">→</span></a></header><ol class="pubs" role="list"><li class="pub reveal" style="--i:0">
+      <h2 id="publications-title" class="sec-title">Selected Publications</h2><a class="sec-more" href="publications/">All publications <span aria-hidden="true">→</span></a></header><ol class="pubs" role="list"><li class="pub reveal" style="--i:0">
       <div class="pub-badge"><span class="venue-pill">RESS 2026</span></div>
       <div class="pub-main"><h3 class="pub-title"><a class="" href="https://doi.org/10.1016/j.ress.2026.113872" target="_blank" rel="noopener">A Semi-Markov Process-Based Approach to Modeling Situation Awareness Reliability in Continuous Supervisory Tasks</a></h3>
       <p class="pub-authors">Song Ding, <b>Jiacheng Liu</b>, Lunhu Hu, Xing Pan, Qingxing Qu</p><p class="pub-where">Reliability Engineering &amp; System Safety</p>
@@ -150,7 +152,7 @@
           <div class="embed-row"><figure class="globe"><canvas width="300" height="240" aria-hidden="true"></canvas><figcaption>Beijing · Beihang University</figcaption></figure>
           <div class="latest-work"><p class="hud-tag">Latest publication</p><a class="" href="https://doi.org/10.1016/j.ress.2026.113872" target="_blank" rel="noopener">A Semi-Markov Process-Based Approach to Modeling Situation Awareness Reliability in Continuous Supervisory Tasks</a></div></div></details>
       <p class="foot-links"><a class="" href="https://scholar.google.com/citations?user=9eZ3zlUAAAAJ&amp;hl=zh-CN" target="_blank" rel="noopener">Google Scholar</a> · <a class="" href="https://www.researchgate.net/profile/Jiacheng-Liu-33" target="_blank" rel="noopener">ResearchGate</a> · <a class="" href="https://github.com/dreamfortuna" target="_blank" rel="noopener">GitHub</a></p>
-      <p class="foot-copy">Jiacheng Liu · Beihang University · <a href="./credits/night.html">Design credits</a></p>
+      <p class="foot-copy">Jiacheng Liu · Beihang University · <a href="./credits/">Design credits</a></p>
     </div>
   </footer>
 </body>

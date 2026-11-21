@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="zh-CN" class="no-js">
+<html lang="zh-CN" class="no-js" data-theme="$theme">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#070d1d">
+  <meta name="theme-color" content="$chrome">
   <meta name="description" content="刘嘉成，北京航空航天大学控制科学与工程硕士生。研究方向包括人智协同、类人智能体与人因可靠性。">
   <title>$title</title>
   <link rel="canonical" href="./">
@@ -13,8 +13,10 @@
   <link rel="stylesheet" href="${root}assets/hud.css">
   $home_styles
   <link rel="stylesheet" href="${root}style.css">
+  <link rel="stylesheet" href="${root}assets/day.css">
   <script>document.documentElement.className = 'js';</script>
   <script defer src="${root}assets/fx.js"></script>
+  <script defer src="${root}assets/day.js"></script>
   $home_script
 </head>
 <body class="dark-site $mode">
@@ -25,7 +27,7 @@
       <a class="dk-brand" href="$root">Jiacheng <b>Liu</b></a>
       <button class="dk-burger" type="button" aria-label="导航菜单" aria-controls="dk-links" aria-expanded="false"><span></span></button>
       <ul class="dk-links" id="dk-links">$nav</ul>
-      <a class="day-switch" href="./index.html" aria-label="切换为亮色版">亮色</a>
+      <a class="day-switch" href="$switch_url" aria-label="切换为${switch_label}版">$switch_label</a>
     </div>
   </nav>
   $content

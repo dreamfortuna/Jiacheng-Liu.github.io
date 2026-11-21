@@ -39,7 +39,7 @@ def page(route, title, content):
           <summary>Location &amp; latest work</summary>
           <div class="embed-row"><figure class="globe"><canvas width="300" height="240" aria-hidden="true"></canvas><figcaption>Beijing · Beihang University</figcaption></figure>
           <div class="latest-work"><p class="hud-tag">Latest publication</p>{latest}</div></div></details>'''
-    markup = Template((SOURCE / "layout.html").read_text(encoding="utf-8")).substitute(
+    shared = dict(
         root=root, title=escape(title + " · Jiacheng Liu" if not home else "Jiacheng Liu 刘嘉成 · Human–AI Collaboration"),
         mode="lp" if home else "inner-page", backdrop='<div class="hud-bg" aria-hidden="true"></div>' if home else "",
         home_styles='<link rel="stylesheet" href="assets/landing.css"><link rel="stylesheet" href="assets/moti.css">' if home else "",
@@ -47,48 +47,24 @@ def page(route, title, content):
         nav="\n".join(nav), content=body, footer_details=footer_details,
         profiles=" · ".join(external(label,url) for label,url in PROFILES.items()),
     )
-    # Both editions live beside each other so assets, the PDF and deep links share a single source.
-    markup = re.sub(r'(<a\b[^>]*?\bhref=")([./\w-]+/)"', r'\1\2night.html"', markup)
-    dest = DOCS / route / "night.html"
-    dest.parent.mkdir(parents=True, exist_ok=True)
-    dest.write_text("\n".join(line.rstrip() for line in markup.splitlines()) + "\n", encoding="utf-8")
-    day_page(route, title, content)
-
-
-def day_home():
-    topics = []
-    for i, (label, description) in enumerate(PROFILE["interests"]):
-        topics.append(f'<details name="topics"{" open" if i == 0 else ""}><summary>{escape(label)}</summary><p>{escape(description)}</p></details>')
-    papers = []
-    for paper in PAPERS:
-        papers.append(f'''<li><div class="paper-meta"><time>{paper["year"]}</time><span>{escape(paper["badge"])}</span></div>
-          <div><h3>{external(paper["title"],paper["doi"])}</h3><p>{author_line(paper)}</p></div></li>''')
-    projects = []
-    for p in PROJECTS:
-        projects.append(f'''<a class="project" href="projects/{p["slug"]}/"><span class="plate"><img src="assets/{p["slug"]}.webp" alt="" width="620" height="388" loading="lazy"></span>
-          <div><p class="project-date">{p["period"]}</p><h3>{p["name"]}</h3><p>{p["role"]}</p></div></a>''')
-    education = "".join(f'<li><span>{escape(d)}</span><b>{escape(m)}</b><small>{escape(s)}</small></li>' for d,m,s in PROFILE["education"])
-    news = "".join(f'<li><time>{p["year"]}</time>{external(p["title"],p["doi"])}</li>' for p in PAPERS[:3])
-    return Template((SOURCE / "day-home.html").read_text(encoding="utf-8")).substitute(
-        email=PROFILE["email"], profiles="".join(external(k,v) for k,v in PROFILES.items()),
-        interests="".join(topics), paper_count=len(papers), papers="".join(papers),
-        projects="".join(projects), education=education, news=news)
-
-
-def day_page(route, title, content):
-    root = "../" * route.count("/") or "./"
-    def menu_link(path, label):
-        current = ' aria-current="page"' if path == route and route else ""
-        return f'<a href="{root}{path}"{current}>{label}</a>'
-    primary = [menu_link("projects/", "项目"), menu_link("publications/", "论文"), menu_link("#about", "关于我")]
-    more = [menu_link(k,v) for k,v in (("awards/", "获奖"), ("blogs/", "博客"), ("teams/", "团队"), ("hobbies/", "兴趣"))]
-    markup = Template((SOURCE / "day-layout.html").read_text(encoding="utf-8")).substitute(
-        root=root, title=escape(title+" · Jiacheng Liu" if route else "刘嘉成 Jiacheng Liu · 人机协同与可靠性"),
-        art_script='' if route else '<script type="module" src="assets/weave.js"></script>',
-        primary_nav="".join(primary), more_nav="".join(more), email=PROFILE["email"],
-        content=f'<article class="wrap reading">{content}</article>' if route else day_home())
-    dest = DOCS / route / "index.html"
-    dest.write_text("\n".join(line.rstrip() for line in markup.splitlines())+"\n",encoding="utf-8")
+    template = Template((SOURCE / "layout.html").read_text(encoding="utf-8"))
+    folder = DOCS / route
+    folder.mkdir(parents=True, exist_ok=True)
+    for light in (False, True):
+        label = "深色" if light else "亮色"
+        markup = template.substitute(
+            **shared, theme="light" if light else "dark", chrome="#f5f6ff" if light else "#070d1d",
+            switch_url="index.html" if light else "light.html", switch_label=label)
+        if light:
+            # Real links also keep the light palette when opening a new tab or browsing without JS.
+            markup = re.sub(r'(<a\b[^>]*?\bhref=")([./\w-]+/)"', r'\1\2light.html"', markup)
+        rendered = "\n".join(line.rstrip() for line in markup.splitlines()) + "\n"
+        if light:
+            (folder / "light.html").write_text(rendered, encoding="utf-8")
+        else:
+            (folder / "index.html").write_text(rendered, encoding="utf-8")
+            # Preserve previously shared /night.html URLs, including their section anchors.
+            (folder / "night.html").write_text(rendered, encoding="utf-8")
 
 
 def head(key, title, more="", intro=""):
@@ -183,8 +159,8 @@ def other_pages():
     for path,label,empty in [("awards/","Awards","奖项记录待补充。"),("blogs/","Blogs","文章待发布。"),
                              ("teams/","Teams","团队介绍待补充。"),("hobbies/","Hobbies","兴趣与活动待补充。")]:
         page(path,label,f'<h1>{label}</h1><p class="empty-note">{empty}</p>')
-    page("credits/","Design credits",'''<h1>设计与署名</h1><h2>亮色版</h2><p>围绕刘嘉成的人机协同研究独立设计。首页的双环是实时绘制的参数曲面；两种颜色对应人的判断与系统反馈。</p>
-      <p><a href="../assets/licenses/InstrumentSerif-OFL.txt">Instrument Serif · SIL Open Font License</a>.</p>
+    page("credits/","Design credits",'''<h1>设计与署名</h1><h2>亮色版</h2><p>亮色配色沿用深色版的页面与交互。</p>
+      <p><a href="../assets/licenses/Inter-OFL.txt">Inter · SIL Open Font License</a>.</p>
       <h2>深色版</h2><p>Visual design, Moti and interaction code adapted from
       <a href="https://github.com/WangYuhang-cmd/WangYuhang-cmd.github.io">Yuhang Wang’s personal website</a>.
       <a href="../assets/licenses/reference-site-MIT.txt">MIT license</a>.</p>
