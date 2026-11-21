@@ -42,8 +42,8 @@ def page(route, title, content):
     shared = dict(
         root=root, title=escape(title + " · Jiacheng Liu" if not home else "Jiacheng Liu 刘嘉成 · Human–AI Collaboration"),
         mode="lp" if home else "inner-page", backdrop='<div class="hud-bg" aria-hidden="true"></div>' if home else "",
-        home_styles='<link rel="stylesheet" href="assets/landing.css"><link rel="stylesheet" href="assets/moti.css">' if home else "",
-        home_script='<script type="module" src="assets/moti.js"></script><script type="module" src="assets/globe.js"></script>' if home else "",
+        home_styles='<link rel="stylesheet" href="assets/landing.css"><link rel="stylesheet" href="assets/gimbal.css">' if home else "",
+        home_script='<script type="module" src="assets/gimbal.js"></script><script type="module" src="assets/globe.js"></script>' if home else "",
         nav="\n".join(nav), content=body, footer_details=footer_details,
         profiles=" · ".join(external(label,url) for label,url in PROFILES.items()),
     )
@@ -161,10 +161,11 @@ def other_pages():
         page(path,label,f'<h1>{label}</h1><p class="empty-note">{empty}</p>')
     page("credits/","Design credits",'''<h1>设计与署名</h1><h2>亮色版</h2><p>亮色配色沿用深色版的页面与交互。</p>
       <p><a href="../assets/licenses/Inter-OFL.txt">Inter · SIL Open Font License</a>.</p>
-      <h2>深色版</h2><p>Visual design, Moti and interaction code adapted from
+      <h2>深色版</h2><p>页面布局与部分页面动效改编自
       <a href="https://github.com/WangYuhang-cmd/WangYuhang-cmd.github.io">Yuhang Wang’s personal website</a>.
       <a href="../assets/licenses/reference-site-MIT.txt">MIT license</a>.</p>
       <p><a href="../assets/licenses/three-MIT.txt">Three.js · MIT</a> · <a href="../assets/licenses/Inter-OFL.txt">Inter · SIL Open Font License</a>.</p>
+      <h2>衡枢 · GIMBAL</h2><p>为本主页设计的可变形物理 AI 形象。模型、变形机构与驾驶意图演示均用 Three.js 在浏览器内生成。</p>
       <p>Globe coastlines from <a href="https://www.naturalearthdata.com/">Natural Earth</a> (public domain).</p>''')
 
 

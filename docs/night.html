@@ -11,13 +11,13 @@
   <link rel="preload" as="font" type="font/woff2" href="./assets/inter-latin-var.woff2" crossorigin>
   <link rel="stylesheet" href="./assets/site-dark.css">
   <link rel="stylesheet" href="./assets/hud.css">
-  <link rel="stylesheet" href="assets/landing.css"><link rel="stylesheet" href="assets/moti.css">
+  <link rel="stylesheet" href="assets/landing.css"><link rel="stylesheet" href="assets/gimbal.css">
   <link rel="stylesheet" href="./style.css">
   <link rel="stylesheet" href="./assets/day.css">
   <script>document.documentElement.className = 'js';</script>
   <script defer src="./assets/fx.js"></script>
   <script defer src="./assets/day.js"></script>
-  <script type="module" src="assets/moti.js"></script><script type="module" src="assets/globe.js"></script>
+  <script type="module" src="assets/gimbal.js"></script><script type="module" src="assets/globe.js"></script>
 </head>
 <body class="dark-site lp">
   <a class="skip" href="#main">跳到正文</a>
@@ -44,23 +44,32 @@
       <div class="hero-copy">
         <p class="hud-idx hero-eyebrow"><span class="hud-no" aria-hidden="true">//</span><span class="hud-tag">Master’s Student · Beihang University</span></p>
         <h1 class="hero-name">Jiacheng <span class="grad">Liu</span> <span class="hero-cn">刘嘉成</span></h1>
-        <p class="typewriter"><span class="tw" data-lines='["人和智能系统如何共同感知、分配任务，并作出可靠的决策？","Human–AI collaboration, trust and reliable decision-making.","研究自动驾驶中人的信任、行为与情境意识。"]'>人和智能系统如何共同感知、分配任务，并作出可靠的决策？</span><span class="caret" aria-hidden="true"></span></p>
+        <p class="typewriter"><span class="tw" data-lines='["在自动驾驶中，人怎样判断何时信任 AI、何时接管？","Human–AI collaboration, trust and reliable decision-making.","研究自动驾驶中人的信任、行为与情境意识。"]'>在自动驾驶中，人怎样判断何时信任 AI、何时接管？</span><span class="caret" aria-hidden="true"></span></p>
         <div class="cta-row"><a class="btn primary" href="projects/">View Projects</a><a class="btn" href="https://scholar.google.com/citations?user=9eZ3zlUAAAAJ&amp;hl=zh-CN" target="_blank" rel="noopener">Google Scholar</a><a class="btn" href="https://www.researchgate.net/profile/Jiacheng-Liu-33" target="_blank" rel="noopener">ResearchGate</a><a class="btn" href="https://github.com/dreamfortuna" target="_blank" rel="noopener">GitHub</a><a class="btn" href="mailto:LiuJiacheng25@buaa.edu.cn">Email</a></div>
         <ul class="venue-wall" aria-label="发表期刊与会议" role="list"><li><span class="venue-pill">RESS 2026</span></li><li><span class="venue-pill">IEEE T-ITS 2026</span></li><li><span class="venue-pill">ACM 2024</span></li><li><span class="venue-pill">ICRMS 2023</span></li></ul>
         <nav class="hero-jump" aria-label="本页章节"><a href="#glance"><span class="hud-no">01</span>Glance</a><a href="#projects"><span class="hud-no">02</span>Projects</a><a href="#publications"><span class="hud-no">03</span>Publications</a><a href="#news"><span class="hud-no">04</span>News</a><a href="#about"><span class="hud-no">05</span>About</a></nav>
       </div>
       <div class="hero-stage">
-        <div id="moti-stage" class="moti-stage hud-frame" data-moti="poster">
-          <button class="moti-hit" type="button" aria-label="和小车互动，了解刘嘉成的研究">
-            <picture><img src="assets/moti-poster.webp" width="880" height="880" alt="" decoding="async"></picture>
-          </button>
-          <span class="moti-tag" aria-hidden="true">MOTI · ROBOCAR</span>
-          <div class="moti-bubble" role="group" aria-label="小车消息" hidden>
-            <p class="moti-bubble__text"></p><a class="moti-bubble__cta" href="#about"></a>
-            <button class="moti-bubble__x" type="button" aria-label="关闭">×</button>
+        <section class="gimbal-stage hud-frame" aria-labelledby="gimbal-title" data-form="walker">
+          <div class="gimbal-heading"><h2 id="gimbal-title">衡枢 <span>/ GIMBAL</span></h2>
+            <details class="gimbal-links"><summary>研究导航</summary><div><a href="#about">关于我</a><a href="projects/">研究项目</a><a href="publications/">论文</a><a href="mailto:LiuJiacheng25@buaa.edu.cn">联系我</a></div></details>
           </div>
-          <p id="moti-live" class="sr-only" aria-live="polite"></p>
-        </div>
+          <div class="gimbal-view">
+            <img class="gimbal-poster" src="assets/gimbal-walker.webp" width="760" height="760" alt="衡枢，带有双目感知器和四个折叠车轮的白色与琥珀色机甲。">
+          </div>
+          <div class="gimbal-intent" role="group" aria-label="给出驾驶意图" hidden>
+            <span>驾驶意图</span>
+            <button type="button" data-intent="-1" aria-pressed="false">左转</button>
+            <button type="button" data-intent="0" aria-pressed="true">直行</button>
+            <button type="button" data-intent="1" aria-pressed="false">右转</button>
+          </div>
+          <div class="gimbal-controls" hidden>
+            <div class="gimbal-toolbar"><div><span class="gimbal-state">协作机甲</span><small class="gimbal-hint"></small></div>
+              <button class="gimbal-transform" type="button">切换驾驶态</button>
+            </div>
+          </div>
+          <span class="sr-only gimbal-announcement" role="status"></span>
+        </section>
       </div>
     </div>
   </header>
@@ -136,7 +145,7 @@
         <figure class="about-portrait hud-frame"><img class="portrait" src="portrait.webp" width="900" height="965" loading="lazy" alt="刘嘉成在山间步道上的照片"><figcaption>05 · Beijing, China</figcaption></figure>
         <div class="about-body">
           <p>我是<b>刘嘉成（Jiacheng Liu）</b>，北京航空航天大学控制科学与工程专业硕士生，本科就读于北航飞行器质量与可靠性专业。</p>
-          <p>我关注人和智能系统如何共同感知、分配任务，并作出可靠的决策。欢迎通过 <a href="mailto:LiuJiacheng25@buaa.edu.cn">LiuJiacheng25@buaa.edu.cn</a> 与我交流。</p>
+          <p>我目前研究自动驾驶场景中的人机交互，关注驾驶员如何理解、信任并与自动化系统协作。今后，我希望把这些问题拓展到更多具身 AI 和逻辑 AI 场景，研究人如何理解智能体的行动与推理。欢迎通过 <a href="mailto:LiuJiacheng25@buaa.edu.cn">LiuJiacheng25@buaa.edu.cn</a> 与我交流。</p>
           <div class="chips"><span class="chip">人智协同</span><span class="chip">类人智能体</span><span class="chip">人因可靠性</span></div>
           <ol class="tl tl--edu" id="background" role="list"><li class="tl-item" data-kind="now"><span class="tl-date">2025 — 至今</span><span class="tl-dot" aria-hidden="true"></span><div class="tl-body"><p><b>北京航空航天大学</b> · 控制科学与工程 · 硕士在读</p></div></li><li class="tl-item" data-kind=""><span class="tl-date">2021 — 2025</span><span class="tl-dot" aria-hidden="true"></span><div class="tl-body"><p><b>北京航空航天大学</b> · 飞行器质量与可靠性 · 工学学士</p></div></li></ol>
         </div>

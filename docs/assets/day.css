@@ -38,7 +38,7 @@
 [data-theme="light"] .hud-floor::before {
   background-image:linear-gradient(90deg,rgba(99,121,178,.22) 0 1px,transparent 1px),linear-gradient(0deg,rgba(99,121,178,.22) 0 1px,transparent 1px);
 }
-[data-theme="light"] .moti-stage {
+[data-theme="light"] .gimbal-stage {
   background-image:
     linear-gradient(90deg,transparent,rgba(105,96,165,.35) 30%,rgba(105,96,165,.35) 70%,transparent),
     radial-gradient(56% 20% at 50% 80%,rgba(143,122,212,.22),rgba(143,122,212,.08) 52%,transparent 80%),
@@ -46,14 +46,13 @@
     linear-gradient(165deg,#f7f6ff,#e4eafa 58%,#ece4f5);
   box-shadow:0 32px 80px rgba(67,64,113,.15);
 }
-[data-theme="light"] .moti-bubble { box-shadow:0 10px 30px rgba(57,55,92,.18),inset 0 0 0 1px rgba(93,83,154,.08) }
 [data-theme="light"] .dk-nav.scrolled { box-shadow:0 2px 24px rgba(54,54,92,.12) }
 [data-theme="light"] .dk-brand { color:var(--text) !important }
 [data-theme="light"] .dark-site a:hover { color:var(--text) }
 [data-theme="light"] .dk-links a.current { color:var(--accent-2);background-color:#e5e2fa }
 [data-theme="light"] .dk-links a.cv-btn:hover { color:#fff }
 [data-theme="light"] .dark-site ::selection { color:#252447;background-color:#dbd4fa }
-[data-theme="light"] :is(.hero-name,.hud-no,.sec-title,.tile-title,.ti-name,.moti-bubble__text),
+[data-theme="light"] :is(.hero-name,.hud-no,.sec-title,.tile-title,.ti-name),
 [data-theme="light"] .dk-page :is(h1,h2,h3,summary,th),
 [data-theme="light"] :is(.focus-item,.tl-body) b,
 [data-theme="light"] .stat .num,

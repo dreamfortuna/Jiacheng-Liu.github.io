@@ -1,0 +1,35 @@
+/* The outer square and its two palettes are defined by the existing hero. */
+.gimbal-view,.gimbal-view canvas,.gimbal-poster{position:absolute;inset:0;width:100%;height:100%;display:block}
+.gimbal-view{touch-action:pan-y;user-select:none;-webkit-user-select:none}
+.gimbal-stage[data-live] .gimbal-view{cursor:grab}
+.gimbal-stage[data-live] .gimbal-view:active{cursor:grabbing}
+.gimbal-view canvas,.gimbal-poster{pointer-events:none}
+.gimbal-stage[data-live] .gimbal-poster{visibility:hidden}
+.gimbal-view:focus-visible,.gimbal-stage :is(button,summary):focus-visible{outline:2px solid var(--accent-2);outline-offset:-3px}
+.gimbal-heading,.gimbal-controls{position:absolute;left:4%;right:4%;z-index:3;pointer-events:none}
+.gimbal-heading{top:3.8%;display:flex;align-items:flex-start;justify-content:space-between;gap:.6rem}
+.gimbal-heading h2{font-family:inherit;font-size:.98rem;line-height:1.3;margin:0;color:var(--text);font-weight:700}
+.gimbal-heading h2 span{font:600 .72rem/1.3 var(--mono);letter-spacing:.14em;color:var(--text-mute);white-space:nowrap}
+.gimbal-links{pointer-events:auto;position:relative;color:var(--text-dim);font-size:.75rem}
+.gimbal-links summary{cursor:pointer;min-height:28px;display:flex;align-items:center;gap:.35rem;list-style:none}
+.gimbal-links summary::after{content:"";width:.38rem;height:.38rem;border:solid currentColor;border-width:0 1px 1px 0;transform:translateY(-2px) rotate(45deg)}
+.gimbal-links summary::-webkit-details-marker{display:none}
+.gimbal-links[open] summary::after{transform:translateY(2px) rotate(225deg)}
+.gimbal-links div{position:absolute;right:0;min-width:6rem;display:grid;background:var(--glass);border:1px solid var(--border-hi);border-radius:5px;padding:.25rem}
+.gimbal-links a{padding:.35rem .5rem;white-space:nowrap;color:var(--text)}
+.gimbal-links a:hover{background:var(--surface-2)}
+.gimbal-controls{bottom:3.5%;display:grid;gap:.45rem}
+.gimbal-controls[hidden],.gimbal-intent[hidden]{display:none}
+.gimbal-toolbar{display:flex;align-items:center;justify-content:space-between;gap:.35rem}
+.gimbal-state,.gimbal-hint{display:block}
+.gimbal-state{font-size:.85rem;font-weight:650;color:var(--text)}
+.gimbal-state::before{content:"";display:inline-block;width:.46em;height:.46em;background:#edaa51;transform:rotate(45deg);margin-right:.5em;vertical-align:.12em}
+.gimbal-hint,.gimbal-intent span{font-size:.72rem;color:var(--text-mute);line-height:1.45}
+.gimbal-stage button{pointer-events:auto;cursor:pointer;color:var(--text);font:inherit;background:var(--glass);border:1px solid var(--border-hi);border-radius:5px}
+.gimbal-stage button:hover{color:var(--accent-2);border-color:var(--accent-2)}
+.gimbal-stage .gimbal-transform{min-height:36px;padding:.4rem .75rem;font-size:.8rem;font-weight:600}
+.gimbal-intent{position:absolute;z-index:2;top:calc(3.8% + 32px);left:4%;display:flex;gap:.22rem;align-items:center;justify-self:start;padding:.18rem .25rem;background:var(--glass);border:1px solid var(--border);border-radius:5px}
+.gimbal-intent span{padding:0 .3rem}
+.gimbal-intent button{border-color:transparent;background:transparent;font-size:.75rem;min-height:32px;min-width:36px;padding:.18rem .32rem}
+.gimbal-intent button[aria-pressed="true"]{color:var(--accent-2);border-color:var(--border-hi);background:var(--surface-2)}
+@media(max-width:420px){.gimbal-hint,.gimbal-intent span{font-size:.68rem}.gimbal-controls{gap:.2rem}}

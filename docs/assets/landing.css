@@ -17,7 +17,7 @@
   --sec-pad:clamp(3.5rem,8vw,6rem); --gutter:clamp(1rem,4vw,1.4rem);
 }
 .lp{--maxw:1180px;--font:"Inter","Inter Fallback",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --vp-x:calc(50% + min(100vw - 2*var(--gutter),var(--maxw))/2 - 260px)} /* road vanishing point = centre of the 520px Moti stage */
+  --vp-x:calc(50% + min(100vw - 2*var(--gutter),var(--maxw))/2 - 260px)} /* road vanishing point = centre of the 520px model stage */
 
 /* ---------- base ---------- */
 html{scroll-padding-top:calc(var(--nav-h) + 16px)}
@@ -92,7 +92,7 @@ html{scroll-padding-top:calc(var(--nav-h) + 16px)}
 .lp a.hud-chip:hover{color:#fff;border-color:var(--hud-line-hi)}
 .lp .hud-chip--gold{color:var(--gold)}
 
-/* ---------- hero: two columns, copy left, Moti stage right ---------- */
+/* ---------- hero: two columns, copy left, model stage right ---------- */
 .hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(380px,520px);gap:clamp(2rem,4vw,3.5rem);align-items:center;width:100%}
 .hero-copy{min-width:0}
 .hero-eyebrow{display:block;margin-bottom:1.1rem;letter-spacing:.14em;line-height:1.7}
@@ -109,17 +109,15 @@ html{scroll-padding-top:calc(var(--nav-h) + 16px)}
 .lp .hero-jump a:hover{color:#fff}
 .hero-jump .hud-no{color:var(--accent-2)}
 
-/* stage outer box only — everything inside (.moti-hit, canvas, poster cross-fade, bubble) is styled by moti.css */
 .hero-stage{position:relative;z-index:1;display:flex;justify-content:center;align-items:center;min-width:0}
-.moti-stage{position:relative;width:100%;max-width:520px;aspect-ratio:1/1;contain:size;overflow:clip;overflow-clip-margin:border-box;border-radius:6px;
+.gimbal-stage{position:relative;width:100%;max-width:520px;aspect-ratio:1/1;contain:size;overflow:clip;overflow-clip-margin:border-box;border-radius:6px;
   background:
     linear-gradient(90deg,transparent,rgba(51,224,255,.42) 30%,rgba(51,224,255,.42) 70%,transparent) 50% 80% / 68% 1px no-repeat,
     radial-gradient(56% 20% at 50% 80%,rgba(51,224,255,.3),rgba(51,224,255,.08) 52%,transparent 80%),
     radial-gradient(92% 56% at 50% 106%,rgba(61,123,255,.2),transparent 70%),
     linear-gradient(180deg,rgba(10,20,44,.76),rgba(7,13,29,.96));
   box-shadow:0 32px 80px rgba(0,0,0,.45)}
-.moti-stage img{border-radius:0}
-/* .moti-tag, .moti-hit, canvas, poster cross-fade and .moti-bubble are owned by moti.css */
+.gimbal-stage img{border-radius:0}
 @keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 .hero-copy>*{animation:rise .7s var(--ease-out) both}
 .hero-copy>:nth-child(2){animation-delay:60ms}.hero-copy>:nth-child(3){animation-delay:120ms}.hero-copy>:nth-child(4){animation-delay:180ms}
@@ -260,7 +258,7 @@ html{scroll-padding-top:calc(var(--nav-h) + 16px)}
   .lp{--vp-x:50%}
   .hero-grid{grid-template-columns:minmax(0,1fr);gap:2.5rem}
   .hero-stage{margin-top:.25rem}
-  .moti-stage{max-width:420px}
+  .gimbal-stage{max-width:420px}
 }
 @media (max-width:900px){
   .hero{padding-top:calc(var(--nav-h) + 2rem)}
@@ -328,7 +326,7 @@ html{scroll-padding-top:calc(var(--nav-h) + 16px)}
 
 /* ---------- print ---------- */
 @media print{
-  .hud-bg,.hero-scene,.moti-stage,.dk-nav,.skip,.embed-strip{display:none !important}
+  .hud-bg,.hero-scene,.gimbal-stage,.dk-nav,.skip,.embed-strip{display:none !important}
   .hero{min-height:0;padding-top:1rem}
   .hero-grid{grid-template-columns:minmax(0,1fr)}
 }
