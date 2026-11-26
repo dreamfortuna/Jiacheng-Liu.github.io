@@ -16,6 +16,11 @@
 <section class="stage"><header class="stage-head"><nav id="crumbs" aria-label="当前装配路径"></nav>
 <div class="title-row"><h1 id="heading">基于 2024 Model 3 公开资料的系统工程教学模型</h1><span class="view-mode" id="view-mode">装配视图</span></div>
 <p id="subtitle">博世五大功能域 · 焕新版 · Fremont · 北美左舵 · 长续航全轮驱动</p>
+<section id="film-controls" aria-label="连续行驶动画" hidden>
+<p id="film-caption"></p>
+<div class="film-transport"><button id="film-play" type="button">播放</button>
+<input id="film-seek" aria-label="行驶动画时间（秒）" type="range" min="0" max="12" step="0.05" value="0"><output id="film-time"></output></div>
+</section>
 <section id="narrative" aria-label="当前讲解" hidden>
 <div class="scene-title"><span id="scene-count"></span><strong id="scene-name"></strong></div>
 <p id="scene-text"></p>
@@ -27,6 +32,8 @@
 <button id="core-next" aria-label="下一个讲解环节" title="下一个讲解环节">›</button></nav></header>
 <div class="stage-visual"><div id="viewport" class="viewport"><canvas id="model-canvas" tabindex="0" aria-label="可点击拆解的三维整车，拖动旋转，滚轮缩放"></canvas>
 <div id="labels" aria-label="当前层的模型标注"></div>
+<div id="film-inset" hidden><span>前视摄像头 · 示意</span></div>
+<span id="film-callout" hidden></span>
 <div id="overlay-legend" aria-label="教学叠加图例" hidden></div>
 <div class="view-tools"><button id="fit" title="适配视图" aria-label="适配视图"><span class="fit-icon"></span></button>
 <button id="tags" title="切换部件标注" aria-label="部件标注" aria-pressed="true">标</button>
@@ -34,6 +41,12 @@
 <div id="progress" class="progress" role="status"><span class="pulse"></span><span id="progress-text">正在读取车辆装配…</span></div>
 <span class="view-tip" id="view-tip">单击拆解 · 拖动旋转 · 滚轮缩放</span></div>
 <aside id="adas-lab" aria-label="可调参数的智驾教学实验" hidden></aside></div>
+<section id="film-data" aria-label="行驶动画信号与车辆响应" hidden>
+<ol id="film-chain"><li>前视采样</li><li>目标跟踪</li><li>智驾计算</li><li>底盘请求</li></ol>
+<div class="film-meters"><div>本车速度<strong><b id="film-speed"></b> km/h</strong></div><div>纵向净距<strong><b id="film-gap"></b> m</strong></div>
+<div>前轮角 · 请求 / 响应<strong><b id="film-command"></b> / <b id="film-steer"></b></strong></div><div>加速度 · 请求 / 响应<strong><b id="film-brake"></b> / <b id="film-accel"></b> m/s²</strong></div></div>
+<div class="film-foot"><span>教学工况 · <b id="film-rate"></b> · 信号和响应值为模拟值。</span><button id="film-study">进入分步拆解</button></div>
+</section>
 <section class="inspector" aria-label="部件与讲解"><div class="detail-title"><span id="detail-kind"></span><h2 id="detail-title">整车装配</h2></div>
 <p class="detail-copy" id="detail-copy"></p><dl id="io"></dl><div id="core-detail" hidden></div><div class="evidence" id="evidence"></div>
 <div class="actions" id="actions"></div></section>

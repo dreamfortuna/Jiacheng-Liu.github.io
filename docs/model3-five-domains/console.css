@@ -27,6 +27,30 @@ body[data-state=lesson] #core-stage-line{display:none!important}
 body[data-state=lesson] .inspector>.detail-title,body[data-state=lesson] .inspector>.detail-copy{display:none}
 .stage-head p,#io,.detail-copy,.core-related button,.core-locator{font-size:1rem}
 :focus-visible{outline:2px solid #0b778e;outline-offset:3px}
+#film-controls{margin:8px 0 4px}
+#film-caption{font-size:1.12rem;color:#17394c;line-height:1.5}
+.film-transport,.film-foot{display:flex;gap:12px;align-items:center}
+.film-transport{margin-top:7px}.film-transport input{width:min(40vw,360px);accent-color:#117987}
+.film-transport button,.film-foot button{border-radius:4px;background:#164956;color:white;padding:8px 15px;min-width:70px}
+.film-transport output,.film-meters strong{font-variant-numeric:tabular-nums}
+#film-data{background:#f4f8fb;padding:12px clamp(14px,3vw,48px);border-top:1px solid #b7cbd7}
+#film-chain{display:flex;gap:6px 18px;flex-wrap:wrap;padding:0;margin:0 0 10px;list-style:none}
+#film-chain li{color:#617684;border-bottom:2px solid #c3d2d9;font-size:.9rem;padding:2px 0}
+#film-chain li.on{color:#076e74;border-color:#159a9b;font-weight:bold}
+.film-meters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;color:#486272;font-size:.88rem}
+.film-meters strong{display:block;color:#163744;font-size:1.02rem}
+.film-foot{justify-content:space-between;font-size:.85rem;color:#456371;margin-top:8px}
+#film-inset{position:absolute;top:10px;left:12px;width:clamp(112px,23%,220px);aspect-ratio:16/9;border:2px solid #f5fcff;pointer-events:none;box-shadow:0 2px 8px #17344455}
+#film-inset span{position:absolute;left:0;bottom:0;background:#102333d9;color:white;padding:1px 5px;font-size:.72rem}
+#film-callout{position:absolute;background:#102b3de8;color:white;border-left:3px solid #4ce3e2;border-radius:3px;padding:3px 6px;font-size:.8rem;line-height:1.4;pointer-events:none;transform:translate(-50%,-100%);white-space:nowrap}
+#film-callout::after{content:"";position:absolute;left:50%;top:100%;height:13px;border-left:1px solid #254251}
+body[data-state=film] .view-tools,body[data-state=film] .inspector,body[data-state=film] #labels{display:none}
+body[data-state=film] .viewport canvas{touch-action:pan-y}
+@media(max-width:690px){
+  body[data-state=film] .stage{grid-template-rows:auto clamp(310px,47dvh,500px) auto}
+  .film-meters{grid-template-columns:repeat(2,minmax(0,1fr))}.film-foot{align-items:flex-start}
+  .film-foot button{flex:none}.film-transport button{min-height:44px}#film-inset{left:6px;top:6px}
+}
 @media(min-width:691px){body[data-state=lesson] .inspector{max-height:min(23vh,210px)}}
 @media(max-width:690px){
   .mast .modes button,.mast .modes .atlas-tab{font-size:.96rem}.mast .brand{font-size:1rem}

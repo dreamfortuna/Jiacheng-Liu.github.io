@@ -91,6 +91,7 @@ export class VehicleView {
     if(w===this.viewportWidth&&h===this.viewportHeight)return;
     this.viewportWidth=w;this.viewportHeight=h;
     this.aspect=w/h;this.renderer.setSize(w,h,false);
+    if(this.film)this.film.lastWidth=0;
     this.projection();if(this.scope&&!this.cameraTween)this.fit(false);
     this.dirty=true;
   }
@@ -354,6 +355,7 @@ export class VehicleView {
   tick(now){
     requestAnimationFrame(this.tick);
     if(document.hidden)return;
+    if(this.film){this.film.tick(now);return;}
     if(this.tourCue?.visible){
       const elapsed=Math.max(0,now-this.cueStart)/2200,u=elapsed%1;
       const route=this.cuePaths[Math.floor(elapsed)%this.cuePaths.length];
