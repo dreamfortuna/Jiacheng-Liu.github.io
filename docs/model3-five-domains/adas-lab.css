@@ -1,0 +1,138 @@
+.al-sheet {
+  --al-ink: #243738;
+  --al-muted: #506865;
+  --al-line: #c8d4cf;
+  --al-green: #236b64;
+  --al-hot: #a74429;
+  min-width: 0;
+  max-width: 100%;
+  display: grid;
+  gap: 8px;
+  font-family: inherit;
+  color: var(--al-ink);
+}
+.al-sheet[hidden], .al-sheet [hidden] { display: none !important; }
+.al-heading, .al-control > div, .al-basis summary {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.al-heading h3 { margin: 0; font-size: .98rem; font-weight: 650; line-height: 1.35; }
+.al-heading > span { flex: none; color: var(--al-muted); font-size: .72rem; }
+.al-choices {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  border: 1px solid #9eb2a9;
+  border-radius: 3px;
+  background: #f7f9f6;
+}
+.al-choices button {
+  min-width: 0;
+  min-height: 31px;
+  padding: 4px 3px;
+  border: 0;
+  color: var(--al-ink);
+  background: transparent;
+  font: inherit;
+  font-size: .79rem;
+  line-height: 1.2;
+  cursor: pointer;
+}
+.al-choices button + button { border-left: 1px solid #9eb2a9; }
+.al-choices button[aria-pressed=true] { color: #fff; background: #315851; font-weight: 600; }
+.al-choices button:not([aria-pressed=true]):hover { color: var(--al-green); background: #e6eee8; }
+.al-choices button:focus-visible, .al-control input:focus-visible, .al-basis summary:focus-visible {
+  outline: 2px solid var(--al-hot); outline-offset: 2px; position: relative;
+}
+.al-control { min-width: 0; }
+.al-control > div { font-size: .81rem; }
+.al-control label { color: var(--al-muted); }
+.al-control output {
+  color: var(--al-ink); white-space: nowrap; font-weight: 650; font-variant-numeric: tabular-nums;
+}
+.al-control input[type=range] {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  height: 24px;
+  margin: 0;
+  accent-color: var(--al-green);
+  cursor: pointer;
+  touch-action: pan-y;
+}
+.al-chart {
+  display: block;
+  width: 100%;
+  height: auto;
+  min-width: 0;
+  max-height: 148px;
+  overflow: hidden;
+  border: 1px solid var(--al-line);
+  border-radius: 3px;
+  background: #f3f6f1;
+}
+.al-chart line, .al-chart path, .al-chart rect, .al-chart circle { vector-effect: non-scaling-stroke; }
+.al-chart .al-grid { stroke: #cad5cc; stroke-width: .8; }
+.al-chart .al-rule { stroke: #84968c; stroke-width: 1; fill: none; }
+.al-chart .al-dash, .al-chart .al-lane {
+  stroke: #7d958b; stroke-width: 1; stroke-dasharray: 3 3; fill: none;
+}
+.al-chart .al-svgtext {
+  fill: #4d6560; font-family: inherit; font-size: 9.1px; font-weight: 550; dominant-baseline: auto;
+}
+.al-chart .al-route { stroke: var(--al-hot); fill: none; stroke-width: 2.1; stroke-linecap: round; }
+.al-chart .al-comparison { stroke: var(--al-green); fill: none; stroke-width: 1.7; }
+.al-chart .al-option { stroke: #71958b; fill: none; stroke-width: 1.55; stroke-dasharray: 5 3; }
+.al-chart .al-option-dot, .al-chart .al-outline { stroke: var(--al-green); fill: #f4f8f1; stroke-width: 1.6; }
+.al-chart .al-dot { stroke: #f8faf7; fill: var(--al-hot); stroke-width: 1.25; }
+.al-chart .al-obs { stroke: var(--al-hot); fill: #ecd7bf; stroke-width: 1.7; }
+.al-chart .al-road { fill: #e5ece5; }
+.al-chart .al-cone { fill: #dce9df; stroke: #93ae9f; stroke-width: 1.1; }
+.al-chart .al-shadow { fill: #e1c8b4; fill-opacity: .8; stroke: #9c785e; stroke-width: 1.1; }
+.al-chart .al-visible { stroke: var(--al-green); stroke-width: 4; }
+.al-chart .al-hidden { stroke: var(--al-hot); stroke-width: 6; stroke-dasharray: 3.5 1.5; }
+.al-chart .al-block { stroke: #3e4c49; stroke-width: 6; }
+.al-chart .al-reset { stroke: var(--al-hot); stroke-width: 1.8; stroke-dasharray: 2 2; }
+.al-chart .al-track { fill: #dce5db; }
+.al-chart .al-delay { fill: #87a69b; }
+.al-chart .al-compute { fill: #406f65; }
+.al-chart .al-execution { fill: #b45d3b; }
+.al-chart .al-focus:not(.al-dot):not(.al-visible):not(.al-hidden):not(.al-block) { stroke: var(--al-hot); stroke-width: 2.4; }
+.al-chart .al-visible.al-focus, .al-chart .al-hidden.al-focus, .al-chart .al-block.al-focus { stroke-width: 7; }
+.al-chart .al-dot.al-focus { stroke: #512d1e; stroke-width: 1.25; }
+.al-caption { margin: -2px 0 0; color: var(--al-muted); font-size: .76rem; line-height: 1.42; }
+.al-results {
+  margin: 0;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  border-block: 1px solid var(--al-line);
+}
+.al-results > div { min-width: 0; padding: 5px 8px 6px 0; }
+.al-results > div + div { padding-left: 11px; border-left: 1px solid var(--al-line); }
+.al-results dt { color: var(--al-muted); font-size: .72rem; line-height: 1.35; }
+.al-results dd {
+  margin: 2px 0 0;
+  font-family: "Barlow","Bahnschrift","Microsoft YaHei UI",sans-serif;
+  font-size: 1.06rem;
+  font-weight: 650;
+  line-height: 1.22;
+  font-variant-numeric: tabular-nums;
+}
+.al-basis { min-width: 0; color: var(--al-muted); font-size: .75rem; }
+.al-basis summary { cursor: pointer; line-height: 1.45; }
+.al-basis summary::-webkit-details-marker { display: none; }
+.al-formula { overflow-wrap: anywhere; color: #435953; }
+.al-expand { flex: none; color: var(--al-green); white-space: nowrap; }
+.al-expand::after { content: "＋"; margin-left: 2px; }
+.al-basis[open] .al-expand::after { content: "－"; }
+.al-basis p { margin: 6px 0 0; line-height: 1.5; }
+.al-basis .al-manual { padding-top: 5px; border-top: 1px solid var(--al-line); }
+.al-manual a { color: var(--al-green); text-underline-offset: 2px; }
+@media (pointer: coarse) {
+  .al-choices button { min-height: 38px; }
+  .al-control input[type=range] { height: 32px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .al-sheet * { transition: none !important; }
+}

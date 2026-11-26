@@ -1,0 +1,899 @@
+{
+  "scope": "2024 年上半年北美 Fremont 左舵 Model 3 Long Range AWD 教学参考配置。七路车外镜头与座舱摄像头分开计数。原厂功能受地区、配置及软件版本影响。通用算法和课堂回放借助真实装配定位讲解，未被认定为 Tesla 的量产软件实现。",
+  "sources": {
+    "cameras": {
+      "title": "Tesla 北美车主手册 · 摄像头位置与校准",
+      "url": "https://www.tesla.com/ownersmanual/model3/en_us/GUID-682FF4A7-D083-4C95-925A-5EE3752F4865.html",
+      "kind": "原厂车主手册"
+    },
+    "camMount": {
+      "title": "Tesla 2024+ Model 3 维修手册 · 前视摄像头安装板",
+      "url": "https://service.tesla.com/docs/Model3/ServiceManual/2024/en-us/GUID-60373DB1-B732-4A68-BC39-A6F289C9D5E8.html",
+      "kind": "原厂维修手册"
+    },
+    "tacc": {
+      "title": "Tesla 北美车主手册 · 交通感知巡航控制",
+      "url": "https://www.tesla.com/ownersmanual/model3/en_us/GUID-DA920829-F1FA-44F9-8754-6D914C524A79.html",
+      "kind": "原厂车主手册"
+    },
+    "avoidance": {
+      "title": "Tesla 北美车主手册 · 碰撞避免辅助",
+      "url": "https://www.tesla.com/ownersmanual/model3/en_us/GUID-8EA7EF10-7D27-42AC-A31A-96BCE5BC0A85.html",
+      "kind": "原厂车主手册"
+    },
+    "fsd": {
+      "title": "Tesla 北美车主手册 · Full Self-Driving (Supervised)",
+      "url": "https://www.tesla.com/ownersmanual/model3/en_us/GUID-2CB60804-9CEA-4F4B-8B04-09B991368DC5.html",
+      "kind": "原厂车主手册"
+    },
+    "limits": {
+      "title": "Tesla 北美车主手册 · 受监督驾驶辅助的限制",
+      "url": "https://www.tesla.com/ownersmanual/model3/en_us/GUID-59736DF1-31FA-4F67-8A3F-6111778939D9.html",
+      "kind": "原厂车主手册"
+    },
+    "cabin": {
+      "title": "Tesla 北美车主手册 · 座舱摄像头",
+      "url": "https://www.tesla.com/ownersmanual/model3/en_us/GUID-EDAD116F-3C73-40FA-A861-68112FF7961F.html",
+      "kind": "原厂车主手册"
+    },
+    "hw4": {
+      "title": "Tesla 2024+ Model 3 维修手册 · 左舵 HW4 车载电脑",
+      "url": "https://service.tesla.com/docs/Model3/ServiceManual/2024/en-us/GUID-2FC5F43C-0F82-4C44-B90B-A67668D9BD75.html",
+      "kind": "原厂维修手册"
+    },
+    "computerInstall": {
+      "title": "Tesla 2024+ Model 3 维修手册 · 车载电脑与冷却软管",
+      "url": "https://service.tesla.com/docs/Model3/ServiceManual/2024/en-us/GUID-A3826634-BB91-4A15-A34A-403D523A4D29.html",
+      "kind": "原厂维修手册"
+    },
+    "lv": {
+      "title": "Tesla 2024+ Model 3 维修手册 · 低压电气系统",
+      "url": "https://service.tesla.com/docs/Model3/ServiceManual/2024/en-us/GUID-EEC21776-1522-407E-8314-BF40E3E3E17E.html",
+      "kind": "原厂维修手册"
+    },
+    "steering": {
+      "title": "Tesla 2024+ Model 3 维修手册 · 左舵转向器",
+      "url": "https://service.tesla.com/docs/Model3/ServiceManual/2024/en-us/GUID-018E3601-9A82-461B-9E56-5EC194B88A8A.html",
+      "kind": "原厂维修手册"
+    },
+    "can": {
+      "title": "Tesla Model 3 SOP8 · 底盘 CAN 原理图",
+      "url": "https://service.tesla.com/docs/Model3/ElectricalReference/prog-233/interactive/pdf/can_chassis_print.pdf",
+      "kind": "原厂电路图"
+    },
+    "driver": {
+      "title": "Tesla Model 3 SOP8 · 左舵驾驶辅助电气图",
+      "url": "https://service.tesla.com/docs/Model3/ElectricalReference/prog-233/interactive/pdf/driver_assistance_lhd_print.pdf",
+      "kind": "原厂电路图"
+    },
+    "wheel": {
+      "title": "Tesla Model 3 SOP8 · 轮速传感器电气图",
+      "url": "https://service.tesla.com/docs/Model3/ElectricalReference/prog-233/interactive/pdf/braking_and_stability_wheel_speed_sensors_print.pdf",
+      "kind": "原厂电路图"
+    },
+    "sync": {
+      "title": "ROS 2 项目 · 多路消息的时间戳同步机制",
+      "url": "https://github.com/ros2/message_filters/blob/rolling/doc/index.rst",
+      "kind": "通用开源实现"
+    },
+    "bev": {
+      "title": "Li 等 · BEVFormer 多相机时空感知论文",
+      "url": "https://arxiv.org/abs/2203.17270",
+      "kind": "原始研究论文"
+    },
+    "occupancy": {
+      "title": "OctoMap 项目 · 已占用、已知空闲与未知空间",
+      "url": "https://octomap.github.io/",
+      "kind": "通用开源实现"
+    },
+    "odometry": {
+      "title": "Mur-Artal 与 Tardós · ORB-SLAM2 视觉里程计与建图",
+      "url": "https://arxiv.org/abs/1610.06475",
+      "kind": "原始研究论文"
+    },
+    "ekf": {
+      "title": "Autoware Core · 自车位姿、速度与迟到观测融合",
+      "url": "https://autowarefoundation.github.io/autoware_core/latest/localization/autoware_ekf_localizer/",
+      "kind": "通用开源实现"
+    },
+    "benchmark": {
+      "title": "KITTI 研究团队 · 里程计轨迹误差评测",
+      "url": "https://www.cvlibs.net/datasets/kitti/eval_odometry.php",
+      "kind": "原始评测方法"
+    },
+    "predict": {
+      "title": "Chai 等 · MultiPath 多假设交通参与者轨迹预测",
+      "url": "https://proceedings.mlr.press/v100/chai20a.html",
+      "kind": "原始研究论文"
+    },
+    "behavior": {
+      "title": "Autoware Universe · 行为路径规划器",
+      "url": "https://autowarefoundation.github.io/autoware_universe/latest/planning/behavior_path_planner/autoware_behavior_path_planner/",
+      "kind": "通用开源实现"
+    },
+    "intersection": {
+      "title": "Autoware Universe · 路口遮挡和冲突处理",
+      "url": "https://autowarefoundation.github.io/autoware_universe/latest/planning/behavior_velocity_planner/autoware_behavior_velocity_intersection_module/",
+      "kind": "通用开源实现"
+    },
+    "tracking": {
+      "title": "Autoware Universe · 横向跟踪与转向约束",
+      "url": "https://autowarefoundation.github.io/autoware_universe/latest/control/autoware_mpc_lateral_controller/",
+      "kind": "通用开源实现"
+    },
+    "speedcontrol": {
+      "title": "Autoware Universe · 纵向控制与延迟补偿",
+      "url": "https://autowarefoundation.github.io/autoware_universe/latest/control/autoware_pid_longitudinal_controller/",
+      "kind": "通用开源实现"
+    },
+    "osi": {
+      "title": "ASAM · Open Simulation Interface 仿真真值与传感器接口",
+      "url": "https://www.asam.net/standards/detail/osi/",
+      "kind": "仿真标准"
+    },
+    "tracing": {
+      "title": "ROS 2 项目 · ros2_tracing 事件与执行时延观测",
+      "url": "https://github.com/ros2/ros2_tracing",
+      "kind": "通用开源实现"
+    },
+    "wheelInstall": {
+      "title": "Tesla 2024+ Model 3 维修手册 · 左前轮速传感器",
+      "url": "https://service.tesla.com/docs/Model3/ServiceManual/2024/en-us/GUID-5BC4D702-1C68-4387-8428-98611B82828D.html",
+      "kind": "原厂维修手册"
+    },
+    "hydraulic": {
+      "title": "Tesla 2024+ Model 3 维修手册 · 制动液压控制单元",
+      "url": "https://service.tesla.com/docs/Model3/ServiceManual/2024/en-us/GUID-4A969B41-04C9-41E2-B050-99C229AB921E.html",
+      "kind": "原厂维修手册"
+    },
+    "ttc": {
+      "title": "Euro NCAP · 纵向场景的碰撞时间定义（第 3.1.5 节）",
+      "url": "https://cdn.euroncap.com/cars/assets/CA_004_Data_Acquisition_and_Assessment_Criteria_Calculation_v1_3_9d63428c68.pdf#page=17",
+      "kind": "原始测试规程"
+    }
+  },
+  "lessons": [
+    {
+      "id": "vision",
+      "title": "车外视觉覆盖与时间对齐",
+      "summary": "先绕车找到七路车外镜头，再从风挡安装板追到图像线束。比较一个目标在不同位置、不同采样时刻会留下什么证据。",
+      "question": "一辆自行车从左前方经过车侧。如果侧摄画面晚到一帧，怎样区分遮挡和时间错位？",
+      "check": "在带真值的同一段回放里，分别遮掉左侧影像、再仅延后它的时间戳。检查目标在哪些视图仍可见，以及时间对齐后重影是否消退。",
+      "steps": [
+        {
+          "id": "vision",
+          "label": "找出七路车外镜头",
+          "role": "当前模型选取风挡双摄、左右 B 柱各一、左右翼子板各一和车尾一处。先从各自位置判断同一目标可能由哪些方向看见。",
+          "input": "目标相对车身的方位",
+          "output": "对应的车外视图与潜在盲区",
+          "evidence": "oem",
+          "sources": [
+            "cameras"
+          ],
+          "related": [
+            "forward",
+            "backcam"
+          ],
+          "boundary": "七路是这辆参考配置的外摄计数。座舱摄像头单列，后续年份的选装摄像头另查。"
+        },
+        {
+          "id": "frontcammount",
+          "label": "标定依赖固定的安装姿态",
+          "role": "前摄安装板用 4 颗螺钉连接摄像头和风挡支架。摄像头位置变化会改变像素所代表的空间方向，手册说明摄像头或风挡更换后涉及重新校准。",
+          "input": "支架与摄像头的相对姿态",
+          "output": "图像位置与车辆方向之间的标定关系",
+          "evidence": "oem",
+          "sources": [
+            "camMount",
+            "cameras"
+          ],
+          "related": [
+            "forward0",
+            "forward1"
+          ],
+          "boundary": "原厂安装图可核对固定关系。模型中的视锥角度和镜头基线未做实车测量。"
+        },
+        {
+          "id": "bpL",
+          "label": "沿车侧检查可见性",
+          "role": "目标可能先离开一幅图，再进入另一幅。两幅图中的目标位置都受镜头安装位置、遮挡物和观测方向影响。",
+          "input": "同一目标在左前与左侧的观测",
+          "output": "可交接的观测及中间看不见的区段",
+          "evidence": "principle",
+          "sources": [
+            "bev",
+            "cameras"
+          ],
+          "related": [
+            "repeaterL",
+            "forward"
+          ],
+          "boundary": "多视角关联是通用原理，屏幕中的示意视区没有原厂标定精度。"
+        },
+        {
+          "id": "video",
+          "label": "区分曝光时刻与到达时刻",
+          "role": "在车辆和目标都在运动时，仅按帧到达先后拼接会引入位置差。通用同步器按采样时间戳配对，还要保留迟到或缺帧的标记。",
+          "input": "带采样时间和接收时间的各路图像",
+          "output": "对齐后的观测、残余时间差与缺帧标记",
+          "evidence": "principle",
+          "sources": [
+            "sync",
+            "bev"
+          ],
+          "related": [
+            "forward",
+            "computer"
+          ],
+          "boundary": "线束用于定位图像输入端。同步策略、原车帧率和传输时延没有公开到这里。"
+        },
+        {
+          "id": "forward",
+          "label": "用同一段录像区分两类故障",
+          "role": "遮挡时目标像素确实消失；时间偏移时，单帧中仍可见目标，跨视图叠加才出现错位。把两组回放的观测并排，能判断该查镜头还是时间基准。",
+          "input": "无遮挡基线及两组受扰动的离线录像",
+          "output": "逐帧可见性、重影变化与故障归因",
+          "evidence": "example",
+          "sources": [
+            "sync",
+            "osi",
+            "cameras"
+          ],
+          "related": [
+            "bpL",
+            "video"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "perception",
+      "title": "跨帧感知与遮挡不确定性",
+      "summary": "用路边停着的厢式车遮住行人，逐层区分像素证据、目标运动、可行驶区域和暂时看不见的空间。",
+      "question": "厢式车后面没有检测框，可以把那块地面判为可通行吗？",
+      "check": "将仿真真值、各镜头可见区和感知结果叠放。分别记录遮挡期间的未知区、行人露出后的首次检出及错误标为空闲的区域。",
+      "steps": [
+        {
+          "id": "forward0",
+          "label": "先问像素直接支持什么",
+          "role": "单幅图能提供边缘、纹理和方位。同样的投影大小可能来自近处的小物体，也可能来自远处的大物体，距离判断还需尺度或其他观测约束。",
+          "input": "前视图像与相机投影关系",
+          "output": "目标候选方位及待确认的距离",
+          "evidence": "principle",
+          "sources": [
+            "odometry",
+            "bev"
+          ],
+          "related": [
+            "forward1"
+          ]
+        },
+        {
+          "id": "bpR",
+          "label": "把空间与通行规则分开",
+          "role": "多视角研究方法把不同方向的特征对齐到同一俯视平面。路面、路缘与车道边界各有含义，可见空地还需结合边界和交通规则判断是否可驶入。",
+          "input": "前视和右侧图像、镜头几何关系",
+          "output": "共同车身坐标中的道路结构与目标候选",
+          "evidence": "principle",
+          "sources": [
+            "bev",
+            "behavior"
+          ],
+          "related": [
+            "forward",
+            "repeaterR"
+          ],
+          "boundary": "俯视特征图是公开研究示例。Tesla 在本车的软件内部表示未公开。"
+        },
+        {
+          "id": "video",
+          "label": "跨帧分出自车与目标运动",
+          "role": "转弯时，静止的路灯也会在画面中横移。先用自车运动对齐历史观测，再检查剩余位移，有助于区分观察视角改变和目标自身移动。",
+          "input": "连续图像、时间戳、自车相对位姿",
+          "output": "对齐后的观测历史及目标运动候选",
+          "evidence": "principle",
+          "sources": [
+            "bev",
+            "odometry",
+            "sync"
+          ],
+          "related": [
+            "apboard",
+            "forward0"
+          ]
+        },
+        {
+          "id": "repeaterL",
+          "label": "为不可见区域保留未知状态",
+          "role": "厢式车遮住人行横道时，射线只能说明遮挡物前方的可见情况。将车后区域保留为未知，能让规划继续考虑潜在冲突。",
+          "input": "遮挡轮廓、视点和道路区域",
+          "output": "已占用、可确认空闲与未知区域",
+          "evidence": "principle",
+          "sources": [
+            "occupancy",
+            "intersection"
+          ],
+          "related": [
+            "bpL",
+            "vision"
+          ],
+          "boundary": "车侧镜头是此例的视点。颜色分区和占用表示用于讲解。"
+        },
+        {
+          "id": "apboard",
+          "label": "分别评估漏检和虚假空闲",
+          "role": "将同一行人轨迹分别放在无遮挡和有遮挡的场景中。遮挡期间评估空间状态，露出后再评估检出延迟，避免用一个总检出率掩盖两类问题。",
+          "input": "带可见性标注的场景真值及感知输出",
+          "output": "首次检出时刻、漏检时段和虚假空闲区域",
+          "evidence": "example",
+          "sources": [
+            "osi",
+            "occupancy",
+            "bev"
+          ],
+          "related": [
+            "repeaterL",
+            "video"
+          ],
+          "boundary": "计算板是观察讲解的实物位置。示例结果来自课堂回放。"
+        }
+      ]
+    },
+    {
+      "id": "ego",
+      "title": "自车运动与定位估计",
+      "summary": "从轮速和图像分别观察车辆的运动，再讨论两类观测分歧时怎样约束估计、标记漂移并检验结果。",
+      "question": "车轮在低附着路面打滑时，轮速与路面纹理给出的移动量不同。哪项证据能说明估计偏了？",
+      "check": "用有参考轨迹的离线转弯片段，分别加入单轮打滑和图像观测间断。按路段比较平移、方向误差及估计不确定性的变化。",
+      "steps": [
+        {
+          "id": "wsFL",
+          "label": "从轮端读取转动信息",
+          "role": "SOP8 电路图列出各轮的轮速传感器及其通向制动稳定控制设备的连接。传感器直接感知轮端转动，计算车辆对地位移还涉及轮胎半径与滑移。",
+          "input": "轮端转动和传感器信号",
+          "output": "用于估计车辆运动的轮速观测",
+          "evidence": "oem",
+          "sources": [
+            "wheel",
+            "wheelInstall"
+          ],
+          "related": [
+            "speedFL",
+            "hcu"
+          ],
+          "boundary": "电气连接有原厂依据。轮速在量产定位器中的使用方式未核实。"
+        },
+        {
+          "id": "forward0",
+          "label": "从环境纹理估计相对运动",
+          "role": "跟踪多个静态特征跨帧的投影变化，可以估计相机相对运动。弱纹理、强反光或大量移动目标会减少可靠匹配。",
+          "input": "连续图像及匹配到的环境特征",
+          "output": "两帧间相对转动、平移估计和匹配质量",
+          "evidence": "principle",
+          "sources": [
+            "odometry"
+          ],
+          "related": [
+            "forward",
+            "video"
+          ],
+          "boundary": "单目运动还存在绝对尺度约束问题。此处以公开视觉里程计说明。"
+        },
+        {
+          "id": "repeaterR",
+          "label": "把不同视点换到车身坐标",
+          "role": "车辆原地改变航向时，离车身参考点更远的镜头会走过一段弧线。若忽略安装偏移，镜头位移就可能被误当成车身中心的平移。",
+          "input": "镜头相对车辆的安装位姿及连续观测",
+          "output": "车身参考点的运动观测",
+          "evidence": "principle",
+          "sources": [
+            "bev",
+            "odometry"
+          ],
+          "related": [
+            "forward0",
+            "vision"
+          ]
+        },
+        {
+          "id": "apboard",
+          "label": "按观测可信度修正状态",
+          "role": "通用定位器先用运动模型推进位姿，再用带时间和不确定性的观测修正。观测中断时，沿用旧估计会积累误差，必须同时跟踪估计可信度。",
+          "input": "上时刻位姿、速度、观测时间与协方差",
+          "output": "带时间与不确定性的位姿、速度估计",
+          "evidence": "principle",
+          "sources": [
+            "ekf"
+          ],
+          "related": [
+            "wsFL",
+            "video"
+          ],
+          "boundary": "公开滤波器用于说明状态估计。模型未确认 Tesla 使用的滤波器、定位传感器组合或地图精度。"
+        },
+        {
+          "id": "wheels",
+          "label": "用参考轨迹区分尺度和方向漂移",
+          "role": "对齐相同起始位姿后，在直道与弯道分别比较估计轨迹和真值。只比较终点可能掩盖弯中横向偏移，以及随后抵消的航向误差。",
+          "input": "相同初始位姿、估计轨迹和独立真值",
+          "output": "分段平移误差、方向误差及异常起点",
+          "evidence": "example",
+          "sources": [
+            "benchmark",
+            "osi"
+          ],
+          "related": [
+            "wsFL",
+            "apboard"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "prediction",
+      "title": "交互预测、行为选择与轨迹规划",
+      "summary": "以相邻车接近车道线为例，同时保留保持车道和切入两种未来。比较让行或继续行驶对应的时空余量和执行可行性。",
+      "question": "相邻车可能切入但尚未越线。为什么要把两种未来都拿去检查，而不能只考虑概率最高的一种？",
+      "check": "离线重放相邻车切入和保持车道两个分支，在同一坐标和时钟下检查车辆占用是否重叠、是否越出可行驶范围，以及计划所需加速度和曲率。",
+      "steps": [
+        {
+          "id": "forward",
+          "label": "从历史运动得到预测起点",
+          "role": "同一辆车的几次带时刻观测，比一张图更能约束速度和航向变化。短时遮挡或车道归属不清，会同时影响其运动状态与预测起点。",
+          "input": "邻车位置、近几帧运动历史和车道关系",
+          "output": "带历史和置信信息的交通参与者状态",
+          "evidence": "principle",
+          "sources": [
+            "predict",
+            "bev"
+          ],
+          "related": [
+            "video",
+            "apboard"
+          ]
+        },
+        {
+          "id": "bpL",
+          "label": "为相邻车保留多个未来",
+          "role": "邻车靠近车道线时，继续直行和切入都可能符合已有观测。多假设预测为各分支保留随时间变化的可能轨迹，关键分支也要交给下游检查。",
+          "input": "侧向观测历史、道路上下文和邻车状态",
+          "output": "多种未来轨迹及各自的不确定性",
+          "evidence": "principle",
+          "sources": [
+            "predict"
+          ],
+          "related": [
+            "repeaterL",
+            "forward"
+          ],
+          "boundary": "MultiPath 是公开研究实例。分支概率与预测时域均未从 Tesla 车辆读取。"
+        },
+        {
+          "id": "apboard",
+          "label": "从未来冲突选择驾驶行为",
+          "role": "让行或继续行驶会改变自车与邻车到达同一区域的时间。将候选行为放进交通规则、可行驶区域和预测占用中评价，才能解释选择依据。",
+          "input": "可行驶区域、候选行为、他车预测",
+          "output": "候选行为及其时空约束",
+          "evidence": "principle",
+          "sources": [
+            "behavior",
+            "intersection"
+          ],
+          "related": [
+            "bpL",
+            "drives"
+          ],
+          "boundary": "这是讲解用的功能划分。量产实现是否设有独立行为规划模块未知。"
+        },
+        {
+          "id": "rackassy",
+          "label": "让轨迹满足机械约束",
+          "role": "行为决定让行后仍需给出随时间变化的位置和速度。曲率过大或转向变化过快，就算路径没有碰到障碍，也可能超出车辆跟踪能力。",
+          "input": "候选路径、目标速度和转向能力约束",
+          "output": "可跟踪的时标轨迹及不可行原因",
+          "evidence": "principle",
+          "sources": [
+            "tracking",
+            "speedcontrol"
+          ],
+          "related": [
+            "epas",
+            "wheels"
+          ]
+        },
+        {
+          "id": "drives",
+          "label": "分别检查两种交互结局",
+          "role": "课堂中让邻车分别保持车道和完成切入，再对相同的自车候选轨迹比较最小间距与制动需求。能解释某条候选被剔除的时刻，比只看最后有没有碰撞更有意义。",
+          "input": "两个邻车分支和同一组自车候选轨迹",
+          "output": "每个分支的冲突时刻、间距与所需减速度",
+          "evidence": "example",
+          "sources": [
+            "osi",
+            "predict",
+            "speedcontrol"
+          ],
+          "related": [
+            "br",
+            "rackassy"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "lateral",
+      "title": "横向跟踪、助力转向与反馈",
+      "summary": "沿驾驶辅助控制器、底盘 CAN、左舵助力转向和前轮的顺序展开。把轨迹误差、通信连接、机械传力和车辆实际响应放在同一条时间线上。",
+      "question": "网络已经有转向相关通信，为什么仍需要用实际车身轨迹检查跟踪是否完成？",
+      "check": "在弯道仿真中按同一时钟对齐目标曲率、执行端观测及实际航向。分别注入通信延迟和执行幅值限制，观察误差最先在哪一段出现。",
+      "steps": [
+        {
+          "id": "apboard",
+          "label": "从轨迹算出横向修正",
+          "role": "车辆即使位于目标轨迹上，也可能因航向偏差而在下一时刻偏离。通用跟踪器同时考虑横向偏差、航向、车速与执行约束。",
+          "input": "目标轨迹、当前位姿和速度",
+          "output": "期望的转向修正及可实现范围",
+          "evidence": "principle",
+          "sources": [
+            "tracking"
+          ],
+          "related": [
+            "steer",
+            "wheels"
+          ],
+          "boundary": "用计算板承载功能讲解。请求量的原车定义、算法和标定均未公开。"
+        },
+        {
+          "id": "x120",
+          "label": "在电路图上定位计算端",
+          "role": "SOP8 左舵图将驾驶辅助功能标为 Autopilot ECU。其 X120 连接器接到底盘 CAN，图上还能沿共享网段找到转向和制动节点。",
+          "input": "计算端连接器、图中网名及支路",
+          "output": "从 X120 到底盘共享网段的电气关系",
+          "evidence": "oem",
+          "sources": [
+            "can",
+            "driver"
+          ],
+          "related": [
+            "apboard",
+            "chtrunk"
+          ],
+          "boundary": "同一网段可承载多类数据。公开原理图没有定义转向请求的报文、仲裁策略或周期。"
+        },
+        {
+          "id": "x193",
+          "label": "找到左舵转向执行端",
+          "role": "在底盘 CAN 图中选择左舵 EPAS 分支，可找到 X193。它标定了线束进入转向设备的接口，网络线与转向器的机械传力路径要分别追踪。",
+          "input": "底盘 CAN 的左舵分支与转向设备标识",
+          "output": "线束侧 X193 与助力转向单元的连接关系",
+          "evidence": "oem",
+          "sources": [
+            "can",
+            "steering"
+          ],
+          "related": [
+            "epasleg",
+            "epsctrl"
+          ],
+          "boundary": "该图能核对通信连接。它没有给出收到某项请求后必然产生的方向和力矩。"
+        },
+        {
+          "id": "rack",
+          "label": "沿机械链找到两个前轮",
+          "role": "左舵转向器固定在前副车架上，经外拉杆连到左右前转向节。观察齿条、拉杆和转向节，能说明直线运动怎样变为车轮转角。",
+          "input": "转向器输出的齿条位移",
+          "output": "左右转向节运动及前轮方向变化",
+          "evidence": "oem",
+          "sources": [
+            "steering"
+          ],
+          "related": [
+            "knuckleFL",
+            "knuckleFR"
+          ],
+          "boundary": "紧固关系可核对。模型未标定齿比、行程或左右车轮转角曲线。"
+        },
+        {
+          "id": "wheelFL",
+          "label": "用实际轨迹闭合验证",
+          "role": "离线记录执行请求、可用的执行端观测和车身轨迹。请求已发出但输出滞后，与前轮已转而车辆仍偏离，指向不同的问题。",
+          "input": "参考轨迹、模拟执行端角度、车身位姿与时间戳",
+          "output": "响应时差、横向误差、航向误差和最早异常环节",
+          "evidence": "example",
+          "sources": [
+            "tracking",
+            "osi",
+            "tracing"
+          ],
+          "related": [
+            "rack",
+            "apboard"
+          ],
+          "boundary": "执行端角度是仿真观测量，不代表本车通过 X193 对外提供同名信号。"
+        }
+      ]
+    },
+    {
+      "id": "longitudinal",
+      "title": "跟车、碰撞警告与自动制动",
+      "summary": "用同一辆前车的减速过程区分日常跟车、提醒驾驶员和紧急减轻碰撞后果三项目标，再查看轮端反馈。",
+      "question": "驾驶员听到了前碰撞警告，还能据此断定车辆已经开始自动制动吗？",
+      "check": "对同一段模拟前车减速过程，分别记录巡航目标、驾驶员提示、自动制动事件、轮速与实际车速。检查界面是否把三个功能和驾驶员主动踩刹车混成同一事件。",
+      "steps": [
+        {
+          "id": "forward",
+          "label": "TACC 调节日常跟车速度",
+          "role": "交通感知巡航控制在设定速度范围内适应前方车辆，并可调节跟车距离。目标识别受路况和能见度影响，驾驶员仍要判断是否需要干预。",
+          "input": "设定巡航速度、跟车设置和前方交通",
+          "output": "在适用条件下调整跟车车速",
+          "evidence": "oem",
+          "sources": [
+            "tacc"
+          ],
+          "related": [
+            "screen",
+            "drives"
+          ],
+          "boundary": "以风挡前摄说明观察方向。具体使用的镜头组合和控制律不由车主手册给出。"
+        },
+        {
+          "id": "screen",
+          "label": "FCW 将风险提示给驾驶员",
+          "role": "前碰撞警告在判断可能发生正面碰撞时提示驾驶员。警告的输出是可感知的提示，驾驶员可据此采取行动，单凭警告不能断定发生了自动制动。",
+          "input": "系统对正面碰撞风险的判断",
+          "output": "前碰撞警告 FCW 的视觉与声音提示",
+          "evidence": "oem",
+          "sources": [
+            "avoidance"
+          ],
+          "related": [
+            "audio",
+            "forward"
+          ]
+        },
+        {
+          "id": "br",
+          "label": "AEB 以减轻碰撞后果为目标",
+          "role": "自动紧急制动在判断条件满足时尝试施加制动以降低撞击速度。效果受距离、路况和系统限制影响，即使触发也可能无法避免碰撞。",
+          "input": "潜在正面碰撞及系统触发条件",
+          "output": "自动制动干预与可能的车速下降",
+          "evidence": "oem",
+          "sources": [
+            "avoidance",
+            "ttc"
+          ],
+          "related": [
+            "booster",
+            "hcu"
+          ],
+          "boundary": "课堂估算 TTC 时，用同一路径的净间距除以正闭合速度，并假设相对速度恒定。侧向切入还需检查轨迹交叠。Tesla 的 AEB 触发量、阈值及与 FCW 的时序未在此确定。"
+        },
+        {
+          "id": "hcu",
+          "label": "把轮速反馈和液压执行分开",
+          "role": "轮速传感器电路向制动稳定控制侧提供各轮运动观测。液压管把压力传向轮端制动器，两条路径的介质和作用均不同。",
+          "input": "各轮转动观测与制动系统的工作状态",
+          "output": "轮速反馈路径，以及到轮端的液压执行路径",
+          "evidence": "oem",
+          "sources": [
+            "wheel",
+            "can",
+            "hydraulic"
+          ],
+          "related": [
+            "lineFL",
+            "speedFL"
+          ],
+          "boundary": "该结构与多种制动功能共用。单看轮速变化无法识别是驾驶员、巡航还是 AEB 发起制动。"
+        },
+        {
+          "id": "wsFL",
+          "label": "检查整车是否按预期减速",
+          "role": "在仿真中并排画出制动事件、轮速和整车对地速度。车轮打滑时，单轮速度可能迅速下降，但整车的减速度未必同样大。",
+          "input": "功能事件、驾驶员输入、四轮速度与仿真真值",
+          "output": "干预起点、实际减速、剩余间距和偏差原因",
+          "evidence": "example",
+          "sources": [
+            "avoidance",
+            "speedcontrol",
+            "osi"
+          ],
+          "related": [
+            "wheelFL",
+            "pedals"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "supervision",
+      "title": "驾驶员监督、提示与接管",
+      "summary": "从车内后视镜上方的摄像头追到提示和驾驶员操作。分清系统可观察到的注意迹象、驾驶员对道路的理解，以及最终的控制状态。",
+      "question": "注意力提示已经发出、驾驶员也看向前方，这两件事足以证明接管已经完成吗？",
+      "check": "在桌面回放中分别标注监督状态、首次提示、驾驶员操作、辅助状态变化和随后车辆响应。缺少其中一个事件时，指出还能证明什么。",
+      "steps": [
+        {
+          "id": "cabincam",
+          "label": "找到车内观察者",
+          "role": "车主手册将座舱摄像头定位在内后视镜上方。驾驶辅助启用时，它可用于识别驾驶员注意力不足并触发提醒，镜头受遮挡会损害观察条件。",
+          "input": "座舱内驾驶员的可见视觉迹象",
+          "output": "对驾驶员注意情况的辅助判断",
+          "evidence": "oem",
+          "sources": [
+            "cabin",
+            "fsd"
+          ],
+          "related": [
+            "screen",
+            "vision"
+          ],
+          "boundary": "座舱摄像头不计入本配置的七路车外镜头。观察到的姿态也不能证明驾驶员理解了某一风险。"
+        },
+        {
+          "id": "apboard",
+          "label": "识别辅助功能的工作边界",
+          "role": "受监督的驾驶辅助要求驾驶员在整个使用过程中持续观察道路，并准备立即干预。复杂路口、能见度不良等情形可能超出系统可靠处理的条件。",
+          "input": "道路情况、功能状态及对环境的可观察程度",
+          "output": "驾驶员持续监督或提前接手的判断依据",
+          "evidence": "oem",
+          "sources": [
+            "fsd",
+            "limits"
+          ],
+          "related": [
+            "cabincam",
+            "forward"
+          ],
+          "boundary": "车载计算板用于定位驾驶辅助功能。内部由哪块芯片判断注意力，现有资料未给出。"
+        },
+        {
+          "id": "screen",
+          "label": "读懂状态与接手提示",
+          "role": "触摸屏显示驾驶辅助状态，并可提示驾驶员需要注意或立即操作。在课堂回放中先读具体文字与颜色含义，再决定它是一般提示还是要求接手。",
+          "input": "界面当前功能状态与提示内容",
+          "output": "驾驶员看到的状态变化和行动提示",
+          "evidence": "oem",
+          "sources": [
+            "fsd",
+            "limits"
+          ],
+          "related": [
+            "cabincam",
+            "steerwheel"
+          ],
+          "boundary": "界面样式和提示顺序随软件版本与配置变化。课堂画面未复刻 Tesla 界面。"
+        },
+        {
+          "id": "audio",
+          "label": "把声音提醒作为独立事件",
+          "role": "座舱摄像头条目说明车辆可发出声音提醒驾驶员注意道路。讲解时把发声时刻与屏幕提示、人员回应分开记录，便于区分提醒发出与提醒被理解。",
+          "input": "系统选择发出的驾驶员注意提醒",
+          "output": "可听提示及独立的提示时刻",
+          "evidence": "oem",
+          "sources": [
+            "cabin",
+            "fsd"
+          ],
+          "related": [
+            "screen",
+            "cabincam"
+          ],
+          "boundary": "音响总成只代表声音输出端，实际使用的扬声器与功放通道路由未核实。"
+        },
+        {
+          "id": "pedals",
+          "label": "把驾驶员操作与控制权变化对齐",
+          "role": "手册列出踩制动踏板可取消进行中的受监督驾驶辅助。课堂回放分别记录操作时刻、功能状态改变和后续车辆响应，核对驾驶员是否已实际承担操纵。",
+          "input": "模拟踏板操作、辅助状态与车辆运动记录",
+          "output": "接管事件顺序、状态变化和缺失证据",
+          "evidence": "example",
+          "sources": [
+            "fsd",
+            "osi",
+            "tracing"
+          ],
+          "related": [
+            "steerwheel",
+            "screen"
+          ],
+          "boundary": "示例仅在离线回放中建立事件关系，不提供实车注意力判定或接管时间阈值。"
+        }
+      ]
+    },
+    {
+      "id": "compute",
+      "title": "HW4、供电、液冷与端到端时延",
+      "summary": "围绕一台车载电脑串起四个依赖条件。计算平台要有供电、能排热、收到足够新的输入，而且要让执行端按时响应。",
+      "question": "单次推理耗时保持不变时，为什么从看见目标到前轮响应的总时间仍可能变长？",
+      "check": "用统一时钟记录采样、接收、计算完成、执行请求和实际响应。对比一次迟到图像与一次执行端限幅，分别报告延迟分布、丢样和首次偏差的位置。",
+      "steps": [
+        {
+          "id": "computer",
+          "label": "区分物理机箱与 ECU 功能",
+          "role": "原厂维修条目命名为左舵 HW4 Car Computer。SOP8 驾驶辅助图另标 Autopilot ECU (LHD)。前者定位可拆卸总成，后者定位电气功能及其接口。",
+          "input": "机箱、左舵电气图和装配节点",
+          "output": "Car Computer、驾驶辅助板与相关接口的对应关系",
+          "evidence": "oem",
+          "sources": [
+            "hw4",
+            "driver"
+          ],
+          "related": [
+            "apboard",
+            "mcu"
+          ],
+          "boundary": "板上芯片的封装、内部算子分配和冗余切换策略均未按 Tesla 生产资料复原。"
+        },
+        {
+          "id": "lvbat",
+          "label": "追踪低压供电前提",
+          "role": "2024+ 维修手册明确低压蓄电池为 16 V 锂离子型。左舵驾驶辅助电气图给出前车身控制器到驾驶辅助 ECU 的供电连接，可把电源依赖与数据网络分别追踪。",
+          "input": "整车低压电源与分配电路",
+          "output": "驾驶辅助控制器的低压供电路径",
+          "evidence": "oem",
+          "sources": [
+            "lv",
+            "driver"
+          ],
+          "related": [
+            "vcfront",
+            "x120"
+          ],
+          "boundary": "蓄电池、电源转换和配电共同构成系统。这里不指定某一工作状态由蓄电池单独供电。"
+        },
+        {
+          "id": "pchosefix",
+          "label": "把机箱接入整车液冷回路",
+          "role": "左舵车载电脑安装资料显示两处冷却软管及锁夹。顺着接头查看机箱与冷却支路的结合，区分板上发热、热量传到冷板和冷却液携热三个过程。",
+          "input": "计算部件产生的热及支路中的冷却液",
+          "output": "经机箱冷却界面向车辆回路传出的热",
+          "evidence": "oem",
+          "sources": [
+            "computerInstall",
+            "hw4"
+          ],
+          "related": [
+            "housing",
+            "coolcpu"
+          ],
+          "boundary": "两个接头可逐一核对。各自供回方向、流量和芯片降频阈值没有按本车标定。"
+        },
+        {
+          "id": "video",
+          "label": "拆开端到端时延",
+          "role": "图像排队、跨传感器对齐、计算和输出传输都占时间。必须先统一时钟，并为同一次观察和控制响应建立对应关系，才能解释结果为什么变旧。",
+          "input": "采样时刻、接收时刻、计算开始结束和请求输出",
+          "output": "数据年龄、各阶段耗时与端到端时延分布",
+          "evidence": "principle",
+          "sources": [
+            "sync",
+            "tracing"
+          ],
+          "related": [
+            "apboard",
+            "chtrunk"
+          ],
+          "boundary": "示例事件和计时点是课堂定义，量产软件内部调度与消息周期未公开。"
+        },
+        {
+          "id": "epas",
+          "label": "在执行端验证整条链",
+          "role": "给仿真输入一次可识别的变化，分别记录计算完成与转向响应。计算变快而执行端仍滞后时，还要检查通信排队、执行器动态、限幅及记录时钟。",
+          "input": "带唯一事件标识的输入、请求时间、模拟转向响应",
+          "output": "分段延迟、尾部延迟、漏记事件和执行偏差",
+          "evidence": "example",
+          "sources": [
+            "tracing",
+            "tracking",
+            "osi"
+          ],
+          "related": [
+            "x193",
+            "wheelFL"
+          ],
+          "boundary": "检查量来自仿真或教学日志。当前模型没有量产 ECU 的实时测量数据。"
+        }
+      ]
+    }
+  ]
+}

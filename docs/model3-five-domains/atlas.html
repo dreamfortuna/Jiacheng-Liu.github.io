@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Model 3 原厂图册 · 整车系统工程 · 博世五域</title>
+<link rel="stylesheet" href="style.css"><link rel="stylesheet" href="atlas.css">
+</head><body class="atlas-page">
+<header class="mast"><div class="brand"><span class="brandmark" aria-hidden="true"><i></i><i></i><i></i></span><span>整车系统工程 · 博世五域</span></div>
+<nav class="atlas-top"><a href="./">三维整车</a><a href="atlas.html" aria-current="page">原厂图册</a></nav></header>
+<main class="atlas-layout">
+<aside class="atlas-rail"><h2>车型与功能域</h2><p>2024 Model 3 焕新版<br>Fremont · 北美左舵 · 长续航 AWD</p>
+<nav id="domains" aria-label="按博世功能域筛选"></nav>
+<details class="library-sources"><summary>原厂资料入口</summary><div id="source-list"></div></details></aside>
+<section class="atlas-main">
+<h1>Model 3 原厂图册</h1>
+<p class="atlas-sub">从维修图、车身结构图和电气图查找装配依据，可从已关联的条目进入三维模型。</p>
+<div class="atlas-filters">
+<label class="searchbox"><span class="search-icon" aria-hidden="true"></span><input id="atlas-search" type="search" placeholder="搜索部件、X 编号、英文名称或料号" aria-label="搜索原厂图册"></label>
+<select id="atlas-kind" aria-label="资料类型"><option value="">全部资料</option></select>
+<label class="mapped-filter"><input id="atlas-mapped" type="checkbox">已关联模型</label>
+<label class="mapped-filter"><input id="atlas-variant" type="checkbox">隐藏明确不符配置</label></div>
+<div class="results-head"><strong id="total" role="status">正在读取图册…</strong><button id="coverage-button" type="button">收录范围</button></div>
+<div id="results" aria-label="图册搜索结果"></div>
+<nav id="pages" class="atlas-pagination" aria-label="翻页"></nav>
+</section></main>
+<dialog id="coverage"><div class="dialog-head"><h2>资料覆盖与适用范围</h2><button type="button" id="close-coverage" aria-label="关闭">×</button></div><div id="coverage-text"></div></dialog>
+<script type="module" src="atlas.js"></script></body></html>

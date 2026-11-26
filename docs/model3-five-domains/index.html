@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#182525"><title>2024 Tesla Model 3 焕新版 · 博世五大功能域</title>
+<link rel="stylesheet" href="style.css"><link rel="stylesheet" href="adas-classroom.css"><link rel="stylesheet" href="adas-lab.css">
+<script type="importmap">{"imports":{"three":"./vendor/three/three.module.js","three/addons/":"./vendor/three/addons/"}}</script>
+</head><body>
+<header class="mast"><div class="brand"><span class="brandmark" aria-hidden="true"><i></i><i></i><i></i></span><span>整车系统工程 · 博世五域</span></div>
+<nav class="modes" aria-label="工作模式"><button id="mode-tree" aria-pressed="true">自由拆解</button><button id="mode-lesson" aria-pressed="false">逐步讲解</button><button id="mode-core" aria-pressed="false">智驾课堂</button><a class="atlas-tab" href="atlas.html">原厂图册</a></nav>
+<button class="home" id="home" title="回到初始整车视角"><span aria-hidden="true">⟲</span> 整车复位</button></header>
+<main class="workbench">
+<aside class="navigator"><div class="nav-heading"><h2 id="nav-title">装配目录</h2><span id="nav-count"></span></div>
+<label class="searchbox"><span class="search-icon" aria-hidden="true"></span><input type="search" id="search" aria-label="搜索模型部件" placeholder="搜索名称、接口或料号" autocomplete="off"></label>
+<div id="navigation"></div><div class="nav-foot"><button id="sources">模型与资料</button><span>HW4 · SOP8</span></div></aside>
+<section class="stage"><header class="stage-head"><nav id="crumbs" aria-label="当前装配路径"></nav>
+<div class="title-row"><h1 id="heading">Model 3 焕新版</h1><span class="view-mode" id="view-mode">装配视图</span></div>
+<p id="subtitle">2024 · Fremont · 北美左舵 · 长续航全轮驱动</p>
+<nav id="core-stage-line" aria-label="智驾步骤快捷导航" hidden><span></span>
+<button id="core-prev" aria-label="上一个讲解环节" title="上一个讲解环节">‹</button>
+<button id="core-next" aria-label="下一个讲解环节" title="下一个讲解环节">›</button></nav></header>
+<div class="stage-visual"><div id="viewport" class="viewport"><canvas id="model-canvas" tabindex="0" aria-label="可点击拆解的三维整车，拖动旋转，滚轮缩放"></canvas>
+<div id="labels" aria-label="当前层的模型标注"></div>
+<div id="overlay-legend" aria-label="教学叠加图例" hidden></div>
+<div class="view-tools"><button id="fit" title="适配视图" aria-label="适配视图"><span class="fit-icon"></span></button>
+<button id="tags" title="切换部件标注" aria-label="部件标注" aria-pressed="true">标</button>
+<button id="fullscreen" title="切换全屏" aria-label="切换全屏"><span class="full-icon"></span></button></div>
+<div id="progress" class="progress" role="status"><span class="pulse"></span><span id="progress-text">正在读取车辆装配…</span></div>
+<span class="view-tip" id="view-tip">单击拆解 · 拖动旋转 · 滚轮缩放</span></div>
+<aside id="adas-lab" aria-label="可调参数的智驾教学实验" hidden></aside></div>
+<section class="inspector" aria-label="部件与讲解"><div class="detail-title"><span id="detail-kind"></span><h2 id="detail-title">整车装配</h2></div>
+<p class="detail-copy" id="detail-copy"></p><dl id="io"></dl><div id="core-detail" hidden></div><div class="evidence" id="evidence"></div>
+<div class="actions" id="actions"></div></section>
+</section></main>
+<dialog id="about"><div class="dialog-head"><h2>模型与资料</h2><button id="close-about" aria-label="关闭资料">×</button></div>
+<p>2024 Tesla Model 3 焕新版，Fremont 北美左舵长续航全轮驱动参考配置。车型外廓、装配、连接器及信号路径按公开资料组织。</p>
+<p>一级目录采用博世五大功能域。特斯拉部件的归属按本模型的教学视角划分。模型中的布线路径、部分内部尺寸及电池样段按展示需要重建。各部件的资料入口随当前选择显示。</p>
+<p id="classroom-scope"></p>
+<p>方向盘和转向器归入底盘与运动控制域，共用热管理回路归入动力与能源域，座舱空调箱归入车身与舒适域。HW4 车载电脑保留完整装配，座舱信息娱乐域通过关联入口访问机箱内的信息娱乐板和网联板。</p>
+<p>外观网格作者 RBLXSupercars，公开副本上传者 brandonleong28。模型经分件、比例校准、蒙皮裁切和装配重建。外观使用 CC BY 4.0，网页渲染使用 Three.js。</p>
+<div class="source-links"><a href="https://www.bosch.in/media/our_company/shareholder_information/2025/investor_presentation_dated_february_18_2025.pdf" target="_blank" rel="noopener">博世功能域架构图</a><a href="https://github.com/aditano/tesla-studio/blob/main/public/models/highland/CREDITS.md" target="_blank" rel="noopener">外观署名与来源</a>
+<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener">外观授权</a>
+<a href="https://service.tesla.com/docs/Model3/ServiceManual/2024/zh-cn/" target="_blank" rel="noopener">Tesla 维修手册</a>
+<a href="https://service.tesla.com/docs/Model3/ElectricalReference/" target="_blank" rel="noopener">Tesla 电气资料</a>
+<a href="vendor/three/LICENSE" target="_blank" rel="noopener">Three.js 许可证</a></div></dialog>
+<div id="announce" class="sr-only" aria-live="polite"></div>
+<script>if(location.protocol==='file:'){document.querySelector('#progress-text').textContent='请通过 GitHub Pages 网页地址打开模型。';}</script>
+<script type="module" src="app.js"></script>
+</body></html>
