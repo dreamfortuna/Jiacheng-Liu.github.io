@@ -1,0 +1,170 @@
+:root {
+  font-family: Inter,"Microsoft YaHei",system-ui,sans-serif;
+  color: #172e2c;
+  background: #f8f9f5;
+  font-synthesis: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+header,main {
+  width: min(1112px,calc(100% - 48px));
+  margin: auto;
+}
+
+header {
+  padding: 22px 0;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #b8c8bd;
+}
+
+a {
+  color: #185f52;
+  text-underline-offset: 4px;
+}
+
+header a,.targets a,.figure {
+  text-decoration: none;
+}
+
+a:hover,summary:hover {
+  text-decoration: underline;
+}
+
+a:focus-visible,summary:focus-visible {
+  outline: 3px solid #b74c25;
+  outline-offset: 3px;
+}
+
+.intro {
+  padding: 38px 0 32px;
+  max-width: 780px;
+}
+
+.model {
+  font: 600 .78rem/1.6 ui-monospace,monospace;
+  letter-spacing: .14em;
+  color: #45665e;
+}
+
+.intro h1 {
+  font-size: clamp(2.1rem,5vw,3.6rem);
+  letter-spacing: -.045em;
+  margin: .16em 0;
+}
+
+.intro>p:last-child,.topic>p {
+  line-height: 1.8;
+}
+
+.topics {
+  display: grid;
+  grid-template-columns: repeat(2,minmax(0,1fr));
+  gap: 24px 34px;
+  padding-bottom: 45px;
+}
+
+.topic {
+  border-top: 2px solid #44665e;
+  padding: 19px 0 6px;
+}
+
+.topic h2 {
+  font-size: 1.42rem;
+  margin: 0 0 14px;
+}
+
+.figure {
+  display: block;
+  background: #e9efea;
+  overflow: hidden;
+}
+
+.figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 840 / 450;
+  object-fit: contain;
+}
+
+.topic p {
+  margin: .65em 0;
+}
+
+.targets {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  margin: 16px 0;
+}
+
+.targets a {
+  font-size: .90rem;
+  font-weight: 650;
+  border-bottom: 1px solid #a3b9ad;
+  padding: 4px 0;
+}
+
+.targets span {
+  font-size: .74em;
+}
+
+.topic details {
+  border-top: 1px solid #d4ded7;
+  padding: 10px 0 0;
+}
+
+.topic summary {
+  cursor: pointer;
+  color: #426158;
+  font-size: .92rem;
+}
+
+.topic ul {
+  padding-left: 1.35em;
+  font-size: .90rem;
+}
+
+.topic li {
+  margin: .7em 0;
+}
+
+.topic li p {
+  color: #53665e;
+  margin: .2em 0;
+}
+
+.topic:nth-child(1) {
+  grid-row: 1;
+}
+
+.topic:nth-child(3) {
+  grid-column: 2;
+  grid-row: 1;
+}
+
+@media(max-width:720px) {
+  header,main {
+    width: calc(100% - 30px);
+  }
+  .topics {
+    display: block;
+  }
+  .topic {
+    margin-top: 20px;
+  }
+  .intro {
+    padding: 24px 0 4px;
+  }
+  .topic h2 {
+    font-size: 1.28rem;
+  }
+}

@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>车载芯片与控制器 · 2024 Model 3 五域模型</title>
+<link rel="stylesheet" href="chips.css">
+</head>
+<body>
+<header>
+<a href="./">← 整车拆解</a>
+<a href="atlas.html">原厂图册 ↗</a>
+</header>
+<main>
+<div class="intro">
+<p class="model">2024 MODEL 3 / HW4</p>
+<h1>车载芯片与控制器</h1>
+<p>从车载电脑、转向 ECU 和电池采样板进入三维模型。点「展开本层」查看芯片封装、引脚和内部剖面。</p>
+</div>
+<div class="topics">
+<article id="topic-0" class="topic">
+<h2>驾驶辅助计算板</h2>
+<a class="figure" href="./?node=apboard&amp;assembled=1">
+<img width="840" height="450" src="assets/chip-ape.webp" alt="HW4 驾驶辅助板三维正视图，可见两颗处理器及两侧的存储封装">
+</a>
+<p>在原厂板照上辨认两颗 APE 处理器和四个 UFS 标注位。GDDR 用于计算时读写数据，UFS 用于断电后仍需保留的数据。选择任一处理器可以拆出基板、裸片、顶盖、热界面层和一小块示例焊球。</p>
+<nav class="targets" aria-label="驾驶辅助计算板模型入口">
+<a href="./?node=apboard&amp;assembled=1">查看整块 APE 板 <span aria-hidden="true">↗</span>
+</a>
+<a href="./?node=ape-soc-a&amp;assembled=1">拆解 APE 处理器 A <span aria-hidden="true">↗</span>
+</a>
+<a href="./?node=ape-ufs-a1&amp;assembled=1">查看 UFS 安装位 <span aria-hidden="true">↗</span>
+</a>
+<a href="./?node=logicB&amp;assembled=1">另一处理器区 <span aria-hidden="true">↗</span>
+</a>
+</nav>
+<details>
+<summary>资料与适用范围（4）</summary>
+<ul>
+<li>
+<a href="https://service.tesla.com/docs/Model3/ServiceManual/2024/en-us/GUID-D3F51C32-0B40-47C0-AD24-D5573F13DF88.html" target="_blank" rel="noopener">Tesla · 2024+ Model 3，HW4 两块 PCBA</a>
+<p>阅读 HW4 小节。原厂标注了两块板及处理器、非易失存储器的位置。</p>
+</li>
+<li>
+<a href="https://service.tesla.com/docs/Model3/ServiceManual/2024/en-us/GUID-D74A2DEC-4569-4A08-91BB-A4C882CF82B5-online-en-US.jpg" target="_blank" rel="noopener">Tesla · APE 板实物图</a>
+<p>两个大圈对应 APE 处理器，四个小圈对应 UFS。A、B 及上下方的编号是本模型的讲解索引。</p>
+</li>
+<li>
+<a href="https://www.techinsights.com/products/ddt-2307-807" target="_blank" rel="noopener">TechInsights · HW4 编号 1960600 拆解</a>
+<p>公开摘要报告该样件使用 GDDR6。此样件与演示车辆的板号对应关系待核实。</p>
+</li>
+<li>
+<a href="https://www.kioxia.com/content/dam/kioxia/shared/business/memory/automotive/asset/productbrief/KIOXIA_Automotive_Solutions_Product_Brief.pdf" target="_blank" rel="noopener">铠侠 · 车载 UFS 与 e-MMC</a>
+<p>比较两种嵌入式非易失存储及其车载用途。厂商产品用于解释器件类别。</p>
+</li>
+</ul>
+</details>
+</article>
+<article id="topic-1" class="topic">
+<h2>座舱信息娱乐板</h2>
+<p>Tesla 在这套车载电脑资料中用 MCU 指媒体控制单元（Media Control Unit）。在信息娱乐板正视图中，ICE 处理器下方是 eMMC；两者分别承担运算与持久存储。芯片品牌、容量和内部尺寸按未公开处理。</p>
+<nav class="targets" aria-label="座舱信息娱乐板模型入口">
+<a href="./?node=mcu&amp;assembled=1">对照信息娱乐板 <span aria-hidden="true">↗</span>
+</a>
+<a href="./?node=ice-cpu&amp;assembled=1">拆解 ICE 处理器 <span aria-hidden="true">↗</span>
+</a>
+<a href="./?node=ice-emmc&amp;assembled=1">查看 eMMC 封装 <span aria-hidden="true">↗</span>
+</a>
+</nav>
+<details>
+<summary>资料与适用范围（3）</summary>
+<ul>
+<li>
+<a href="https://service.tesla.com/docs/Model3/ServiceManual/2024/en-us/GUID-D3F51C32-0B40-47C0-AD24-D5573F13DF88.html" target="_blank" rel="noopener">Tesla · 2024+ Model 3，HW4 两块 PCBA</a>
+<p>阅读 HW4 小节。原厂标注了两块板及处理器、非易失存储器的位置。</p>
+</li>
+<li>
+<a href="https://service.tesla.com/docs/Model3/ServiceManual/2024/en-us/GUID-2F9B3F12-738A-461A-9190-8511382AE5FB-online-en-US.jpg" target="_blank" rel="noopener">Tesla · 信息娱乐板实物图</a>
+<p>大圈和其下方的小圈分别对应 ICE 处理器和 eMMC。</p>
+</li>
+<li>
+<a href="https://www.kioxia.com/content/dam/kioxia/shared/business/memory/automotive/asset/productbrief/KIOXIA_Automotive_Solutions_Product_Brief.pdf" target="_blank" rel="noopener">铠侠 · 车载 UFS 与 e-MMC</a>
+<p>比较两种嵌入式非易失存储及其车载用途。厂商产品用于解释器件类别。</p>
+</li>
+</ul>
+</details>
+</article>
+<article id="topic-2" class="topic">
+<h2>转向 ECU 的控制回路</h2>
+<a class="figure" href="./?node=eps-mcu&amp;assembled=1">
+<img width="840" height="450" src="assets/chip-mcu.webp" alt="TMS570 微控制器封装和四边鸥翼形引脚的三维近照">
+</a>
+<p>沿 CAN 收发器 → 实时微控制器 → 栅极驱动器 → 三相功率桥查看信号如何变成电机电流。分流电阻上的压降经检测放大后送给微控制器，闭合电流反馈回路。三颗 TI 器件构成教学选型；Tesla 维修资料支持转向器在车上的位置。</p>
+<nav class="targets" aria-label="转向 ECU 的控制回路模型入口">
+<a href="./?node=epsctrl&amp;assembled=1">定位转向 ECU <span aria-hidden="true">↗</span>
+</a>
+<a href="./?node=epsctrl_pcb&amp;assembled=1">查看控制板 <span aria-hidden="true">↗</span>
+</a>
+<a href="./?node=eps-can&amp;assembled=1">查看 CAN 收发器 <span aria-hidden="true">↗</span>
+</a>
+<a href="./?node=eps-mcu&amp;assembled=1">拆解实时 MCU <span aria-hidden="true">↗</span>
+</a>
+<a href="./?node=eps-gate&amp;assembled=1">查看栅极驱动器 <span aria-hidden="true">↗</span>
+</a>
+<a href="./?node=eps-bridge&amp;assembled=1">查看功率桥与采样 <span aria-hidden="true">↗</span>
+</a>
+</nav>
+<details>
+<summary>资料与适用范围（5）</summary>
+<ul>
+<li>
+<a href="https://service.tesla.com/docs/Model3/ServiceManual/2024/en-us/GUID-018E3601-9A82-461B-9E56-5EC194B88A8A.html" target="_blank" rel="noopener">Tesla · 左舵转向器总成</a>
+<p>在实车总成层核对电动助力转向器。芯片选型取自下列参考资料。</p>
+</li>
+<li>
+<a href="https://www.ti.com/lit/an/slva830/slva830.pdf" target="_blank" rel="noopener">TI · 电动助力转向设计指南</a>
+<p>图 5 展示 MCU、栅极驱动、MOSFET、三相电机和反馈的分工。</p>
+</li>
+<li>
+<a href="https://www.ti.com/lit/ds/symlink/tms570ls1227.pdf" target="_blank" rel="noopener">TI · TMS570LS1227 数据手册</a>
+<p>参阅器件概述、PGE 端子图与封装外形图。演示采用 144 引脚 LQFP 选项。</p>
+</li>
+<li>
+<a href="https://www.ti.com/product/TCAN1042H-Q1" target="_blank" rel="noopener">TI · TCAN1042H-Q1 收发器</a>
+<p>选用 D 封装的 8 脚 SOIC；数据手册顶视图给出 TXD、RXD、CANH、CANL 的引脚编号。</p>
+</li>
+<li>
+<a href="https://www.ti.com/lit/ds/symlink/drv3205-q1.pdf" target="_blank" rel="noopener">TI · DRV3205-Q1 数据手册</a>
+<p>芯片含三路电流检测放大器，可驱动六个外部 N 沟道 MOSFET。封装为 48 脚 HTQFP。</p>
+</li>
+</ul>
+</details>
+</article>
+<article id="topic-3" class="topic">
+<h2>动力电池的模拟前端</h2>
+<p>进入电池模块的一个采样板示例，跟踪采样线束、输入滤波和 AFE。器件采集电芯电压，并可沿菊花链传递测量结果。16 串是参考芯片能力，模型中的采样网络只画出一部分通道。</p>
+<nav class="targets" aria-label="动力电池的模拟前端模型入口">
+<a href="./?node=sampler1&amp;assembled=1">定位模块采样板 <span aria-hidden="true">↗</span>
+</a>
+<a href="./?node=bms-afe&amp;assembled=1">拆解 64 脚 AFE <span aria-hidden="true">↗</span>
+</a>
+<a href="./?node=samplerif1&amp;assembled=1">查看采样线束接口 <span aria-hidden="true">↗</span>
+</a>
+</nav>
+<details>
+<summary>资料与适用范围（1）</summary>
+<ul>
+<li>
+<a href="https://www.ti.com/lit/ds/symlink/bq79616-q1.pdf" target="_blank" rel="noopener">TI · BQ79616-Q1 电池监测 AFE</a>
+<p>最多监测 16 串电芯，支持均衡和菊花链通信。PAP 封装有 64 个周边引脚和底部裸露焊盘。</p>
+</li>
+</ul>
+</details>
+</article>
+</div>
+</main>
+</body>
+</html>

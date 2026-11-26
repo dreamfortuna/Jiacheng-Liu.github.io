@@ -140,6 +140,7 @@ function viewSpec(defaultDirection){
   const n=nodes.get(state.id),overview=n.id===model.root;
   const ids=state.fraction>.24?n.children:[];
   return {include:[n.id],overview,explode:n.id,fraction:state.fraction,defaultDirection,
+    direction:n.electronics?.view,
     labels:ids.length<=12?ids.map(id=>({id,label:nodes.get(id).label})):[]};
 }
 function row(id,text,action,{idx='',sub='',tail='',active=false,domain='',key=''}={}){
@@ -251,7 +252,7 @@ function detail(){
   el('subtitle').textContent=isCourse?lessons.get(state.lesson).summary:base?'2024 · Fremont · 北美左舵 · 长续航全轮驱动':record.english||nodes.get(record.parent)?.label||'';
   el('detail-kind').textContent=isCourse?('步骤 '+String(state.step+1).padStart(2,'0')+' / '+lessons.get(state.lesson).steps.length):base?'整车':record.type==='part'?'零件':'总成';
   el('detail-title').textContent=isCourse?currentStep().label:base?'整车装配':record.label;
-  el('detail-copy').textContent=inCase()?currentStep().scene:(teaching?.role||(base?(state.fraction>.01?'点选功能域的标注或实体可查看下级装配。':'单击整车展开五个功能域，也可从左侧目录直接进入任一域。'):record.description||record.evidence||('本层包含 '+record.children.length+' 个直属装配与零件。')));
+  el('detail-copy').textContent=inCase()?currentStep().scene:((!isCourse&&record.electronics?record.description:null)||teaching?.role||(base?(state.fraction>.01?'点选功能域的标注或实体可查看下级装配。':'单击整车展开五个功能域，也可从左侧目录直接进入任一域。'):record.description||record.evidence||('本层包含 '+record.children.length+' 个直属装配与零件。')));
   const io=el('io');io.replaceChildren();
   for(const [label,v] of [['输入',teaching?.input],['输出',teaching?.output]])if(v){const div=make('div');div.append(make('dt',label),make('dd',v));io.append(div);}
   const ev=el('evidence');ev.replaceChildren();
@@ -272,7 +273,12 @@ function detail(){
   if(base)ev.append(make('span',model.assemblies.toLocaleString()+' 个装配节点'),make('span',model.parts.toLocaleString()+' 个实体'));
   else if(record.pn)ev.append(make('span',record.pn));else if(!isCourse&&record.type==='assembly')ev.append(make('span',record.count+' 个实体'));
   if(record.installationSlot)ev.append(make('span','维修图位置 · '+record.installationSlot));
-  if(!base&&!isCore()){external(ev,record.cnUrl||record.url,'查看资料');external(ev,record.faceUrl,'线束侧端面图');external(ev,record.figureUrl||record.locationUrl,'原厂安装图');}
+  if(record.electronics&&!isCore()){
+    ev.append(make('span',record.electronics.level,'core-proof'));
+    for(const key of record.electronics.sources){const [title,url]=model.electronicsSources[key];external(ev,url,title);}
+    const guide=make('a','车载芯片资料页');guide.href='chips.html';ev.append(guide);
+  }
+  if(!base&&!isCore()&&!record.electronics){external(ev,record.cnUrl||record.url,'查看资料');external(ev,record.faceUrl,'线束侧端面图');external(ev,record.figureUrl||record.locationUrl,'原厂安装图');}
   if(record.handbook?.length&&!isCore()){
     const box=make('details','','handbook-note');box.append(make('summary','原厂图解对照'));
     for(const e of record.handbook){box.append(make('p',e.fact));if(e.geometry)box.append(make('p',e.geometry));external(box,e.figureUrl||e.url,'查看对应原厂图');}
@@ -384,7 +390,10 @@ async function boot(){
       const diagram=model.diagrams.find(d=>d.id===initial.get('diagram'))||model.diagrams[0];
       transition({kind:'diagram',diagram:diagram.id,spot:0},{resetDir:true});
     }
-    else if(node&&nodes.has(node))enter(node);
+    else if(node&&nodes.has(node)){
+      if(initial.get('assembled')==='1')transition({kind:'tree',id:node,fraction:0},{resetDir:true});
+      else enter(node);
+    }
     if(initial.get('qa')==='1')Object.defineProperty(window,'highlandQA',{value:{view,nodes,overlays,core,getState:()=>({...state}),enter,pick,home,back,resume,startLesson,shiftStep}});
   }catch(err){
     console.error(err);el('progress').classList.add('error');

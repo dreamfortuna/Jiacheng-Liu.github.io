@@ -21,3 +21,9 @@ body[data-state="diagram"] .viewport,body[data-state="diagram"] .stage-head{back
 .nav-feature:hover{background:#e2eae3}.diagram-key{display:inline-flex;align-items:center;gap:5px}.diagram-key i{width:11px;height:6px;border-radius:2px}
 .atlas-tab{display:inline-flex;align-items:center;padding:0 3px;color:#b4c1be;font-size:.97rem;text-decoration:none;white-space:nowrap}.atlas-tab:hover{color:white}.evidence .handbook-note{flex-basis:100%;color:#405759;line-height:1.5}.evidence .handbook-note summary{cursor:pointer}.evidence .handbook-note p{margin:7px 0}.evidence .handbook-note a{margin-right:12px}
 @media(max-width:540px){.mast{gap:9px}.mast .modes{gap:8px}.mast .modes button,.atlas-tab{padding-left:0;padding-right:0;font-size:.78rem}.mast .brand{gap:4px;font-size:.89rem}.mast .home{font-size:.73rem;padding:5px 6px}.brandmark{width:23px}}
+
+@media(max-width:570px){
+  .mast{height:auto;display:grid;grid-template-columns:1fr auto;gap:0 9px;padding:6px 10px 0}
+  .mast .brand{grid-row:1;grid-column:1}.mast .brand>span:last-child{display:inline}
+  .mast .home{grid-row:1;grid-column:2}.mast .modes{grid-row:2;grid-column:1 / -1;justify-content:space-between;height:36px;gap:5px}
+}

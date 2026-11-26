@@ -209,7 +209,8 @@ export class VehicleView {
       this.items.get(spec.arrow).ob.getWorldPosition(this.arrow.position);
       this.arrow.scale.setScalar(spec.service.arrowScale??(spec.service.id === 'computer' ? .33 : 1));
     }
-    const direction=spec.direction?vec(spec.direction).normalize():
+    const retainOrbit=previous&&previous.explode===spec.explode&&!spec.defaultDirection;
+    const direction=spec.direction&&(!retainOrbit||spec.service)?vec(spec.direction).normalize():
       spec.defaultDirection?(spec.service?vec(spec.service.direction).normalize():front):null;
     const goal=pose||(ref?(cameraChange||spec.defaultDirection?this.referencePose(ref):this.snapshot()):this.targetPose(spec.focus||null,direction));
     if(!instant&&!reduced){
