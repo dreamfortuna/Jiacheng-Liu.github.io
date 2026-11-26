@@ -1,0 +1,44 @@
+:root{--ink:#142d41;--muted:#496579;--accent:#086d79;--tint:#d8eef1;--line:#bfd0db;--paper:#f3f8fb}
+.mast{background:#101f32;border-bottom:1px solid #35536b;color:#f2f8ff}
+.brandmark i{background:#4de2db}.brandmark i:nth-child(2){background:#64b9ed}
+.modes button[aria-pressed=true]{border-bottom-color:#53e1d4}.modes button,.mast .atlas-tab{color:#c7d9e4}
+.navigator{background:#eaf1f6}.nav-heading h2,.title-row h1,.detail-title h2{color:#172f45}
+.nav-heading{border-left:3px solid #078a96;padding-left:10px}
+.nav-row:hover,.nav-row.active{background:#d2e8ef;color:#125367}.nav-row .tail{color:#496877}
+.stage-head{background:#f3f8fb;border-bottom:1px solid #b7cbd7}
+.view-mode{background:#e1f1f3;color:#175563;border-color:#a1c6ce}
+.viewport{background-color:#d7e6ee;background-image:linear-gradient(90deg,#68879c16 1px,transparent 1px),linear-gradient(#68879c16 1px,transparent 1px),radial-gradient(ellipse at 50% 37%,#f5faff,#d8e6ed 74%,#c5d9e5);background-size:32px 32px,32px 32px,100% 100%}
+.view-tools,.pin{border-color:#98b3c3}.view-tools button[aria-pressed=true]{background:#dcf1f2}.pin.focus{color:#773013}
+.view-tip{background:#f1f7fae8;color:#385667}.inspector,#adas-lab{background:#f9fbfc}
+.actions .primary,.actions .primary:not(:disabled):hover{background:#12556a;border-color:#12556a}
+.course-intro{font-size:1rem;line-height:1.65;margin:7px 2px 12px;color:#29455b}
+.case-feature,.chip-link{display:block;padding:12px;margin:8px 0;border:1px solid #9dbec9;border-radius:4px;background:#e0f1f2;color:#174f61;text-decoration:none;font-weight:650}
+.case-feature{background:#173c50;color:white}.case-feature:not(:disabled):hover{background:#1f5066;color:white}
+.row-main small{color:#4f6878;line-height:1.5;font-size:.86rem}
+#narrative{border-left:3px solid #0b8f98;margin:10px 0 5px;padding:0 0 0 13px}
+.scene-title,.transport{display:flex;gap:10px;align-items:center}
+.scene-title strong{font-size:1.15rem;color:#122f45}
+#scene-count{font:600 .85rem/1.4 Consolas,monospace;color:#165b68;white-space:nowrap}
+#scene-text{font-size:1.08rem;color:#1d374b;line-height:1.58;margin:4px 0 6px;max-width:84ch}
+.transport button{min-height:35px;min-width:39px;border:1px solid #a4bdca;border-radius:4px;background:white;font-weight:650}
+.transport #tour-play{background:#174353;color:white;min-width:100px;border-color:#174353}
+.transport progress{accent-color:#0b8591;width:clamp(60px,14vw,160px);height:6px}
+body[data-state=lesson] #core-stage-line{display:none!important}
+body[data-state=lesson] .inspector>.detail-title,body[data-state=lesson] .inspector>.detail-copy{display:none}
+.stage-head p,#io,.detail-copy,.core-related button,.core-locator{font-size:1rem}
+:focus-visible{outline:2px solid #0b778e;outline-offset:3px}
+@media(min-width:691px){body[data-state=lesson] .inspector{max-height:min(23vh,210px)}}
+@media(max-width:690px){
+  .mast .modes button,.mast .modes .atlas-tab{font-size:.96rem}.mast .brand{font-size:1rem}
+  .mast .brand>span:last-child{display:inline}.mast .modes{min-height:43px}
+  .stage-head{padding:12px 14px 8px}.stage-head p{font-size:1rem;line-height:1.55}
+  #scene-text{font-size:1.125rem;line-height:1.55}.scene-title strong{font-size:1.14rem}
+  .transport button,.nav-row{min-height:44px}.nav-row,.detail-copy,#io{font-size:1rem}
+  .inspector .actions button{min-height:40px}.course-intro{font-size:1.06rem}
+  .navigator{scroll-margin-top:5px}.nav-list{grid-template-columns:1fr}
+  body[data-catalog=true] .navigator{order:-1}
+  body[data-catalog=true] #navigation{max-height:none}
+  body[data-catalog=true] .stage{display:none}
+  .row-main small{font-size:.94rem}
+  .atlas-page .mast{display:flex;padding:10px 12px}.atlas-page .brand{flex:1}
+}

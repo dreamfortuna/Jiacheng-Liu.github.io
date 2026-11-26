@@ -123,7 +123,7 @@ export class AdasOverlays {
       for(const g of geos)g.dispose();
       for(const m of materials)m.dispose();
     }
-    this.group=null;this.frameBounds=null;this.memo?.clear();this.view.dirty=true;
+    this.group=null;this.frameBounds=null;this.motionPaths=[];this.memo?.clear();this.view.dirty=true;
   }
   show(courseId,stepIndex,state={},step={}){
     this.clear();
@@ -218,6 +218,9 @@ export class AdasOverlays {
     if(pts.length<2)return;
     const points=pts.filter((p,i)=>!i||p.distanceToSquared(pts[i-1])>1e-13);
     if(points.length<2)return;
+    if((kind==='trajectory'&&!dashed)||name.startsWith('功能信息流')||name==='恒曲率目标轨迹'||name.startsWith('课堂匀减速阶段')){
+      this.motionPaths.push({name,points});
+    }
     const material=this.material(color,opacity), segments=[];
     const total=points.slice(1).reduce((v,p,i)=>v+p.distanceTo(points[i]),0);
     if(total<1e-7){material.dispose();return;}

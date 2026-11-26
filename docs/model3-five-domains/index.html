@@ -1,12 +1,13 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#182525"><title>基于 2024 Model 3 公开资料的系统工程教学模型</title>
+<meta name="theme-color" content="#101f32"><title>基于 2024 Model 3 公开资料的系统工程教学模型</title>
 <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="adas-classroom.css"><link rel="stylesheet" href="adas-lab.css">
+<link rel="stylesheet" href="console.css">
 <script type="importmap">{"imports":{"three":"./vendor/three/three.module.js","three/addons/":"./vendor/three/addons/"}}</script>
 </head><body data-node="HIGHLAND">
-<header class="mast"><div class="brand"><span class="brandmark" aria-hidden="true"><i></i><i></i><i></i></span><span>整车系统工程 · 应用层</span></div>
-<nav class="modes" aria-label="工作模式"><button id="mode-tree" aria-pressed="true">自由拆解</button><button id="mode-lesson" aria-pressed="false">逐步讲解</button><button id="mode-core" aria-pressed="false">智驾课堂</button><a class="atlas-tab" href="chips.html">车载芯片</a><a class="atlas-tab" href="atlas.html">原厂图册</a></nav>
+<header class="mast"><div class="brand"><span class="brandmark" aria-hidden="true"><i></i><i></i><i></i></span><span>AI系统工程 · 应用层</span></div>
+<nav class="modes" aria-label="工作模式"><button id="mode-tree" aria-pressed="true">自由拆解</button><button id="mode-lesson" aria-pressed="false">逐步讲解</button><button id="mode-core" aria-pressed="false">智驾课堂</button><a class="atlas-tab" href="atlas.html">原厂图册</a></nav>
 <button class="home" id="home" title="回到初始整车视角"><span aria-hidden="true">⟲</span> 整车复位</button></header>
 <main class="workbench">
 <aside class="navigator"><div class="nav-heading"><h2 id="nav-title">装配目录</h2><span id="nav-count"></span></div>
@@ -15,6 +16,12 @@
 <section class="stage"><header class="stage-head"><nav id="crumbs" aria-label="当前装配路径"></nav>
 <div class="title-row"><h1 id="heading">基于 2024 Model 3 公开资料的系统工程教学模型</h1><span class="view-mode" id="view-mode">装配视图</span></div>
 <p id="subtitle">博世五大功能域 · 焕新版 · Fremont · 北美左舵 · 长续航全轮驱动</p>
+<section id="narrative" aria-label="当前讲解" hidden>
+<div class="scene-title"><span id="scene-count"></span><strong id="scene-name"></strong></div>
+<p id="scene-text"></p>
+<div class="transport"><button id="tour-prev" aria-label="上一幕">‹</button><button id="tour-play">播放讲解</button><button id="tour-next" aria-label="下一幕">›</button>
+<progress id="tour-progress" value="1" max="1" aria-label="课程进度"></progress></div>
+</section>
 <nav id="core-stage-line" aria-label="智驾步骤快捷导航" hidden><span></span>
 <button id="core-prev" aria-label="上一个讲解环节" title="上一个讲解环节">‹</button>
 <button id="core-next" aria-label="下一个讲解环节" title="下一个讲解环节">›</button></nav></header>

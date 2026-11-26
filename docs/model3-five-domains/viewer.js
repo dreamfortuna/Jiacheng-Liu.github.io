@@ -1,7 +1,8 @@
 import * as T from 'three';
+import {assetBytes} from './packed.js';
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
-import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
+
 
 const vec = a => new T.Vector3(...a);
 const front = new T.Vector3(1.06,.57,1.43).normalize();
@@ -16,7 +17,7 @@ export class VehicleView {
     this.ray=new T.Raycaster(); this.scene=new T.Scene();
     this.renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'});
     this.renderer.shadowMap.enabled=true;this.renderer.shadowMap.type=T.PCFSoftShadowMap;
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.75));
+    this.renderer.setPixelRatio(Math.min(devicePixelRatio||1,matchMedia('(max-width:690px)').matches?1.25:1.75));
     this.renderer.setClearColor(0,0); this.renderer.outputColorSpace=T.SRGBColorSpace;
     this.renderer.toneMapping=T.ACESFilmicToneMapping; this.renderer.toneMappingExposure=1.06;
     this.camera=new T.OrthographicCamera(-3,3,2,-2,.0003,180);
@@ -103,9 +104,26 @@ export class VehicleView {
     const h=this.span/2;this.camera.left=-h*this.aspect;this.camera.right=h*this.aspect;
     this.camera.top=h;this.camera.bottom=-h;this.camera.updateProjectionMatrix();
   }
-  async load(progress){
-    const {scene}=await new GLTFLoader().loadAsync(this.catalog.modelFile+'?v='+this.catalog.revision,
-      p=>{if(p.total)progress(Math.min(99,Math.round(100*p.loaded/p.total)));});
+  async loadOverview(){
+    const bytes=await assetBytes('assets/overview.glb',this.catalog.revision);
+    const {scene}=await new GLTFLoader().parseAsync(bytes,'assets/');
+    this.root=scene;this.scene.add(scene);
+    scene.traverse(o=>{
+      const id=o.userData.seId;
+      if(!id)return;
+      this.items.set(id,{ob:o,rest:o.position.clone(),offset:vec(this.records.get(id).offset)});
+      if(id===this.catalog.root)return;
+      const batch=new T.Group();
+      batch.add(...o.children.slice());o.add(batch);
+      batch.traverse(m=>{if(m.isMesh){m.userData.pickId=id;m.userData.baseMaterial=m.material;}});
+      this.proxies.set(id,batch);
+    });
+    scene.updateMatrixWorld(true);
+  }
+  async loadDetail(){
+    const bytes=await assetBytes(this.catalog.modelFile,this.catalog.revision);
+    const {scene}=await new GLTFLoader().parseAsync(bytes,'assets/');
+    this.scene.remove(this.root);this.items.clear();
     this.root=scene;this.scene.add(scene);scene.updateMatrixWorld(true);
     scene.traverse(o=>{
       const id=o.userData.seId;if(!id)return;
@@ -117,35 +135,26 @@ export class VehicleView {
       }
     });
     if(this.items.size!==this.records.size)throw new Error('模型与装配清单版本不一致');
-    this.makeProxies();this.dirty=true;
+    for(const [domain,batch] of this.proxies)this.items.get(domain).ob.add(batch);
+    this.dirty=true;
   }
   domain(id){let n=this.records.get(id);while(n.parent&&n.parent!==this.catalog.root)n=this.records.get(n.parent);return n.id;}
-  makeProxies(){
-    // The overview only needs five pickable groups. Batch its surfaces by material;
-    // each original editable mesh remains available in subsystem and connector views.
-    for(const dom of this.catalog.domainOrder){
-      const owner=this.items.get(dom).ob, inv=owner.matrixWorld.clone().invert(), buckets=new Map();
-      for(const [id,meshes] of this.leafMeshes){
-        if(this.domain(id)!==dom)continue;
-        for(const mesh of meshes){
-          if(Array.isArray(mesh.material))throw new Error('此装配面含有未分组的多材质网格');
-          const geo=mesh.geometry.clone();geo.applyMatrix4(new T.Matrix4().multiplyMatrices(inv,mesh.matrixWorld));
-          const sig=mesh.material.uuid+'|'+Object.keys(geo.attributes).sort().join(',')+'|'+Boolean(geo.index);
-          if(!buckets.has(sig))buckets.set(sig,{material:mesh.material,geos:[]});buckets.get(sig).geos.push(geo);
-        }
-      }
-      const batch=new T.Group();batch.name='overview-'+dom;
-      for(const {material,geos} of buckets.values()){
-        const merged=mergeGeometries(geos,false);if(!merged)throw new Error('总览网格合批失败');
-        const m=new T.Mesh(merged,material);m.userData.pickId=dom;m.userData.baseMaterial=material;
-        batch.add(m);for(const g of geos)g.dispose();
-      }
-      owner.add(batch);batch.visible=false;this.proxies.set(dom,batch);
-    }
-  }
   descendant(id,ancestor){
     for(let k=id;k;k=this.records.get(k)?.parent)if(k===ancestor)return true;
     return false;
+  }
+  tourSignal(id,previous,paths=[]){
+    if(this.tourCue)this.tourCue.visible=false;
+    this.dirty=true;
+    if(!id||reduced)return;
+    if(!this.tourCue){
+      this.tourCue=new T.Mesh(new T.SphereGeometry(1,14,10),new T.MeshBasicMaterial({color:0x09b9bd,depthTest:false,depthWrite:false}));
+      this.tourCue.renderOrder=40;this.scene.add(this.tourCue);
+    }
+    const center=key=>this.bounds(key)?.getCenter(new T.Vector3());
+    this.cueTo=center(id)||this.items.get(id).ob.getWorldPosition(new T.Vector3());
+    this.cueFrom=previous&&this.items.has(previous)?this.items.get(previous).ob.getWorldPosition(new T.Vector3()):this.cueTo.clone();
+    this.cuePaths=paths;this.cueStart=performance.now();this.tourCue.visible=true;
   }
   styleMesh(mesh,variant){
     const base=mesh.userData.baseMaterial;
@@ -337,6 +346,16 @@ export class VehicleView {
   tick(now){
     requestAnimationFrame(this.tick);
     if(document.hidden)return;
+    if(this.tourCue?.visible){
+      const elapsed=Math.max(0,now-this.cueStart)/2200,u=elapsed%1;
+      const route=this.cuePaths[Math.floor(elapsed)%this.cuePaths.length];
+      if(route){
+        const t=u*(route.points.length-1),i=Math.floor(t);
+        this.tourCue.position.lerpVectors(route.points[i],route.points[i+1],t-i);
+      }else this.tourCue.position.lerpVectors(this.cueFrom,this.cueTo,u);
+      this.tourCue.scale.setScalar(Math.max(.0005,this.span*.012)*(1+.3*Math.sin(u*Math.PI)));
+      this.dirty=true;
+    }
     if(this.move){
       const u=Math.min(1,(now-this.move.start)/410);
       for(const m of this.move.items)m.ob.position.lerpVectors(m.start,m.end,easing(u));
