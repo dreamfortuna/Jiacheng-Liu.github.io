@@ -60,7 +60,7 @@ function transition(next,options={}){
   progress.hidden=true;
   if(push){treeHistory.push(snapshot());if(treeHistory.length>80)treeHistory.shift();}
   if(view.film){film.pause();view.film=null;view.controls.enabled=true;view.dirty=true;}
-  state=next;mode=isCore()||next.kind==='film'?'core':next.kind==='lesson'?'lesson':'tree';lessonMenu=false;resetSearch();
+  state=next;mode=next.kind==='film'?(lessons.get(next.course).core?'core':'lesson'):isCore()?'core':next.kind==='lesson'?'lesson':'tree';lessonMenu=false;resetSearch();
   render(resetDir,pose,immediate);
   if(next.kind==='lesson'&&!advance&&matchMedia('(max-width:690px)').matches)el('narrative').scrollIntoView({block:'nearest'});
 }
@@ -80,8 +80,8 @@ function startLesson(key,step=0,fromCase=false){
   const parameters=lessons.get(key).core?parametersFor(key,step):{};
   transition({kind:'lesson',lesson:key,step,...parameters},{push:!same,resetDir:true});
 }
-function openFilm(){
-  transition({kind:'film',id:model.root,time:0});
+function openFilm(key=model.caseStudy.id){
+  transition({kind:'film',course:key,id:model.root,time:0});
 }
 function openDiagram(id,spot=0,fromClass=false){
   diagramOrigin=fromClass?snapshot():null;
@@ -247,7 +247,7 @@ function navRender(){
           if(matchMedia('(max-width:690px)').matches)el('heading').scrollIntoView({block:'start'});},'nav-feature case-feature');
         full.dataset.target='cutin-case';host.append(full);
       }
-      addList(host,catalog.map((l,i)=>row(l.id,l.title,()=>{startLesson(l.id);
+      addList(host,catalog.map((l,i)=>row(l.id,l.title,()=>{openFilm(l.id);
       if(classroom&&matchMedia('(max-width:690px)').matches)el('heading').scrollIntoView({block:'start'});},
       {idx:String(i+1).padStart(2,'0'),sub:syllabus[l.id][1],tail:syllabus[l.id][0],active:state.kind==='lesson'&&l.id===state.lesson})));
       if(classroom){const chips=make('a','车载芯片与控制器 ↗','chip-link');chips.href='chips.html';host.append(chips);}
@@ -369,8 +369,12 @@ function detail(){
     const order=Object.keys(isCore()?topics:routes);
     const following=inCase()?null:lessons.get(order[order.indexOf(l.id)+1]);
     const ended=state.step===l.steps.length-1;
-    const next=button(ended?(following?'进入下一专题':'完成讲解'):'下一步',()=>ended?(following?startLesson(following.id):home()):shiftStep(1),'primary');
+    const next=button(ended?(following?'进入下一专题':'完成讲解'):'下一步',()=>ended?(following?openFilm(following.id):home()):shiftStep(1),'primary');
     a.append(pre,next,button('拆开此对象',()=>enter(record.id)));
+    a.append(button('返回连续演示',()=>{
+      const previous=treeHistory.findLast(p=>p.state.kind==='film'&&p.state.course===l.id);
+      if(previous)transition(previous.state,{push:false});else openFilm(l.id);
+    }));
     if(inCase())a.append(button('深入本环节专题',()=>startLesson(moduleId(),moduleStage(),true)));
     else if(caseBookmark)a.append(button('返回弯道切入案例',()=>{
       const point=caseBookmark;caseBookmark=null;transition(point.state,{push:false,pose:point.camera});
@@ -380,7 +384,7 @@ function detail(){
   if(record.children.length)a.append(button(state.fraction>.01?'合拢本层':base?'展开五大功能域':'展开本层',()=>changeOpen(state.fraction>.01?0:1),'primary'));
   if(resumePoint)a.append(button(resumePoint.state.kind==='diagram'?'返回安装关系图':'返回讲解步骤',resume,'primary'));
   if(!base||state.fraction>.01)a.append(button('返回上一步',back));
-  if(base&&!state.fraction)a.append(button('开始系统讲解',()=>startLesson('overview')),button('行驶动画 · 弯道切入',openFilm));
+  if(base&&!state.fraction)a.append(button('开始系统讲解',()=>openFilm('overview')),button('行驶动画 · 弯道切入',()=>openFilm()));
   if(record.children.length&&(!base||state.fraction>.01)){
     const lab=make('label','展开间距','range'),slider=make('input');slider.type='range';slider.min='0';slider.max='100';
     slider.setAttribute('aria-label','展开间距');slider.value=String(Math.round(state.fraction*100));
@@ -409,7 +413,7 @@ function viewHint(){
 function render(resetDir=false,pose=null,immediate=false){
   const classroom=isCore();
   const drive=state.kind==='film';
-  for(const id of ['film-controls','film-inset','film-callout','film-data'])el(id).hidden=!drive;
+  for(const id of ['film-controls','film-inset','film-callout','film-data','road-region','cutaway'])el(id).hidden=!drive;
   document.body.dataset.classroom=String(classroom);
   document.body.dataset.state=state.kind;document.body.dataset.node=currentId();
   el('adas-lab').hidden=!classroom;
@@ -422,14 +426,14 @@ function render(resetDir=false,pose=null,immediate=false){
   overlays.clear();
   if(drive){
     el('narrative').hidden=true;el('overlay-legend').hidden=true;
-    el('crumbs').replaceChildren(button('智驾课堂',()=>showLessonMenu('core')));
-    el('heading').textContent='弯道切入与跟车减速';
-    el('subtitle').textContent='蓝灰色 Model 3 为本车，橙色为邻车。';
+    el('crumbs').replaceChildren(button(mode==='core'?'智驾课堂':'系统演示',()=>showLessonMenu(mode)));
+    el('heading').textContent=state.course===model.caseStudy.id?'弯道切入与跟车减速':lessons.get(state.course).title;
+    el('subtitle').textContent='道路与车内透视共用时间轴。蓝灰色 Model 3 为本车。';
     el('view-mode').textContent='连续行驶';
     el('view-tip').textContent='青色为观测，黄色为转向请求，红色为制动请求';
     navRender();view.resize();view.controls.enabled=false;
     film??=new CutinFilm(view);
-    film.open(state.time||0,!state.paused&&!document.hidden&&!matchMedia('(prefers-reduced-motion:reduce)').matches);
+    film.open(state.time||0,!state.paused&&!document.hidden&&!matchMedia('(prefers-reduced-motion:reduce)').matches,state.course);
     if(matchMedia('(max-width:690px)').matches)el('heading').scrollIntoView({block:'nearest'});
     return;
   }
@@ -468,11 +472,12 @@ async function boot(){
     await view.loadOverview();
     ready=true;render(true,null,true);el('progress').hidden=true;
     const initial=new URLSearchParams(location.search),lesson=initial.get('lesson'),node=initial.get('node');
-    if(lesson&&lessons.has(lesson))startLesson(lesson,Math.max(0,Math.min(lessons.get(lesson).steps.length-1,parseInt(initial.get('step'),10)-1||0)));
+    if(lesson&&lessons.has(lesson)&&!initial.has('step'))openFilm(lesson);
+    else if(lesson&&lessons.has(lesson))startLesson(lesson,Math.max(0,Math.min(lessons.get(lesson).steps.length-1,parseInt(initial.get('step'),10)-1||0)));
     else if(initial.get('case')==='cutin'&&!initial.has('stage'))openFilm();
     else if(initial.get('case')==='cutin')startLesson(model.caseStudy.id,Math.max(0,Math.min(model.caseStudy.steps.length-1,parseInt(initial.get('stage'),10)-1||0)));
     else if(initial.get('view')==='classroom')showLessonMenu('core');
-    else if(initial.get('view')==='adas')startLesson(core.lessons[0].id);
+    else if(initial.get('view')==='adas')openFilm(core.lessons[0].id);
     else if(initial.get('view')==='service'&&model.diagrams?.length){
       const diagram=model.diagrams.find(d=>d.id===initial.get('diagram'))||model.diagrams[0];
       transition({kind:'diagram',diagram:diagram.id,spot:0},{resetDir:true});
@@ -490,7 +495,7 @@ async function boot(){
 el('home').onclick=home;
 el('film-play').onclick=()=>film?.toggle();
 el('film-seek').oninput=e=>{const time=Number(e.target.value);film.pause();film.seek(time);};
-el('film-study').onclick=()=>startLesson(model.caseStudy.id);
+el('film-study').onclick=()=>startLesson(state.course);
 el('tour-play').onclick=toggleTour;
 el('tour-prev').onclick=()=>shiftStep(-1);el('tour-next').onclick=()=>shiftStep(1);
 document.addEventListener('visibilitychange',()=>{if(document.hidden){view?.film?.pause();if(playing){pauseTour();narrative();}}});

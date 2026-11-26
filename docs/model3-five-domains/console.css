@@ -34,6 +34,9 @@ body[data-state=lesson] .inspector>.detail-title,body[data-state=lesson] .inspec
 .film-transport button,.film-foot button{border-radius:4px;background:#164956;color:white;padding:8px 15px;min-width:70px}
 .film-transport output,.film-meters strong{font-variant-numeric:tabular-nums}
 #film-data{background:#f4f8fb;padding:12px clamp(14px,3vw,48px);border-top:1px solid #b7cbd7}
+#branch-status{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;font-size:.90rem;margin-bottom:9px}
+#branch-status>div{border-left:3px solid #238baa;padding-left:7px}#branch-status>div:nth-child(2){border-color:#cb9128}#branch-status>div:nth-child(3){border-color:#c35649}
+#branch-status strong{display:block;color:#193c50}#branch-status:not([hidden])+#film-chain{display:none}
 #film-chain{display:flex;gap:6px 18px;flex-wrap:wrap;padding:0;margin:0 0 10px;list-style:none}
 #film-chain li{color:#617684;border-bottom:2px solid #c3d2d9;font-size:.9rem;padding:2px 0}
 #film-chain li.on{color:#076e74;border-color:#159a9b;font-weight:bold}
@@ -46,8 +49,22 @@ body[data-state=lesson] .inspector>.detail-title,body[data-state=lesson] .inspec
 #film-callout::after{content:"";position:absolute;left:50%;top:100%;height:13px;border-left:1px solid #254251}
 body[data-state=film] .view-tools,body[data-state=film] .inspector,body[data-state=film] #labels{display:none}
 body[data-state=film] .viewport canvas{touch-action:pan-y}
+#road-region,#cutaway{position:absolute;pointer-events:none;top:0;height:100%}
+#road-region{left:0;width:51%}#cutaway{right:0;width:49%;box-shadow:inset 1px 0 #7395aa;color:#dbeff5;overflow:hidden}
+#cutaway header{position:absolute;top:7px;left:10px;right:10px;display:flex;align-items:baseline;justify-content:space-between}
+#cutaway header strong{font-size:1rem}#cutaway header span{font-size:.75rem;color:#acc2ce}
+#cut-labels{width:100%;height:100%;position:absolute;inset:0}
+#cut-key{position:absolute;bottom:6px;left:8px;right:5px;display:flex;gap:3px 10px;flex-wrap:wrap;font-size:.75rem}
+#cut-key span{border-left:3px solid var(--channel);padding-left:4px;color:#d5eaf3}
+body[data-state=film] #film-inset{width:clamp(88px,15%,150px)}
+body[data-state=film] #view-tip{display:none}
+@media(max-width:840px){
+  body[data-state=film] .stage{grid-template-rows:auto clamp(490px,66dvh,680px) auto}
+  #road-region{width:100%;height:52%}#cutaway{top:52%;height:48%;width:100%;box-shadow:inset 0 1px #7395aa}
+}
 @media(max-width:690px){
-  body[data-state=film] .stage{grid-template-rows:auto clamp(310px,47dvh,500px) auto}
+  #branch-status{grid-template-columns:1fr}#branch-status>div{display:flex;justify-content:space-between;gap:6px}
+  body[data-state=film] .stage{grid-template-rows:auto clamp(470px,63dvh,600px) auto}
   .film-meters{grid-template-columns:repeat(2,minmax(0,1fr))}.film-foot{align-items:flex-start}
   .film-foot button{flex:none}.film-transport button{min-height:44px}#film-inset{left:6px;top:6px}
 }

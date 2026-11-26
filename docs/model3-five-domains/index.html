@@ -7,7 +7,7 @@
 <script type="importmap">{"imports":{"three":"./vendor/three/three.module.js","three/addons/":"./vendor/three/addons/"}}</script>
 </head><body data-node="HIGHLAND">
 <header class="mast"><div class="brand"><span class="brandmark" aria-hidden="true"><i></i><i></i><i></i></span><span>AI系统工程 · 应用层</span></div>
-<nav class="modes" aria-label="工作模式"><button id="mode-tree" aria-pressed="true">自由拆解</button><button id="mode-lesson" aria-pressed="false">逐步讲解</button><button id="mode-core" aria-pressed="false">智驾课堂</button><a class="atlas-tab" href="atlas.html">原厂图册</a></nav>
+<nav class="modes" aria-label="工作模式"><button id="mode-tree" aria-pressed="true">自由拆解</button><button id="mode-lesson" aria-pressed="false">系统演示</button><button id="mode-core" aria-pressed="false">智驾课堂</button><a class="atlas-tab" href="atlas.html">原厂图册</a></nav>
 <button class="home" id="home" title="回到初始整车视角"><span aria-hidden="true">⟲</span> 整车复位</button></header>
 <main class="workbench">
 <aside class="navigator"><div class="nav-heading"><h2 id="nav-title">装配目录</h2><span id="nav-count"></span></div>
@@ -32,6 +32,10 @@
 <button id="core-next" aria-label="下一个讲解环节" title="下一个讲解环节">›</button></nav></header>
 <div class="stage-visual"><div id="viewport" class="viewport"><canvas id="model-canvas" tabindex="0" aria-label="可点击拆解的三维整车，拖动旋转，滚轮缩放"></canvas>
 <div id="labels" aria-label="当前层的模型标注"></div>
+<div id="road-region" hidden></div>
+<section id="cutaway" aria-label="同步车内透视" hidden>
+<header><strong>车内透视</strong><span>功能路径示意</span></header><svg id="cut-labels" aria-label="模型部件标注"></svg>
+<div id="cut-key"></div></section>
 <div id="film-inset" hidden><span>前视摄像头 · 示意</span></div>
 <span id="film-callout" hidden></span>
 <div id="overlay-legend" aria-label="教学叠加图例" hidden></div>
@@ -42,10 +46,12 @@
 <span class="view-tip" id="view-tip">单击拆解 · 拖动旋转 · 滚轮缩放</span></div>
 <aside id="adas-lab" aria-label="可调参数的智驾教学实验" hidden></aside></div>
 <section id="film-data" aria-label="行驶动画信号与车辆响应" hidden>
+<div id="branch-status" hidden><div>前视摄像头 → HW4<strong id="branch-vision"></strong></div><div>HW4 → 助力转向器<strong id="branch-steer"></strong></div><div>HW4 → 液压单元 → 制动钳<strong id="branch-brake"></strong></div></div>
 <ol id="film-chain"><li>前视采样</li><li>目标跟踪</li><li>智驾计算</li><li>底盘请求</li></ol>
-<div class="film-meters"><div>本车速度<strong><b id="film-speed"></b> km/h</strong></div><div>纵向净距<strong><b id="film-gap"></b> m</strong></div>
+<div id="film-topic-meters" class="film-meters" hidden></div>
+<div id="film-case-meters" class="film-meters"><div>本车速度<strong><b id="film-speed"></b> km/h</strong></div><div>纵向净距<strong><b id="film-gap"></b> m</strong></div>
 <div>前轮角 · 请求 / 响应<strong><b id="film-command"></b> / <b id="film-steer"></b></strong></div><div>加速度 · 请求 / 响应<strong><b id="film-brake"></b> / <b id="film-accel"></b> m/s²</strong></div></div>
-<div class="film-foot"><span>教学工况 · <b id="film-rate"></b> · 信号和响应值为模拟值。</span><button id="film-study">进入分步拆解</button></div>
+<div class="film-foot"><span>教学工况 · <b id="film-rate"></b> · 路径、传递时间与响应值用于教学。</span><button id="film-study">备选 · 分步拆解</button></div>
 </section>
 <section class="inspector" aria-label="部件与讲解"><div class="detail-title"><span id="detail-kind"></span><h2 id="detail-title">整车装配</h2></div>
 <p class="detail-copy" id="detail-copy"></p><dl id="io"></dl><div id="core-detail" hidden></div><div class="evidence" id="evidence"></div>
