@@ -115,7 +115,15 @@ export class VehicleView {
       if(id===this.catalog.root)return;
       const batch=new T.Group();
       batch.add(...o.children.slice());o.add(batch);
-      batch.traverse(m=>{if(m.isMesh){m.userData.pickId=id;m.userData.baseMaterial=m.material;}});
+      batch.traverse(m=>{
+        if(!m.isMesh)return;
+        if(!m.geometry.hasAttribute('normal')){
+          m.geometry.computeVertexNormals();
+          m.material.flatShading=false;
+          m.material.needsUpdate=true;
+        }
+        m.userData.pickId=id;m.userData.baseMaterial=m.material;
+      });
       this.proxies.set(id,batch);
     });
     scene.updateMatrixWorld(true);
