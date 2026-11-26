@@ -1,11 +1,11 @@
 <!doctype html>
 <html lang="zh-CN"><head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#182525"><title>2024 Tesla Model 3 焕新版 · 博世五大功能域</title>
+<meta name="theme-color" content="#182525"><title>基于 2024 Model 3 公开资料的系统工程教学模型</title>
 <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="adas-classroom.css"><link rel="stylesheet" href="adas-lab.css">
 <script type="importmap">{"imports":{"three":"./vendor/three/three.module.js","three/addons/":"./vendor/three/addons/"}}</script>
-</head><body>
-<header class="mast"><div class="brand"><span class="brandmark" aria-hidden="true"><i></i><i></i><i></i></span><span>整车系统工程 · 博世五域</span></div>
+</head><body data-node="HIGHLAND">
+<header class="mast"><div class="brand"><span class="brandmark" aria-hidden="true"><i></i><i></i><i></i></span><span>整车系统工程 · 应用层</span></div>
 <nav class="modes" aria-label="工作模式"><button id="mode-tree" aria-pressed="true">自由拆解</button><button id="mode-lesson" aria-pressed="false">逐步讲解</button><button id="mode-core" aria-pressed="false">智驾课堂</button><a class="atlas-tab" href="chips.html">车载芯片</a><a class="atlas-tab" href="atlas.html">原厂图册</a></nav>
 <button class="home" id="home" title="回到初始整车视角"><span aria-hidden="true">⟲</span> 整车复位</button></header>
 <main class="workbench">
@@ -13,8 +13,8 @@
 <label class="searchbox"><span class="search-icon" aria-hidden="true"></span><input type="search" id="search" aria-label="搜索模型部件" placeholder="搜索名称、接口或料号" autocomplete="off"></label>
 <div id="navigation"></div><div class="nav-foot"><button id="sources">模型与资料</button><span>HW4 · SOP8</span></div></aside>
 <section class="stage"><header class="stage-head"><nav id="crumbs" aria-label="当前装配路径"></nav>
-<div class="title-row"><h1 id="heading">Model 3 焕新版</h1><span class="view-mode" id="view-mode">装配视图</span></div>
-<p id="subtitle">2024 · Fremont · 北美左舵 · 长续航全轮驱动</p>
+<div class="title-row"><h1 id="heading">基于 2024 Model 3 公开资料的系统工程教学模型</h1><span class="view-mode" id="view-mode">装配视图</span></div>
+<p id="subtitle">博世五大功能域 · 焕新版 · Fremont · 北美左舵 · 长续航全轮驱动</p>
 <nav id="core-stage-line" aria-label="智驾步骤快捷导航" hidden><span></span>
 <button id="core-prev" aria-label="上一个讲解环节" title="上一个讲解环节">‹</button>
 <button id="core-next" aria-label="下一个讲解环节" title="下一个讲解环节">›</button></nav></header>
@@ -31,9 +31,11 @@
 <p class="detail-copy" id="detail-copy"></p><dl id="io"></dl><div id="core-detail" hidden></div><div class="evidence" id="evidence"></div>
 <div class="actions" id="actions"></div></section>
 </section></main>
-<dialog id="about"><div class="dialog-head"><h2>模型与资料</h2><button id="close-about" aria-label="关闭资料">×</button></div>
+<dialog id="about" aria-labelledby="about-title"><div class="dialog-head"><h2 id="about-title">基于 2024 Model 3 公开资料的系统工程教学模型</h2><button id="close-about" aria-label="关闭资料">×</button></div>
 <p>2024 Tesla Model 3 焕新版，Fremont 北美左舵长续航全轮驱动参考配置。车型外廓、装配、连接器及信号路径按公开资料组织。</p>
-<p>一级目录采用博世五大功能域。特斯拉部件的归属按本模型的教学视角划分。模型中的布线路径、部分内部尺寸及电池样段按展示需要重建。各部件的资料入口随当前选择显示。</p>
+<p>当前版本展示 AI 系统工程的应用层。五个功能域描述整车内的分工，可从总成、控制器、芯片和接口追踪跨域信号。</p>
+<p>后续将补充模型层和基础设施层，关联车辆功能、参与这些功能的 AI 模型及其运行所需的资源。</p>
+<p>各部件的功能域归属按教学视角划分。模型中的布线路径、部分内部尺寸及电池样段按展示需要重建。各部件的资料入口随当前选择显示。</p>
 <p id="classroom-scope"></p>
 <p>方向盘和转向器归入底盘与运动控制域，共用热管理回路归入动力与能源域，座舱空调箱归入车身与舒适域。HW4 车载电脑保留完整装配，座舱信息娱乐域通过关联入口访问机箱内的信息娱乐板和网联板。</p>
 <p>外观网格作者 RBLXSupercars，公开副本上传者 brandonleong28。模型经分件、比例校准、蒙皮裁切和装配重建。外观使用 CC BY 4.0，网页渲染使用 Three.js。</p>

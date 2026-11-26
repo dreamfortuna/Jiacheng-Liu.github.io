@@ -22,6 +22,11 @@ body[data-state="diagram"] .viewport,body[data-state="diagram"] .stage-head{back
 .atlas-tab{display:inline-flex;align-items:center;padding:0 3px;color:#b4c1be;font-size:.97rem;text-decoration:none;white-space:nowrap}.atlas-tab:hover{color:white}.evidence .handbook-note{flex-basis:100%;color:#405759;line-height:1.5}.evidence .handbook-note summary{cursor:pointer}.evidence .handbook-note p{margin:7px 0}.evidence .handbook-note a{margin-right:12px}
 @media(max-width:540px){.mast{gap:9px}.mast .modes{gap:8px}.mast .modes button,.atlas-tab{padding-left:0;padding-right:0;font-size:.78rem}.mast .brand{gap:4px;font-size:.89rem}.mast .home{font-size:.73rem;padding:5px 6px}.brandmark{width:23px}}
 
+body[data-node="HIGHLAND"] .title-row h1{
+  font-size:clamp(1.3rem,2.2vw,2.25rem);
+  line-height:1.25;
+  text-wrap:balance;
+}
 @media(max-width:570px){
   .mast{height:auto;display:grid;grid-template-columns:1fr auto;gap:0 9px;padding:6px 10px 0}
   .mast .brand{grid-row:1;grid-column:1}.mast .brand>span:last-child{display:inline}

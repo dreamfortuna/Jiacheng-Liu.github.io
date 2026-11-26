@@ -247,9 +247,9 @@ function detail(){
   }
   const record=nodes.get(currentId()),isCourse=state.kind==='lesson',base=record.id===model.root;
   const teaching=isCourse?currentStep():notes.notes[record.id]||notes.domains[record.id];
-  el('heading').textContent=isCourse?lessons.get(state.lesson).title:base?'Model 3 焕新版':record.label;
+  el('heading').textContent=isCourse?lessons.get(state.lesson).title:base?(model.projectTitle||document.title):record.label;
   el('view-mode').textContent=isCore()?'智驾课堂':isCourse?'讲解视图':base&&state.fraction<.02?'装配视图':record.type==='part'?'零件视图':state.fraction>.02?'爆炸视图':'装配视图';
-  el('subtitle').textContent=isCourse?lessons.get(state.lesson).summary:base?'2024 · Fremont · 北美左舵 · 长续航全轮驱动':record.english||nodes.get(record.parent)?.label||'';
+  el('subtitle').textContent=isCourse?lessons.get(state.lesson).summary:base?'博世五大功能域 · 焕新版 · Fremont · 北美左舵 · 长续航全轮驱动':record.english||nodes.get(record.parent)?.label||'';
   el('detail-kind').textContent=isCourse?('步骤 '+String(state.step+1).padStart(2,'0')+' / '+lessons.get(state.lesson).steps.length):base?'整车':record.type==='part'?'零件':'总成';
   el('detail-title').textContent=isCourse?currentStep().label:base?'整车装配':record.label;
   el('detail-copy').textContent=inCase()?currentStep().scene:((!isCourse&&record.electronics?record.description:null)||teaching?.role||(base?(state.fraction>.01?'点选功能域的标注或实体可查看下级装配。':'单击整车展开五个功能域，也可从左侧目录直接进入任一域。'):record.description||record.evidence||('本层包含 '+record.children.length+' 个直属装配与零件。')));
