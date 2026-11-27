@@ -12,8 +12,7 @@
 .view-tip{background:#f1f7fae8;color:#385667}.inspector,#adas-lab{background:#f9fbfc}
 .actions .primary,.actions .primary:not(:disabled):hover{background:#12556a;border-color:#12556a}
 .course-intro{font-size:1rem;line-height:1.65;margin:7px 2px 12px;color:#29455b}
-.case-feature,.chip-link{display:block;padding:12px;margin:8px 0;border:1px solid #9dbec9;border-radius:4px;background:#e0f1f2;color:#174f61;text-decoration:none;font-weight:650}
-.case-feature{background:#173c50;color:white}.case-feature:not(:disabled):hover{background:#1f5066;color:white}
+.chip-link{display:block;padding:12px;margin:8px 0;border:1px solid #9dbec9;border-radius:4px;background:#e0f1f2;color:#174f61;text-decoration:none;font-weight:650}
 .row-main small{color:#4f6878;line-height:1.5;font-size:.86rem}
 #narrative{border-left:3px solid #0b8f98;margin:10px 0 5px;padding:0 0 0 13px}
 .scene-title,.transport{display:flex;gap:10px;align-items:center}

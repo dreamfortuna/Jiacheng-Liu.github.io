@@ -242,11 +242,6 @@ function navRender(){
         {idx:String(i+1).padStart(2,'0'),active:i===state.step,key:classroom?'core-step-'+i:'step-'+s.id})));
     }else {
       host.append(make('p',classroom?'选择道路工况，同时观察道路、传感器和控制器的响应。':'选择整车工况，跟踪起步、转向、停车、加速与爬坡散热。','course-intro'));
-      if(classroom){
-        const full=button('行驶动画 · '+model.caseStudy.title,()=>{openFilm();
-          if(matchMedia('(max-width:690px)').matches)el('heading').scrollIntoView({block:'start'});},'nav-feature case-feature');
-        full.dataset.target='cutin-case';host.append(full);
-      }
       addList(host,catalog.map((l,i)=>row(l.id,l.title,()=>{openFilm(l.id);
       if(classroom&&matchMedia('(max-width:690px)').matches)el('heading').scrollIntoView({block:'start'});},
       {idx:String(i+1).padStart(2,'0'),sub:syllabus[l.id][1],tail:syllabus[l.id][0],active:state.kind==='lesson'&&l.id===state.lesson})));
