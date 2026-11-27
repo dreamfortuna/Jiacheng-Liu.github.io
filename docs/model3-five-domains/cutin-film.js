@@ -50,7 +50,7 @@ function trace(scene,tint,dashed=false){
 }
 
 export class CutinFilm {
-  constructor(view){
+  constructor(view,inspectPart){
     this.view=view;this.t=0;this.scene=new T.Scene();
     this.scene.environment=view.scene.environment;
     this.scene.add(new T.HemisphereLight(0xffffff,0x899ba6,2.1));
@@ -104,7 +104,7 @@ export class CutinFilm {
     this.brakeLine=signal(this.ego,[board,brake.clone().add(V(0,.22,0)),brake],0xfd7666);
     this.tailLights=[-.63,.63].map(z=>lamp(this.ego,V(-2.23,.83,z),0xff3329,.14));
     this.wheelRadius=wheelRadius;
-    this.cutaway=new VehicleCutaway(view,builder);
+    this.cutaway=new VehicleCutaway(view,builder,inspectPart);
   }
   open(t=0,autoplay=true,key='cutin-case'){
     this.key=key;this.cutaway.configure(key);

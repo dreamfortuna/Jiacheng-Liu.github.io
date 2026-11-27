@@ -58,6 +58,11 @@ body[data-state=film] .viewport canvas{touch-action:pan-y}
 #cutaway header{position:absolute;top:7px;left:10px;right:10px;display:flex;align-items:baseline;justify-content:space-between}
 #cutaway header strong{font-size:1rem}#cutaway header span{font-size:.75rem;color:#acc2ce}
 #cut-labels{width:100%;height:100%;position:absolute;inset:0}
+#cutaway{pointer-events:auto;touch-action:pan-y pinch-zoom}
+#cut-labels{pointer-events:none}
+#cut-labels .cut-hit,#cut-labels circle[data-inspect]{pointer-events:all;cursor:pointer}
+#cut-labels g:hover rect:not(.cut-hit),#cut-labels g:focus-visible rect:not(.cut-hit){stroke:#61dfdc;stroke-width:2}
+#film-return{border:1px solid #257483;border-radius:4px;background:#164956;color:#fff;padding:8px 12px;margin-bottom:7px;font-weight:600}
 #cut-key{position:absolute;bottom:6px;left:8px;right:5px;display:flex;gap:3px 10px;flex-wrap:wrap;font-size:.75rem}
 #cut-key span{border-left:3px solid var(--channel);padding-left:4px;color:#d5eaf3}
 body[data-state=film] #film-inset{width:clamp(88px,15%,150px)}

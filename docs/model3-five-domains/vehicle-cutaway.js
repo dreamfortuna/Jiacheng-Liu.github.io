@@ -15,7 +15,7 @@ const encoder='speedFL/p-2b308f52c676de31';
 const pedalArm='pedals/p-e5a1923a87fedcae',pedalFace='pedals/p-0b5db2609be5e8d8';
 
 export class VehicleCutaway{
-  constructor(view,builder){
+  constructor(view,builder,inspectPart){
     this.view=view;this.builder=builder;this.panel=document.getElementById('cutaway');
     this.labels=document.getElementById('cut-labels');this.scene=new T.Scene();
     this.scene.add(new T.HemisphereLight(0xf5ffff,0x7495af,2.1));
@@ -36,6 +36,47 @@ export class VehicleCutaway{
     this.parts=new Map();this.pathGroup=new T.Group();this.scene.add(this.pathGroup);
     this.dotGeometry=new T.SphereGeometry(.034,12,8);
     this.dotMaterial=new T.MeshBasicMaterial({color:0xffffff,depthTest:false});
+    this.inspector=inspectPart;this.ray=new T.Raycaster();
+    this.bindInspection();
+  }
+  bindInspection(){
+    const panel=this.panel;
+    let start=null,dragged=false;
+    panel.addEventListener('pointerdown',e=>{
+      if(!e.isPrimary){dragged=true;return;}
+      start={x:e.clientX,y:e.clientY};dragged=false;
+    });
+    panel.addEventListener('pointermove',e=>{
+      if(start&&Math.hypot(e.clientX-start.x,e.clientY-start.y)>8)dragged=true;
+    });
+    panel.addEventListener('pointerup',()=>{start=null;});
+    panel.addEventListener('pointercancel',()=>{start=null;dragged=true;});
+    panel.addEventListener('click',e=>{
+      if(e.button!==0||(e.detail&&dragged))return;
+      const tag=e.target.closest('[data-inspect]');
+      if(tag){this.inspect(tag.dataset.inspect);return;}
+      if(e.target.closest('header,#cut-key'))return;
+      const rect=panel.getBoundingClientRect();
+      this.ray.setFromCamera({x:2*(e.clientX-rect.left)/rect.width-1,y:1-2*(e.clientY-rect.top)/rect.height},this.camera);
+      const hits=this.ray.intersectObjects(this.pickMeshes,false);
+      if(!hits.length)return;
+      // A connector can also be drawn as part of its housing. Prefer the specific part on a shared surface.
+      let id=hits[0].object.userData.cutPart;
+      for(const hit of hits){
+        if(hit.distance-hits[0].distance>.00001)break;
+        if(this.view.descendant(hit.object.userData.cutPart,id))id=hit.object.userData.cutPart;
+      }
+      this.inspect(id);
+    });
+    panel.addEventListener('keydown',e=>{
+      const tag=e.target.closest('[data-inspect]');
+      if(tag&&(e.key==='Enter'||e.key===' ')){
+        e.preventDefault();if(!e.repeat)this.inspect(tag.dataset.inspect);
+      }
+    });
+  }
+  inspect(id){
+    this.inspector(id==='epas'?'rackassy':id);
   }
   restMatrix(mesh){
     const chain=[];for(let p=mesh;p;p=p.parent)chain.unshift(p);
@@ -59,6 +100,7 @@ export class VehicleCutaway{
     const offset=new T.Matrix4().makeTranslation(-point.x,-point.y,-point.z);
     for(const {mesh} of choices.sort((a,b)=>b.rank-a.rank).slice(0,10)){
       const copy=new T.Mesh(mesh.geometry,material);
+      copy.userData.cutPart=id;
       copy.matrix.multiplyMatrices(offset,this.restMatrix(mesh));copy.matrixAutoUpdate=false;group.add(copy);
     }
     group.position.copy(point);this.scene.add(group);
@@ -100,14 +142,17 @@ export class VehicleCutaway{
     if(ids.has('speedFL'))ids.add(encoder);
     if(ids.has('pedals')){ids.add(pedalArm);ids.add(pedalFace);}
     this.visible=Array.from(ids,id=>[id,this.part(id)]);
+    this.pickMeshes=this.visible.flatMap(([,part])=>part.group.children.filter(mesh=>mesh.userData.cutPart));
     for(const [,p] of this.visible){
       p.group.visible=true;p.group.position.copy(p.point);p.group.rotation.set(0,0,0);p.material.color.setHex(0xa2bece);
     }
     this.tags=labels.map(id=>{
-      const g=svg('g'),path=svg('path',{fill:'none',stroke:'#99baca'}),dot=svg('circle',{r:3.4});
+      const g=svg('g',{'data-inspect':id,role:'button',tabindex:0,'aria-label':'拆解'+names[id]});
+      const path=svg('path',{fill:'none',stroke:'#99baca'}),dot=svg('circle',{r:3.4,'data-inspect':id});
+      const hitArea=svg('rect',{height:36,fill:'transparent',class:'cut-hit'});
       const bg=svg('rect',{height:19,rx:3,fill:'#102b3b','fill-opacity':'.94'});
       const text=svg('text',{fill:'#eefaff','font-size':13});text.textContent=names[id];
-      g.append(path,dot,bg,text);this.labels.append(g);return {id,path,dot,bg,text,p:this.part(id)};
+      g.append(hitArea,bg,text);this.labels.append(path,dot,g);return {id,path,dot,hitArea,bg,text,p:this.part(id)};
     });
     const focus=key==='drive'?this.visible.filter(([id])=>id!=='pack'):this.visible;
     const box=new T.Box3().setFromPoints(focus.map(([,p])=>p.point));
@@ -127,12 +172,13 @@ export class VehicleCutaway{
     }).sort((a,b)=>a.x-b.x);
     for(const [side,group] of [pins.slice(0,Math.ceil(pins.length/2)),pins.slice(Math.ceil(pins.length/2))].entries()){
       group.sort((a,b)=>a.y-b.y);
-      group.forEach(({path,dot,bg,text,x,y},i)=>{
+      group.forEach(({path,dot,hitArea,bg,text,x,y},i)=>{
         const lane=46+(h-80)*(i+.5)/group.length;
         const width=this.key==='drive'?94:text.textContent.length*13+10,left=side?w-width-5:5;
         const elbow=side?left:left+width;
         path.setAttribute('d',`M${x} ${y} L${elbow} ${lane}`);
         dot.setAttribute('cx',x);dot.setAttribute('cy',y);bg.setAttribute('x',left);bg.setAttribute('y',lane-10);bg.setAttribute('width',width);
+        hitArea.setAttribute('x',left);hitArea.setAttribute('y',lane-18);hitArea.setAttribute('width',width);
         text.setAttribute('x',left+5);text.setAttribute('y',lane+4);
       });
     }

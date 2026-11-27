@@ -79,6 +79,7 @@ function startLesson(key,step=0,fromCase=false){
   transition({kind:'lesson',lesson:key,step,...parameters},{push:!same,resetDir:true});
 }
 function openFilm(key=model.caseStudy.id){
+  resumePoint=null;
   transition({kind:'film',course:key,id:model.root,time:0});
 }
 function gotoStep(i,advance=false){
@@ -122,15 +123,24 @@ function shiftStep(delta){
 }
 function enter(id){
   if(!nodes.has(id))return;
-  if(state.kind!=='tree')resumePoint=snapshot();
+  const fromFilm=state.kind==='film';
+  if(state.kind!=='tree'){
+    resumePoint=snapshot();
+    if(fromFilm){resumePoint.wasPlaying=film.running;film.pause();}
+  }
   if(id===model.root&&state.kind!=='lesson'){transition({kind:'tree',id,fraction:1});return;}
   transition({kind:'tree',id,fraction:nodes.get(id).children.length?1:0});
+  if(fromFilm)el('film-return').focus();
 }
 function resume(){
   if(!resumePoint)return;const prev=resumePoint;resumePoint=null;
-  const i=treeHistory.findLastIndex(s=>s.state.kind===prev.state.kind&&s.state.lesson===prev.state.lesson&&s.state.step===prev.state.step);
+  const i=treeHistory.findLastIndex(s=>s.state.kind===prev.state.kind&&s.state.lesson===prev.state.lesson&&s.state.step===prev.state.step&&s.state.course===prev.state.course&&s.state.time===prev.state.time);
   if(i>=0)treeHistory=treeHistory.slice(0,i);
   transition(prev.state,{push:false,pose:prev.camera});
+  if(prev.state.kind==='film'){
+    if(prev.wasPlaying&&!document.hidden)film.toggle();
+    el('film-play').focus({preventScroll:true});
+  }
 }
 function changeOpen(fraction){
   if(state.kind!=='tree'||!nodes.get(state.id).children.length)return;
@@ -328,7 +338,7 @@ function detail(){
     return;
   }
   if(record.children.length)a.append(button(state.fraction>.01?'合拢本层':base?'展开五大功能域':'展开本层',()=>changeOpen(state.fraction>.01?0:1),'primary'));
-  if(resumePoint)a.append(button('返回讲解步骤',resume,'primary'));
+  if(resumePoint?.state.kind==='lesson')a.append(button('返回讲解步骤',resume,'primary'));
   if(!base||state.fraction>.01)a.append(button('返回上一步',back));
   if(base&&!state.fraction)a.append(button('开始系统讲解',()=>openFilm('overview')),button('行驶动画 · 弯道切入',()=>openFilm()));
   if(record.children.length&&(!base||state.fraction>.01)){
@@ -356,6 +366,12 @@ function viewHint(){
   return '彩色叠加表示教学关系 · 点选实体可拆解';
 }
 function render(resetDir=false,pose=null,immediate=false){
+  const backToFilm=el('film-return');
+  backToFilm.hidden=state.kind!=='tree'||resumePoint?.state.kind!=='film';
+  if(!backToFilm.hidden){
+    const action=resumePoint.wasPlaying?'继续讲解':'返回暂停处';
+    backToFilm.textContent=action+' · '+lessons.get(resumePoint.state.course).title+' '+resumePoint.state.time.toFixed(1)+' s';
+  }
   const classroom=isCore();
   const drive=state.kind==='film';
   for(const id of ['film-controls','film-inset','film-callout','film-data','road-region','cutaway'])el(id).hidden=!drive;
@@ -383,7 +399,7 @@ function render(resetDir=false,pose=null,immediate=false){
     el('view-mode').textContent='连续行驶';
     el('view-tip').textContent='青色为观测，黄色为转向请求，红色为制动请求';
     navRender();view.resize();view.controls.enabled=false;
-    film??=new CutinFilm(view);
+    film??=new CutinFilm(view,enter);
     film.open(state.time||0,!state.paused&&!document.hidden&&!matchMedia('(prefers-reduced-motion:reduce)').matches,state.course);
     if(matchMedia('(max-width:690px)').matches)el('heading').scrollIntoView({block:'nearest'});
     return;
@@ -445,6 +461,7 @@ async function boot(){
 }
 el('home').onclick=home;
 el('film-play').onclick=()=>film?.toggle();
+el('film-return').onclick=resume;
 el('film-seek').oninput=e=>{const time=Number(e.target.value);film.pause();film.seek(time);};
 el('film-study').onclick=()=>startLesson(state.course);
 el('tour-play').onclick=toggleTour;
