@@ -10,6 +10,9 @@ const svg=(tag,attrs={})=>{
 const size=n=>Math.max(...n.half)*n.half.reduce((sum,x)=>sum+x,0);
 const padA='brFL/p-57a6ede5125e8037',padB='brFL/p-23361da9b380365a';
 const rotor='rearmotor/p-0b36a99f70080524',rackRod='rack/p-e814c8ba98cca235';
+const impeller='pump1/p-0f96437352d81ad0',gear='reargear/p-1b33bc7503654201';
+const encoder='speedFL/p-2b308f52c676de31';
+const pedalArm='pedals/p-e5a1923a87fedcae',pedalFace='pedals/p-0b5db2609be5e8d8';
 
 export class VehicleCutaway{
   constructor(view,builder){
@@ -44,12 +47,12 @@ export class VehicleCutaway{
     if(this.parts.has(id))return this.parts.get(id);
     const point=this.builder.at(id),group=new T.Group(),choices=[];
     const material=new T.MeshStandardMaterial({color:0x9daebc,metalness:.22,roughness:.55});
-    if(['wheelFL','wheelFR','wheelRL','discFL','pack'].includes(id)){
+    if(['wheelFL','wheelFR','wheelRL','discFL','pack','rearmotor','reargear','pump1'].includes(id)){
       material.transparent=true;material.opacity=id==='pack'?.30:.24;material.depthWrite=false;
     }
     for(const [key,meshes] of this.view.leafMeshes){
       if(!this.view.descendant(key,id))continue;
-      if(key!==id&&[rotor,rackRod,padA,padB].includes(key))continue;
+      if(key!==id&&[rotor,rackRod,padA,padB,gear,impeller,encoder,pedalArm,pedalFace].includes(key))continue;
       const r=this.view.records.get(key);
       for(const mesh of meshes)choices.push({mesh,rank:size(r)});
     }
@@ -59,6 +62,13 @@ export class VehicleCutaway{
       copy.matrix.multiplyMatrices(offset,this.restMatrix(mesh));copy.matrixAutoUpdate=false;group.add(copy);
     }
     group.position.copy(point);this.scene.add(group);
+    if([rotor,gear,'rearLshaft','wheelRL',impeller].includes(id)){
+      const r=id==='wheelRL'?.28:id==='rearLshaft'?.055:.085;
+      const stripe=new T.Mesh(new T.BoxGeometry(r,.018,.018),new T.MeshBasicMaterial({color:0xfff189,depthTest:false}));
+      stripe.position.set(r/2,0,0);stripe.renderOrder=6;
+      if(id===impeller){stripe.rotation.z=Math.PI/2;stripe.position.set(0,r/2,0);}
+      group.add(stripe);
+    }
     const part={point,group,material};this.parts.set(id,part);return part;
   }
   configure(key){
@@ -85,7 +95,10 @@ export class VehicleCutaway{
     });
     if(ids.has('epas')||ids.has('rack'))for(const id of ['wheelFL','wheelFR',rackRod])ids.add(id);
     if(ids.has('calFL'))for(const id of [padA,padB,'discFL'])ids.add(id);
-    if(ids.has('rearmotor'))ids.add(rotor);
+    if(ids.has('rearmotor'))for(const id of [rotor,gear,'reargear','wheelRL'])ids.add(id);
+    if(ids.has('pump1'))ids.add(impeller);
+    if(ids.has('speedFL'))ids.add(encoder);
+    if(ids.has('pedals')){ids.add(pedalArm);ids.add(pedalFace);}
     this.visible=Array.from(ids,id=>[id,this.part(id)]);
     for(const [,p] of this.visible){
       p.group.visible=true;p.group.position.copy(p.point);p.group.rotation.set(0,0,0);p.material.color.setHex(0xa2bece);
@@ -96,7 +109,8 @@ export class VehicleCutaway{
       const text=svg('text',{fill:'#eefaff','font-size':13});text.textContent=names[id];
       g.append(path,dot,bg,text);this.labels.append(g);return {id,path,dot,bg,text,p:this.part(id)};
     });
-    const box=new T.Box3().setFromPoints(this.visible.map(([,p])=>p.point));
+    const focus=key==='drive'?this.visible.filter(([id])=>id!=='pack'):this.visible;
+    const box=new T.Box3().setFromPoints(focus.map(([,p])=>p.point));
     this.center=box.getCenter(v());this.center.y-=.03;
     this.extent=box.getSize(v());this.camera.position.copy(this.center).add(v(1.5,4.1,3.2));
     this.camera.lookAt(this.center);this.camera.updateMatrixWorld();this.width=0;
@@ -105,7 +119,7 @@ export class VehicleCutaway{
     const aspect=w/h;
     const right=v(1,0,0).applyQuaternion(this.camera.quaternion),up=v(0,1,0).applyQuaternion(this.camera.quaternion);
     const span=axis=>Math.abs(axis.x)*this.extent.x+Math.abs(axis.y)*this.extent.y+Math.abs(axis.z)*this.extent.z;
-    const half=Math.max(1.03,(span(right)+.77)/(1.55*aspect),(span(up)+.70)/1.28);
+    const half=this.key==='drive'?Math.max(.66,(span(right)+.55)/(1.5*aspect),(span(up)+.42)/1.4):Math.max(1.03,(span(right)+.77)/(1.55*aspect),(span(up)+.70)/1.28);
     Object.assign(this.camera,{left:-half*aspect,right:half*aspect,top:half,bottom:-half});this.camera.updateProjectionMatrix();
     const pins=this.tags.map(tag=>{
       const p=tag.p.point.clone().project(this.camera);
@@ -115,7 +129,7 @@ export class VehicleCutaway{
       group.sort((a,b)=>a.y-b.y);
       group.forEach(({path,dot,bg,text,x,y},i)=>{
         const lane=46+(h-80)*(i+.5)/group.length;
-        const width=text.textContent.length*13+10,left=side?w-width-5:5;
+        const width=this.key==='drive'?94:text.textContent.length*13+10,left=side?w-width-5:5;
         const elbow=side?left:left+width;
         path.setAttribute('d',`M${x} ${y} L${elbow} ${lane}`);
         dot.setAttribute('cx',x);dot.setAttribute('cy',y);bg.setAttribute('x',left);bg.setAttribute('y',lane-10);bg.setAttribute('width',width);
@@ -142,16 +156,33 @@ export class VehicleCutaway{
       if(id==='apboard'&&a.computing)active.set(id,palette.compute);
       if(id==='hcu'&&a.brakeReceived&&a.accel<-.06)active.set(id,palette.braking);
       const tint=active.get(id);p.material.color.setHex(tint||0x7794a6);
+      if(id==='pack')p.material.opacity=this.key==='drive'?.075:.30;
       if(id==='wheelFL'||id==='wheelFR')p.group.rotation.y=a.steer;
       if(id===rackRod)p.group.position.z=p.point.z+a.steer*.8;
       if(id===padA||id===padB){
         const gap=this.part('discFL').point.z-p.point.z;
         p.group.position.z=p.point.z+Math.sign(gap)*Math.min(Math.abs(gap),Math.max(0,-a.accel)*.006);
       }
-      if(id===rotor||id==='discFL'||id==='rearLshaft')p.group.rotation.z=-a.s/.334;
-      if(id==='pedals')p.group.rotation.z=.18*Math.max(0,Math.min(1,(a.t-3.25)/.45,(5.85-a.t)/.15));
+      if(id===rotor)p.group.rotation.z=-a.motorAngle;
+      if([gear,'discFL','rearLshaft','wheelRL',encoder].includes(id))p.group.rotation.z=-(a.wheelAngle??a.s/.334);
+      if(id===impeller)p.group.rotation.x=a.pumpAngle;
+      if(id===pedalArm||id===pedalFace){
+        const pivot=this.part(pedalArm).point,angle=.18*(a.driverPedal||0);
+        p.group.position.copy(p.point).sub(pivot).applyAxisAngle(v(0,0,1),angle).add(pivot);
+        p.group.rotation.z=angle;
+      }
+      if(id==='rearinv'&&a.course==='drive'){
+        p.material.emissive.setHex(0xffa72f);p.material.emissiveIntensity=a.amp/146;
+      }else{p.material.emissive.setHex(0);}
     }
-    for(const tag of this.tags)tag.dot.setAttribute('fill',active.has(tag.id)?'#'+active.get(tag.id).toString(16).padStart(6,'0'):'#829bac');
+    for(const tag of this.tags){
+      tag.dot.setAttribute('fill',active.has(tag.id)?'#'+active.get(tag.id).toString(16).padStart(6,'0'):'#829bac');
+      if(this.key==='drive'){
+        const values={rearinv:'逆变器 '+Math.round(a.amp)+' A',rearmotor:'电机 '+Math.round(a.motorRPM)+' rpm',
+          rearLshaft:'半轴 '+Math.round(a.wheelRPM)+' rpm',wheelRL:'后轮 '+Math.round(a.wheelRPM)+' rpm'};
+        tag.text.textContent=values[tag.id];
+      }
+    }
     const x=panel.offsetLeft,y=canvasHeight-panel.offsetTop-h;
     renderer.setScissorTest(true);renderer.setViewport(x,y,w,h);renderer.setScissor(x,y,w,h);
     renderer.setClearColor(0x102534,1);renderer.render(this.scene,this.camera);

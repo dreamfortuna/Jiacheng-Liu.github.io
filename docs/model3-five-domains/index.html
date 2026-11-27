@@ -32,7 +32,7 @@
 <button id="core-next" aria-label="下一个讲解环节" title="下一个讲解环节">›</button></nav></header>
 <div class="stage-visual"><div id="viewport" class="viewport"><canvas id="model-canvas" tabindex="0" aria-label="可点击拆解的三维整车，拖动旋转，滚轮缩放"></canvas>
 <div id="labels" aria-label="当前层的模型标注"></div>
-<div id="road-region" hidden></div>
+<div id="road-region" hidden><output id="road-speed" aria-label="道路车速"></output></div>
 <section id="cutaway" aria-label="同步车内透视" hidden>
 <header><strong>车内透视</strong><span>功能路径示意</span></header><svg id="cut-labels" aria-label="模型部件标注"></svg>
 <div id="cut-key"></div></section>
@@ -46,6 +46,7 @@
 <span class="view-tip" id="view-tip">单击拆解 · 拖动旋转 · 滚轮缩放</span></div>
 <aside id="adas-lab" aria-label="可调参数的智驾教学实验" hidden></aside></div>
 <section id="film-data" aria-label="行驶动画信号与车辆响应" hidden>
+<div id="drive-instruments" hidden><div>逆变器电流 <meter id="drive-current" min="0" max="150"></meter> <b id="drive-input"></b></div><div>电机 <b id="drive-motor"></b></div><div>减速后半轴 / 后轮 <b id="drive-shaft"></b></div><div>道路车速 <b id="drive-speed"></b></div><small>示例减速比 9∶1，轮胎有效半径 0.334 m。彩色刻线显示旋转方向。</small></div>
 <div id="branch-status" hidden><div>前视摄像头 → HW4<strong id="branch-vision"></strong></div><div>HW4 → 助力转向器<strong id="branch-steer"></strong></div><div>HW4 → 液压单元 → 制动钳<strong id="branch-brake"></strong></div></div>
 <ol id="film-chain"><li>前视采样</li><li>目标跟踪</li><li>智驾计算</li><li>底盘请求</li></ol>
 <div id="film-topic-meters" class="film-meters" hidden></div>

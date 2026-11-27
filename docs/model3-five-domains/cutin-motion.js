@@ -59,20 +59,3 @@ export function sample(t){
   out.epsReceived=out.age>=1.05;out.brakeReceived=out.age>=1.10;out.hydraulic=out.age>=1.22;
   return out;
 }
-
-// A separate acceleration example for the electric drive lesson. The road pose and
-// wheel rotation use the integral of the displayed velocity.
-export function tractionSample(t){
-  const a=sample(t),u=clamp(t-1,0,5),speed=5+.85*u;
-  const s=5*t+.425*u*u+.85*5*Math.max(0,t-6),p=roadPose(s),n=roadPose(s+18,3.6);
-  const angle=Math.atan(wheelbase*(heading(s+.05)-heading(s-.05))/.1);
-  return {...a,...p,s,speed,accel:t>=1&&t<6?.85:0,steer:angle,steerRequest:angle,brakeRequest:0,
-    nx:n.x,nz:n.z,nyaw:n.yaw,left:3.6,gap:18-4.69,observed:false,computing:false,requested:false};
-}
-export function driverSample(t){
-  const a=tractionSample(t),u=clamp(t-3.70,0,2),speed=10-.95*u;
-  const s=10*t-.475*u*u-1.9*Math.max(0,t-5.7),p=roadPose(s),n=roadPose(s+17,3.6);
-  const angle=Math.atan(wheelbase*(heading(s+.05)-heading(s-.05))/.1);
-  return {...a,...p,s,speed,steer:angle,steerRequest:angle,accel:t>=3.7&&t<5.7?-.95:0,
-    brakeRequest:t>=3.25&&t<5.7?-.95:0,nx:n.x,nz:n.z,nyaw:n.yaw};
-}

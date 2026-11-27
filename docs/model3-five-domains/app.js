@@ -241,7 +241,7 @@ function navRender(){
       addList(host,l.steps.map((s,i)=>row(s.id,s.label,()=>gotoStep(i),
         {idx:String(i+1).padStart(2,'0'),active:i===state.step,key:classroom?'core-step-'+i:'step-'+s.id})));
     }else {
-      host.append(make('p',classroom?'弯道中，邻车从遮挡处切入。本车如何看见它、判断风险、调整方向和速度？':'从“谁负责”开始，再追踪转向、制动和驱动，最后看哪些部件需要共同散热。','course-intro'));
+      host.append(make('p',classroom?'选择道路工况，同时观察道路、传感器和控制器的响应。':'选择整车工况，跟踪起步、转向、停车、加速与爬坡散热。','course-intro'));
       if(classroom){
         const full=button('行驶动画 · '+model.caseStudy.title,()=>{openFilm();
           if(matchMedia('(max-width:690px)').matches)el('heading').scrollIntoView({block:'start'});},'nav-feature case-feature');
