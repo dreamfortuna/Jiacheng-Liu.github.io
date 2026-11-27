@@ -17,7 +17,6 @@ export class VehicleView {
     this.ray=new T.Raycaster(); this.scene=new T.Scene();
     this.renderer=new T.WebGLRenderer({canvas,antialias:true,alpha:true,powerPreference:'high-performance'});
     this.renderer.shadowMap.enabled=true;this.renderer.shadowMap.type=T.PCFSoftShadowMap;
-    this.renderer.setPixelRatio(Math.min(devicePixelRatio||1,matchMedia('(max-width:690px)').matches?1.25:1.75));
     this.renderer.setClearColor(0,0); this.renderer.outputColorSpace=T.SRGBColorSpace;
     this.renderer.toneMapping=T.ACESFilmicToneMapping; this.renderer.toneMappingExposure=1.06;
     this.camera=new T.OrthographicCamera(-3,3,2,-2,.0003,180);
@@ -88,8 +87,11 @@ export class VehicleView {
   }
   resize(){
     const w=this.canvas.clientWidth,h=this.canvas.clientHeight;if(!w||!h)return;
-    if(w===this.viewportWidth&&h===this.viewportHeight)return;
+    // Match high-density screens while bounding the drawing buffer on large displays.
+    const ratio=Math.min(devicePixelRatio||1,3,Math.sqrt(4800000/(w*h)));
+    if(w===this.viewportWidth&&h===this.viewportHeight&&ratio===this.renderer.getPixelRatio())return;
     this.viewportWidth=w;this.viewportHeight=h;
+    this.renderer.setPixelRatio(ratio);
     this.aspect=w/h;this.renderer.setSize(w,h,false);
     if(this.film)this.film.lastWidth=0;
     this.projection();if(this.scope&&!this.cameraTween)this.fit(false);
@@ -106,7 +108,7 @@ export class VehicleView {
     this.camera.top=h;this.camera.bottom=-h;this.camera.updateProjectionMatrix();
   }
   async loadOverview(){
-    const bytes=await assetBytes('assets/overview.glb',this.catalog.revision);
+    const bytes=await assetBytes('assets/overview.glb',this.catalog.revision+'-body2');
     const {scene}=await new GLTFLoader().parseAsync(bytes,'assets/');
     this.root=scene;this.scene.add(scene);
     scene.traverse(o=>{

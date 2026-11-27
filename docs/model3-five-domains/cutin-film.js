@@ -57,7 +57,7 @@ export class CutinFilm {
     this.camera=new T.OrthographicCamera(-15,15,10,-10,.1,250);
     this.frontView=new T.PerspectiveCamera(42,16/9,.1,180);
     const builder=new AdasOverlays(view);builder.memo=new Map();builder.group=new T.Group();
-    builder.exterior(true);
+    builder.exterior(true,true);
     this.ego=new T.Group();this.scene.add(this.ego);
     const {origin}=builder.axes();
     const wheelRadius=view.records.get('wheelFL').half[1],floor=origin.y-wheelRadius;
@@ -74,10 +74,6 @@ export class CutinFilm {
       }
       this.wheels.push({pivot,spin,front:key.startsWith('wheelF')});
     }
-    body.traverse(m=>{
-      if(!m.isMesh)return;
-      m.material.opacity=1;m.material.transparent=false;m.material.depthWrite=true;
-    });
     builder.group=new T.Group();
     builder.trafficCar('邻车',{at:()=>V(),x:V(1,0,0),l:V(0,0,-1)},0,0);
     this.neighbor=builder.group.children.find(o=>o.userData.layerKind==='traffic-actor');

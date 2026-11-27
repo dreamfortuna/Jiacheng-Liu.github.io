@@ -116,7 +116,9 @@ export class AdasOverlays {
       const geos=new Set(),materials=new Set();
       this.group.traverse(o=>{
         if(o.geometry&&!o.userData.borrowedGeometry)geos.add(o.geometry);
-        for(const m of o.material?(Array.isArray(o.material)?o.material:[o.material]):[])materials.add(m);
+        if(o.material&&!o.userData.borrowedMaterial){
+          for(const m of Array.isArray(o.material)?o.material:[o.material])materials.add(m);
+        }
         if(o.isInstancedMesh)o.dispose();
       });
       this.group.removeFromParent();
@@ -159,7 +161,7 @@ export class AdasOverlays {
     const parent=this.view.records.get(owner);
     return parent?.children.find(id=>this.view.records.get(id)?.label===label)||owner;
   }
-  exterior(road=false){
+  exterior(road=false,solid=false){
     if(!this.view.leafMeshes)return;
     const mats=new Map(),roots=['outer','glass','closures'];
     if(road)roots.push('lf','rf','lr','rr','wheels');
@@ -183,21 +185,21 @@ export class AdasOverlays {
         else if(root==='glass'||/侧窗玻璃|镜片/.test(label))key='glass';
         else key='paint';
       }
-      if(!mats.has(key)){
+        if(!solid&&!mats.has(key)){
         const [color,opacity]=palette[key];
         mats.set(key,new T.MeshStandardMaterial({color,metalness:.20,roughness:.57,
           transparent:true,opacity,depthWrite:false,side:T.FrontSide}));
       }
       // Borrow the model's original triangles. Only the context material belongs to this unpickable layer.
       for(const source of meshes){
-        const ob=new T.Mesh(source.geometry,mats.get(key)),chain=[];
+          const ob=new T.Mesh(source.geometry,solid?source.userData.baseMaterial:mats.get(key)),chain=[];
         for(let ancestor=source;ancestor;ancestor=ancestor.parent)chain.unshift(ancestor);
         for(const ancestor of chain){
           const rest=this.view.items.get(ancestor.userData.seId)?.rest||ancestor.position;
           ob.matrix.multiply(new T.Matrix4().compose(rest,ancestor.quaternion,ancestor.scale));
         }
         ob.name='自车 · '+label;ob.matrixAutoUpdate=false;ob.renderOrder=['tyre','rim'].includes(key)?-3:key==='glass'?-1:-2;
-        ob.userData.borrowedGeometry=true;ob.userData.sourcePart=id;ob.userData.layerKind='vehicle-context';
+          ob.userData.borrowedGeometry=true;ob.userData.borrowedMaterial=solid;ob.userData.sourcePart=id;ob.userData.layerKind='vehicle-context';
         this.group.add(ob);
       }
     }
