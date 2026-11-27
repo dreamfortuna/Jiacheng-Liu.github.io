@@ -21,7 +21,7 @@ export class VehicleView {
     this.renderer.toneMapping=T.ACESFilmicToneMapping; this.renderer.toneMappingExposure=1.06;
     this.camera=new T.OrthographicCamera(-3,3,2,-2,.0003,180);
     this.camera.position.copy(front).multiplyScalar(10); this.camera.lookAt(0,.65,0);
-    this.controls=this.orbit(this.camera);this.assemblyCamera=this.camera;this.assemblyControls=this.controls;
+    this.controls=this.orbit(this.camera);
     this.camera.up.set(0,1,0); this.span=4; this.buildStudio();
     new ResizeObserver(()=>this.resize()).observe(canvas.parentElement);
     this.resize(); this.bindPointer();
@@ -34,21 +34,6 @@ export class VehicleView {
     orbit.addEventListener('start',()=>{this.cameraTween=null;});
     orbit.addEventListener('change',()=>{this.dirty=true;});
     return orbit;
-  }
-  useCamera(reference){
-    if(reference&&!this.referenceCamera){
-      this.referenceCamera=new T.PerspectiveCamera(reference.fov,1,.0003,180);
-      this.referenceCamera.up.fromArray(reference.up).normalize();
-      this.referenceControls=this.orbit(this.referenceCamera);
-    }
-    this.controls.enabled=false;
-    this.camera=reference?this.referenceCamera:this.assemblyCamera;
-    this.controls=reference?this.referenceControls:this.assemblyControls;
-    this.controls.enabled=true;this.projection();
-  }
-  referencePose(ref){
-    const d=vec(ref.position).sub(vec(ref.target)),distance=d.length();
-    return {center:ref.target,dir:d.normalize().toArray(),distance,span:2*distance*Math.tan(T.MathUtils.degToRad(ref.fov/2))};
   }
   buildStudio() {
     this.studio=new T.Group();this.scene.add(this.studio);
@@ -70,20 +55,6 @@ export class VehicleView {
     g.fillStyle=grad;g.fillRect(0,0,128,128);
     this.shadow=new T.Mesh(new T.PlaneGeometry(5.9,2.95),new T.MeshBasicMaterial({map:new T.CanvasTexture(source),transparent:true,depthWrite:false}));
     this.shadow.rotation.x=-Math.PI/2;this.shadow.position.set(-.07,-.005,0);this.shadow.renderOrder=-2;this.scene.add(this.shadow);
-    this.manualMaterials={};
-    for(const [k,color,roughness,metalness] of [['carrier',0xd2d4d0,.60,.32],['loom',0x096be0,.34,.11],['connector',0x232a31,.59,.17],['ground',0xa17744,.45,.58]]){
-      this.manualMaterials[k]=new T.MeshStandardMaterial({color,roughness,metalness});
-    }
-    this.serviceRig=new T.Group();this.serviceRig.visible=false;this.scene.add(this.serviceRig);
-    this.serviceRig.add(new T.HemisphereLight(0xfafdff,0x8b8a84,.95));
-    this.serviceKey=new T.DirectionalLight(0xffffff,2.7);this.serviceKey.castShadow=true;
-    this.serviceKey.shadow.mapSize.set(2048,2048);this.serviceKey.shadow.bias=-.00012;
-    this.serviceFill=new T.DirectionalLight(0xf1f4ff,.66);
-    this.serviceRig.add(this.serviceKey,this.serviceKey.target,this.serviceFill,this.serviceFill.target);
-    this.arrow=new T.Group();const red=new T.MeshBasicMaterial({color:0xd82f26,depthTest:false});
-    const shaft=new T.Mesh(new T.CylinderGeometry(.007,.007,.09,16),red);
-    const tip=new T.Mesh(new T.ConeGeometry(.018,.047,20),red);shaft.position.y=-.092;tip.position.y=-.0235;
-    this.arrow.add(shaft,tip);this.arrow.traverse(o=>o.renderOrder=30);this.arrow.visible=false;this.scene.add(this.arrow);
   }
   resize(){
     const w=this.canvas.clientWidth,h=this.canvas.clientHeight;if(!w||!h)return;
@@ -98,12 +69,6 @@ export class VehicleView {
     this.dirty=true;
   }
   projection(){
-    if(this.camera.isPerspectiveCamera){
-      const ref=this.scope.service.referenceCamera;
-      const halfHeight=Math.tan(T.MathUtils.degToRad(ref.fov/2))*Math.max(1,ref.aspect/this.aspect)*1.035;
-      this.camera.fov=T.MathUtils.radToDeg(2*Math.atan(halfHeight));this.camera.aspect=this.aspect;
-      this.camera.updateProjectionMatrix();return;
-    }
     const h=this.span/2;this.camera.left=-h*this.aspect;this.camera.right=h*this.aspect;
     this.camera.top=h;this.camera.bottom=-h;this.camera.updateProjectionMatrix();
   }
@@ -185,10 +150,8 @@ export class VehicleView {
     mesh.material=this.variants.get(k);
   }
   setView(spec,pose=null,instant=false){
-    const previous=this.scope,ref=spec.service?.referenceCamera;
-    const cameraChange=Boolean(ref)!==Boolean(previous?.service?.referenceCamera);
+    const previous=this.scope;
     this.scope=spec;this.move=null;this.cameraTween=null;
-    if(cameraChange)this.useCamera(ref);
     const roots=new Set(spec.include),allow=id=>{for(const a of roots)if(this.descendant(id,a))return true;return false;};
     const proxies=spec.overview;
     this.picks=[];
@@ -196,13 +159,8 @@ export class VehicleView {
       const vis=!proxies&&allow(id);
       for(const m of meshes){
         m.visible=vis;
-        m.castShadow=m.receiveShadow=Boolean(vis&&spec.service);
         if(vis){
-          if(spec.service){
-            const s=spec.service;
-            const type=Object.entries(s.styles).find(([,ids])=>ids.some(a=>this.descendant(id,a)))?.[0]||'carrier';
-            m.material=this.manualMaterials[type];
-          }else this.styleMesh(m,spec.highlight?(this.descendant(id,spec.highlight)?'active':'context'):'');
+          this.styleMesh(m,spec.highlight?(this.descendant(id,spec.highlight)?'active':'context'):'');
           this.picks.push(m);
         }
       }
@@ -221,36 +179,15 @@ export class VehicleView {
       }
     }
     this.scene.updateMatrixWorld(true);
-    this.studio.visible=!spec.service;this.serviceRig.visible=Boolean(spec.service);
-    this.scene.environmentIntensity=spec.service ? .30 : .79;
-    if(spec.service)this.aimServiceLights(spec);
-    this.arrow.visible=Boolean(spec.arrow&&this.labelsOn);
-    if(spec.arrow){
-      this.items.get(spec.arrow).ob.getWorldPosition(this.arrow.position);
-      this.arrow.scale.setScalar(spec.service.arrowScale??(spec.service.id === 'computer' ? .33 : 1));
-    }
     const retainOrbit=previous&&previous.explode===spec.explode&&!spec.defaultDirection;
-    const direction=spec.direction&&(!retainOrbit||spec.service)?vec(spec.direction).normalize():
-      spec.defaultDirection?(spec.service?vec(spec.service.direction).normalize():front):null;
-    const goal=pose||(ref?(cameraChange||spec.defaultDirection?this.referencePose(ref):this.snapshot()):this.targetPose(spec.focus||null,direction));
+    const direction=spec.direction&&!retainOrbit?vec(spec.direction).normalize():spec.defaultDirection?front:null;
+    const goal=pose||this.targetPose(spec.focus||null,direction);
     if(!instant&&!reduced){
       for(const m of moves)m.ob.position.copy(m.start);
       this.move={start:performance.now(),items:moves};
     }
-    this.fly(goal,instant||reduced||cameraChange);this.updatePins(spec.labels,spec.highlight);
+    this.fly(goal,instant||reduced);this.updatePins(spec.labels,spec.highlight);
     this.scene.updateMatrixWorld(true);this.dirty=true;
-  }
-  aimServiceLights(spec){
-    const box=this.bounds(null);if(!box)return;
-    const mid=box.getCenter(new T.Vector3()),size=box.getSize(new T.Vector3()).length();
-    const dir=vec(spec.direction||spec.service.direction).normalize(),side=dir.clone().cross(new T.Vector3(0,1,0)).normalize();
-    const key=this.serviceKey,fill=this.serviceFill;
-    key.target.position.copy(mid);fill.target.position.copy(mid);
-    key.position.copy(mid).addScaledVector(dir,.65*size).addScaledVector(side,.86*size);key.position.y+=1.18*size;
-    fill.position.copy(mid).addScaledVector(dir,.45*size).addScaledVector(side,-.96*size);fill.position.y+=.37*size;
-    const c=key.shadow.camera,r=size*.57;
-    c.left=c.bottom=-r;c.right=c.top=r;c.near=.001;c.far=size*3.5;c.updateProjectionMatrix();
-    key.shadow.normalBias=size*.00025;
   }
   bounds(focus){
     const b=new T.Box3();
@@ -305,9 +242,8 @@ export class VehicleView {
   fit(animated=true){
     if(!this.scope)return;
     this.scene.updateMatrixWorld(true);
-    const ref=this.scope.service?.referenceCamera;
     const dir=this.scope.direction?vec(this.scope.direction).normalize():null;
-    this.fly(ref?this.referencePose(ref):this.targetPose(null,dir),!animated||reduced);
+    this.fly(this.targetPose(null,dir),!animated||reduced);
   }
   updatePins(defs,highlight){
     this.labels.replaceChildren();this.pins=[];
@@ -380,10 +316,6 @@ export class VehicleView {
       if(t===1)this.cameraTween=null;
     }
     if(this.dirty){
-      if(this.arrow.visible){
-        const d=new T.Vector3(-.60,-.80,0).applyQuaternion(this.camera.quaternion);
-        this.arrow.quaternion.setFromUnitVectors(new T.Vector3(0,1,0),d);
-      }
       this.renderer.render(this.scene,this.camera);this.positionPins();this.dirty=false;
     }
   }

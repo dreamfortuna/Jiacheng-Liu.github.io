@@ -11,7 +11,7 @@ const colors={ap:'#bc5839',cab:'#588396',lv:'#ba8952',net:'#579286',hv:'#bd7935'
 const lessonNames={overview:'博世五大功能域',turn:'自动转向',brake:'制动与轮速反馈',drive:'电驱动与动力传递',coolant:'热泵与跨域冷却'};
 const escapeState=s=>({...s});
 const normalize=s=>s.toLocaleLowerCase().replace(/[\s()（）·-]/g,'');
-let model,notes,core,nodes,lessons,view,lab,overlays,ready=false,treeHistory=[],mode='tree',resumePoint=null,caseBookmark=null,diagramOrigin=null;
+let model,notes,core,nodes,lessons,view,lab,overlays,ready=false,treeHistory=[],mode='tree',resumePoint=null,caseBookmark=null;
 let state={kind:'tree',id:'HIGHLAND',fraction:0};
 let lessonMenu=false,query='',labelsOn=true;
 let detailReady=false, detailLoad=null, navigation=0, playing=false, timer=0;
@@ -31,8 +31,7 @@ function button(label,fn,css=''){
 function trail(id){const chain=[];for(let n=nodes.get(id);n;n=nodes.get(n.parent))chain.unshift(n);return chain;}
 function currentStep(){return lessons.get(state.lesson).steps[state.step];}
 function courseInfo(){return state.kind==='lesson'?currentStep():null;}
-function currentDiagram(){return model.diagrams.find(d=>d.id===state.diagram);}
-function currentId(){return state.kind==='diagram'?currentDiagram().spots[state.spot].id:courseInfo()?.id||state.id;}
+function currentId(){return courseInfo()?.id||state.id;}
 function snapshot(){return {state:state.kind==='film'?{...state,time:film.t,paused:true}:escapeState(state),camera:view.snapshot(),mode};}
 function resetSearch(){query='';el('search').value='';}
 function transition(next,options={}){
@@ -65,7 +64,7 @@ function transition(next,options={}){
   if(next.kind==='lesson'&&!advance&&matchMedia('(max-width:690px)').matches)el('narrative').scrollIntoView({block:'nearest'});
 }
 function home(){
-  if(!ready)return;treeHistory=[];resumePoint=null;caseBookmark=null;diagramOrigin=null;transition({kind:'tree',id:model.root,fraction:0},{push:false,resetDir:true});
+  if(!ready)return;treeHistory=[];resumePoint=null;caseBookmark=null;transition({kind:'tree',id:model.root,fraction:0},{push:false,resetDir:true});
 }
 function back(){
   const old=treeHistory.pop();
@@ -74,7 +73,6 @@ function back(){
 }
 function startLesson(key,step=0,fromCase=false){
   if(!lessons.has(key))return;
-  diagramOrigin=null;
   caseBookmark=fromCase?snapshot():null;
   const same=state.kind==='lesson';resumePoint=null;
   const parameters=lessons.get(key).core?parametersFor(key,step):{};
@@ -82,21 +80,6 @@ function startLesson(key,step=0,fromCase=false){
 }
 function openFilm(key=model.caseStudy.id){
   transition({kind:'film',course:key,id:model.root,time:0});
-}
-function openDiagram(id,spot=0,fromClass=false){
-  diagramOrigin=fromClass?snapshot():null;
-  transition({kind:'diagram',diagram:id,spot},{resetDir:true});
-}
-function diagramForStep(step){
-  let best=null;
-  for(const [i,id] of [step.id,...step.related].entries())for(const d of model.diagrams){
-    d.spots.forEach((s,j)=>{
-      if(!view.descendant(id,s.id))return;
-      const rank=20*i+trail(id).length-trail(s.id).length;
-      if(!best||rank<best.rank)best={d,j,rank};
-    });
-  }
-  return best;
 }
 function gotoStep(i,advance=false){
   if(i<0||i>=lessons.get(state.lesson).steps.length)return;
@@ -145,7 +128,7 @@ function enter(id){
 }
 function resume(){
   if(!resumePoint)return;const prev=resumePoint;resumePoint=null;
-  const i=treeHistory.findLastIndex(s=>s.state.kind===prev.state.kind&&s.state.lesson===prev.state.lesson&&s.state.step===prev.state.step&&s.state.diagram===prev.state.diagram&&s.state.spot===prev.state.spot);
+  const i=treeHistory.findLastIndex(s=>s.state.kind===prev.state.kind&&s.state.lesson===prev.state.lesson&&s.state.step===prev.state.step);
   if(i>=0)treeHistory=treeHistory.slice(0,i);
   transition(prev.state,{push:false,pose:prev.camera});
 }
@@ -156,14 +139,6 @@ function changeOpen(fraction){
 }
 function pick(id){
   if(!ready||state.kind==='film')return;
-  if(state.kind==='diagram'){
-    const spots=currentDiagram().spots;
-    const best=spots.map((s,i)=>({id:s.id,i,len:trail(s.id).length})).filter(s=>view.descendant(id,s.id)).sort((a,b)=>b.len-a.len)[0];
-    const i=best?.i??-1;
-    if(i>=0&&i!==state.spot)transition({...state,spot:i},{push:false});
-    else enter(best?.id||id);
-    return;
-  }
   if(state.kind==='lesson'){
     const steps=lessons.get(state.lesson).steps;
     if(isCore()){
@@ -184,10 +159,6 @@ function pick(id){
   const child=trail(id).find(n=>n.parent===state.id);if(child)enter(child.id);
 }
 function viewSpec(defaultDirection){
-  if(state.kind==='diagram'){
-    const s=currentDiagram(),spot=s.spots[state.spot];
-    return {include:s.include,overview:false,fraction:0,service:s,arrow:spot.arrow||null,direction:spot.direction,labels:[],defaultDirection};
-  }
   if(state.kind==='lesson'){
     const l=lessons.get(state.lesson),step=currentStep(),overview=state.lesson==='overview';
     if(l.core)return {overview:false,fraction:0,highlight:step.id,defaultDirection,
@@ -256,12 +227,6 @@ function navRender(){
     }
     return;
   }
-  if(state.kind==='diagram'){
-    const diagram=currentDiagram();el('nav-title').textContent='安装关系';el('nav-count').textContent=diagram.spots.length+' 个视点';
-    host.append(button('返回整车目录',home,'nav-back'));
-    addList(host,diagram.spots.map((s,i)=>row(s.id,s.label,()=>transition({...state,spot:i},{push:false}),
-      {active:state.spot===i,idx:String(i+1).padStart(2,'0'),key:'spot-'+i})));return;
-  }
   const id=state.kind==='tree'?state.id:model.root,n=nodes.get(id);
   el('nav-count').textContent=id===model.root?model.domainOrder.length+' 个功能域':n.children.length+' 个下级';
   if(id!==model.root){
@@ -274,11 +239,9 @@ function navRender(){
     const c=nodes.get(cid),dom=id===model.root?cid:'';
     return row(cid,c.label,()=>enter(cid),{idx:dom?String(i+1).padStart(2,'0'):'',domain:dom,tail:c.type==='assembly'?String(c.count):''});
   }));
-  if(id===model.root)for(const d of model.diagrams||[])host.append(button(d.title,()=>openDiagram(d.id),'nav-feature'));
 }
 function breadcrumb(){
   const host=el('crumbs');host.replaceChildren();
-  if(state.kind==='diagram'){host.append(button('整车',home),make('span','/'),make('span','安装关系'));return;}
   if(state.kind==='lesson'){host.append(button(isCore()?'智驾专题':'讲解路线',()=>showLessonMenu(isCore()?'core':'lesson')),make('span','/'),make('span',lessons.get(state.lesson).title));return;}
   const chain=trail(state.id);
   const parts=chain.length>4?[chain[0],null,...chain.slice(-3)]:chain;
@@ -295,23 +258,6 @@ function external(host,url,label){
 }
 function detail(){
   const courseDetails=el('core-detail');courseDetails.replaceChildren();courseDetails.hidden=!isCore();
-  if(state.kind==='diagram'){
-    const diagram=currentDiagram(),spot=diagram.spots[state.spot];el('heading').textContent=diagram.title;
-    el('view-mode').textContent='维修示图';el('subtitle').textContent=diagram.subtitle;
-    el('detail-kind').textContent='安装关系';el('detail-title').textContent=spot.label;el('detail-copy').textContent=spot.note;
-    el('io').replaceChildren();const ev=el('evidence');ev.replaceChildren();
-    for(const [label,color] of diagram.legend){
-      const k=make('span','','diagram-key'),sw=make('i');sw.style.background=color;k.append(sw,document.createTextNode(label));ev.append(k);
-    }
-    const source=spot.url||diagram.url;
-    external(ev,source,source.includes('/connector/')?'原厂连接器条目':'原厂维修图');
-    if(diagram.imageUrl)external(ev,spot.imageUrl||diagram.imageUrl,(spot.imageUrl||diagram.imageUrl).includes('/faceviews/')?'对照原厂端面图':'对照原厂位置图');
-    else external(ev,nodes.get(spot.id)?.figureUrl||nodes.get(spot.arrow)?.figureUrl,'对照当前部位插图');
-    const a=el('actions');a.replaceChildren();
-    a.append(button('拆开当前对象',()=>enter(spot.id),'primary'),button('下一个视点',()=>transition({...state,spot:(state.spot+1)%diagram.spots.length},{push:false})));
-    if(diagramOrigin)a.append(button('返回智驾步骤',()=>{const prev=diagramOrigin;diagramOrigin=null;transition(prev.state,{push:false,pose:prev.camera});}));
-    a.append(button('返回整车',home));return;
-  }
   const record=nodes.get(currentId()),isCourse=state.kind==='lesson',base=record.id===model.root;
   const teaching=isCourse?currentStep():notes.notes[record.id]||notes.domains[record.id];
   el('heading').textContent=isCourse?lessons.get(state.lesson).title:base?(model.projectTitle||document.title):record.label;
@@ -329,8 +275,6 @@ function detail(){
     if(inCase())courseDetails.append(make('span',teaching.role,'core-locator'));
     const related=make('div','','core-related');
     [teaching.id,...teaching.related].forEach(id=>related.append(button(nodes.get(id).label,()=>enter(id))));
-    const installation=diagramForStep(teaching);
-    if(installation)related.append(button('安装图 · '+installation.d.title,()=>openDiagram(installation.d.id,installation.j,true)));
     courseDetails.append(related);
     if(teaching.boundary)courseDetails.append(make('p',teaching.boundary,'core-locator'));
     const reflection=make('details','','core-recap');
@@ -384,7 +328,7 @@ function detail(){
     return;
   }
   if(record.children.length)a.append(button(state.fraction>.01?'合拢本层':base?'展开五大功能域':'展开本层',()=>changeOpen(state.fraction>.01?0:1),'primary'));
-  if(resumePoint)a.append(button(resumePoint.state.kind==='diagram'?'返回安装关系图':'返回讲解步骤',resume,'primary'));
+  if(resumePoint)a.append(button('返回讲解步骤',resume,'primary'));
   if(!base||state.fraction>.01)a.append(button('返回上一步',back));
   if(base&&!state.fraction)a.append(button('开始系统讲解',()=>openFilm('overview')),button('行驶动画 · 弯道切入',()=>openFilm()));
   if(record.children.length&&(!base||state.fraction>.01)){
@@ -405,7 +349,6 @@ function syncLegend(){
 }
 function viewHint(){
   if(playing)return isCore()&&overlays.motionPaths.length?'青色光点沿当前教学路径移动':'青色光点指示本幕讲解对象';
-  if(state.kind==='diagram')return '红色箭头标出当前安装位置 · 拖动旋转';
   if(!isCore())return state.kind==='lesson'?'点当前对象进入局部拆解 · 拖动旋转':'单击拆解 · 拖动旋转 · 滚轮缩放';
   const module=moduleId();
   if(['prediction','longitudinal','ego'].includes(module)||module==='lateral'&&![1,2].includes(moduleStage()))return '三维路程按教学比例绘制 · 数值见实验';
@@ -479,17 +422,17 @@ async function boot(){
     el('progress-text').textContent='正在载入五域总览…';
     await view.loadOverview();
     ready=true;render(true,null,true);el('progress').hidden=true;
-    const initial=new URLSearchParams(location.search),lesson=initial.get('lesson'),node=initial.get('node');
+    const initial=new URLSearchParams(location.search),lesson=initial.get('lesson');
+    // Existing bookmarks now open the matching assembly in the disassembly tree.
+    const formerViews=new Map([['subframe','carrierharness'],['computer','computer'],['driver-camera','forward'],
+      ['driver-steering','rackassy'],['driver-brake','brFL']]);
+    const node=initial.get('node')||(initial.get('view')==='service'&&formerViews.get(initial.get('diagram')));
     if(lesson&&lessons.has(lesson)&&!initial.has('step'))openFilm(lesson);
     else if(lesson&&lessons.has(lesson))startLesson(lesson,Math.max(0,Math.min(lessons.get(lesson).steps.length-1,parseInt(initial.get('step'),10)-1||0)));
     else if(initial.get('case')==='cutin'&&!initial.has('stage'))openFilm();
     else if(initial.get('case')==='cutin')startLesson(model.caseStudy.id,Math.max(0,Math.min(model.caseStudy.steps.length-1,parseInt(initial.get('stage'),10)-1||0)));
     else if(initial.get('view')==='classroom')showLessonMenu('core');
     else if(initial.get('view')==='adas')openFilm(core.lessons[0].id);
-    else if(initial.get('view')==='service'&&model.diagrams?.length){
-      const diagram=model.diagrams.find(d=>d.id===initial.get('diagram'))||model.diagrams[0];
-      transition({kind:'diagram',diagram:diagram.id,spot:0},{resetDir:true});
-    }
     else if(node&&nodes.has(node)){
       if(initial.get('assembled')==='1')transition({kind:'tree',id:node,fraction:0},{resetDir:true});
       else enter(node);
@@ -515,7 +458,7 @@ el('search').oninput=e=>{if(ready){query=e.target.value.trim();navRender();}};
 el('search').onkeydown=e=>{if(e.key==='Enter'&&query)el('navigation').querySelector('.nav-row')?.click();};
 el('sources').onclick=()=>el('about').showModal();el('close-about').onclick=()=>el('about').close();
 el('fit').onclick=()=>view?.fit();
-el('tags').onclick=()=>{labelsOn=!labelsOn;el('tags').setAttribute('aria-pressed',labelsOn);if(view){view.labelsOn=labelsOn;view.arrow.visible=Boolean(view.scope?.arrow&&labelsOn);el('labels').hidden=!labelsOn;syncLegend();view.dirty=true;}};
+el('tags').onclick=()=>{labelsOn=!labelsOn;el('tags').setAttribute('aria-pressed',labelsOn);if(view){view.labelsOn=labelsOn;el('labels').hidden=!labelsOn;syncLegend();view.dirty=true;}};
 el('fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();}catch{el('announce').textContent='当前浏览器未提供全屏';}};
 document.addEventListener('keydown',e=>{
   if(!ready||e.target.matches('input,textarea,select')||el('about').open||e.altKey||e.ctrlKey||e.metaKey)return;

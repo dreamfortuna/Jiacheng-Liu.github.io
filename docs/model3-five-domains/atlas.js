@@ -85,9 +85,6 @@ function details(r){
     }
     content.append(model);
   }
-  if(r.diagram){
-    const a=link('打开三维安装示图','./?view=service&diagram='+r.diagram,true);a.className='atlas-model';content.append(a);
-  }
   const related=r.schematicIds||r.connectorIds;
   if(related?.length){
     const group=element('details','','atlas-figures'),kind=r.kind==='connector'?'schematic':'connector';
@@ -118,7 +115,7 @@ function recordRow(r){
   const title=r.kind==='connector'&&!normalize(r.label).includes(normalize(r.id))?r.id+' · '+r.label:r.label||r.en;
   summary.append(element('strong',title),element('span',[
     types[r.kind]||r.kind,r.chapter,r.variant||'',r.applicability==='other-variant'?'其他配置':'',r.figures?.length?r.figures.length+' 个图示':'',
-    r.diagram?'有三维安装示图':r.geometryWork?'已按图更新模型':r.examples?.length?'已核对装配关系':r.nodes?.length?'模型引用此资料':''
+    r.geometryWork?'已按图更新模型':r.examples?.length?'已核对装配关系':r.nodes?.length?'模型引用此资料':''
   ].filter(Boolean).join(' · '),'atlas-meta'));
   row.append(summary);
   row.addEventListener('toggle',()=>{if(row.open&&row.childElementCount===1)row.append(details(r));});
@@ -149,7 +146,7 @@ async function start(){
   byId=new Map(atlas.records.map(r=>[String(r.id).toLowerCase(),r]));
   for(const r of atlas.records){
     r.search=normalize([r.id,r.label,r.en,r.chapter,r.variant,...(r.partNumbers||[]),...(r.nodes||[]).map(id=>atlas.nodes[id])].join(' '));
-    r.rank=r.diagram?0:r.dimensionTable?0.5:r.examples?.length?1:r.nodes?.length?2:3;
+    r.rank=r.dimensionTable?0.5:r.examples?.length?1:r.nodes?.length?2:3;
   }
   atlas.records.sort((a,b)=>a.rank-b.rank);
   for(const [id,title] of Object.entries({'':'全部功能域',...atlas.domains})){
