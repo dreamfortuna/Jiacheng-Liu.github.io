@@ -1,6 +1,6 @@
 import {VehicleView} from './viewer.js';
 import {assetBytes} from './packed.js';
-import {routes,topics} from './curriculum.js';
+import {routes,topics,topicGroups} from './curriculum.js';
 import {AdasLab,labDefaults} from './adas-lab.js';
 import {AdasOverlays,overlayScope,overlayLegend} from './adas-overlays.js';
 import {CutinFilm} from './cutin-film.js';
@@ -231,21 +231,28 @@ function navRender(){
   }
   if(mode==='lesson'||mode==='core'){
     const classroom=mode==='core';
-    const syllabus=classroom?topics:routes;
-    const catalog=Object.keys(syllabus).map(id=>lessons.get(id));
-    el('nav-count').textContent=catalog.length+(classroom?' 个专题':' 条路线');
+    el('nav-count').textContent=Object.keys(classroom?topics:routes).length+(classroom?' 个专题':' 条路线');
     if(state.kind==='lesson'&&!lessonMenu&&classroom===isCore()){
       const l=lessons.get(state.lesson);
       host.append(button(classroom?'全部智驾专题':'全部讲解路线',()=>showLessonMenu(mode),'nav-back'));
       host.append(make('p',l.title,'nav-caption'));
       addList(host,l.steps.map((s,i)=>row(s.id,s.label,()=>gotoStep(i),
         {idx:String(i+1).padStart(2,'0'),active:i===state.step,key:classroom?'core-step-'+i:'step-'+s.id})));
-    }else {
-      host.append(make('p',classroom?'选择道路工况，同时观察道路、传感器和控制器的响应。':'选择整车工况，跟踪起步、转向、停车、加速与爬坡散热。','course-intro'));
-      addList(host,catalog.map((l,i)=>row(l.id,l.title,()=>{openFilm(l.id);
-      if(classroom&&matchMedia('(max-width:690px)').matches)el('heading').scrollIntoView({block:'start'});},
-      {idx:String(i+1).padStart(2,'0'),sub:syllabus[l.id][1],tail:syllabus[l.id][0],active:state.kind==='lesson'&&l.id===state.lesson})));
-      if(classroom){const chips=make('a','车载芯片与控制器 ↗','chip-link');chips.href='chips.html';host.append(chips);}
+    }else if(classroom){
+      let number=0;
+      for(const group of topicGroups){
+        const section=make('section','','topic-group');
+        section.append(make('h3',group.title));
+        addList(section,group.lessons.map(topic=>row(topic.id,topic.title,()=>openFilm(topic.id),{
+          idx:String(++number).padStart(2,'0'),sub:topic.question,
+          active:state.course===topic.id||state.lesson===topic.id})));
+        host.append(section);
+      }
+      const chips=make('a','车载芯片与控制器 ↗','chip-link');chips.href='chips.html';host.append(chips);
+    }else{
+      host.append(make('p','选择整车工况，跟踪起步、转向、停车、加速与爬坡散热。','course-intro'));
+      addList(host,Object.entries(routes).map(([id,[tail,sub]],i)=>row(id,lessons.get(id).title,()=>openFilm(id),
+        {idx:String(i+1).padStart(2,'0'),sub,tail,active:state.kind==='lesson'&&id===state.lesson})));
     }
     return;
   }
@@ -423,7 +430,13 @@ function render(resetDir=false,pose=null,immediate=false){
     el('narrative').hidden=true;el('overlay-legend').hidden=true;
     el('crumbs').replaceChildren(button(mode==='core'?'智驾课堂':'系统演示',()=>showLessonMenu(mode)));
     el('heading').textContent=state.course===model.caseStudy.id?'弯道切入与跟车减速':lessons.get(state.course).title;
-    el('subtitle').textContent='道路与车内透视共用时间轴。蓝灰色 Model 3 为本车。';
+    const topic=topics[state.course],advance=el('film-next');
+    advance.hidden=!topic;
+    if(topic){
+      const order=Object.keys(topics),next=topics[order[order.indexOf(topic.id)+1]];
+      advance.textContent=next?'下一专题 · '+next.title:'返回专题目录';
+      advance.onclick=()=>next?openFilm(next.id):showLessonMenu('core');
+    }
     el('view-mode').textContent='连续行驶';
     el('view-tip').textContent='青色为观测，黄色为转向请求，红色为制动请求';
     navRender();view.resize();view.controls.enabled=false;
@@ -437,7 +450,7 @@ function render(resetDir=false,pose=null,immediate=false){
   const scope=viewSpec(resetDir);
   if(classroom)scope.frameBounds=overlays.show(moduleId(),moduleStage(),state,currentStep());
   view.resize();view.setView(scope,pose,immediate);narrative();
-  if(state.kind==='lesson')el('subtitle').textContent=(isCore()?topics[moduleId()]:routes[state.lesson])[1];
+  if(state.kind==='lesson')el('subtitle').textContent=isCore()?lessons.get(moduleId()).detailTitle:routes[state.lesson][1];
   el('view-tip').textContent=viewHint();
   el('announce').textContent=el('detail-title').textContent;
 }
@@ -448,7 +461,7 @@ async function boot(){
     el('classroom-scope').textContent=core.scope;
     const overview={id:'overview',title:'博世五大功能域',summary:'按整车功能域依次讲解职责、输入和输出。',steps:model.domainOrder.map(id=>({id,label:nodes.get(id).label,...notes.domains[id]}))};
     lessons=new Map([overview,...notes.lessons].map(l=>[l.id,{...l,title:lessonNames[l.id]||l.title}]));
-    for(const lesson of core.lessons)lessons.set(lesson.id,{...lesson,core:true});
+    for(const lesson of core.lessons)lessons.set(lesson.id,{...lesson,detailTitle:lesson.title,title:topics[lesson.id].title,core:true});
     lessons.set(model.caseStudy.id,{...model.caseStudy,core:true});
     view=new VehicleView(el('model-canvas'),el('labels'),model,pick);
     overlays=new AdasOverlays(view);

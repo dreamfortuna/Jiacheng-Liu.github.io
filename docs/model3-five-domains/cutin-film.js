@@ -2,6 +2,7 @@ import * as T from 'three';
 import {AdasOverlays} from './adas-overlays.js';
 import {duration,sample} from './cutin-motion.js';
 import {courseRun} from './course-motion.js';
+import {topics} from './curriculum.js';
 import {buildCourseRoad} from './course-road.js';
 import {films,palette,lessonReadout,transit,packetPosition} from './film-lessons.js';
 import {VehicleCutaway} from './vehicle-cutaway.js';
@@ -110,7 +111,7 @@ export class CutinFilm {
     this.run=courseRun(key);this.scenario=this.run.sample;
     this.roadscape?.dispose();this.roadscape=buildCourseRoad(this.run);this.scene.add(this.roadscape.root);
     this.allowed=new Set(films[key].paths.map(p=>p.clock));
-    el('subtitle').textContent=(this.run.title||'弯道切入与跟车减速')+' · 道路与车内共用时间轴';
+    el('subtitle').textContent=topics[key]?.question||this.run.title||'弯道切入与跟车减速';
     el('drive-instruments').hidden=key!=='drive';
     el('film-inset').hidden=!['cutin-case','vision','perception','prediction','compute','overview','longitudinal','turn','ego'].includes(key);
     const channels={vision:'观测',steering:'转向 / 运动',braking:'制动',feedback:'反馈',power:'供电 / 电能',cooling:'冷却液',compute:'计算 / 提示'};
@@ -146,7 +147,8 @@ export class CutinFilm {
       chain[i].textContent=label;chain[i].classList.toggle('on',data.conditions[i]);
       meters[i].firstChild.textContent=data.meters[i][0];meters[i].lastChild.textContent=data.meters[i][1];
     });
-    el('film-caption').textContent=data.caption;
+    const topic=topics[this.key];
+    el('film-caption').textContent=topic&&this.t>=duration?topic.closing:data.caption;
     el('film-callout').textContent=data.labels.filter((_,i)=>data.conditions[i]).at(-1)||'Model 3 · 本车';
     if(this.scenario!==sample)el('film-rate').textContent='播放速度 0.55×';
   }

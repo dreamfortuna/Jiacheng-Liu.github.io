@@ -5,13 +5,28 @@ export const routes = {
   drive: ['追踪动力来源', '制动解释了减速，加速又靠什么？从电池和逆变器追到电机与轮端。'],
   coolant: ['定速爬坡', '同样的车速，上坡为何需要更大的泵送流量？比较坡度、热负荷和冷却液温度。'],
 };
-export const topics = {
-  vision: ['左侧超越', '邻车从左后方超越时，侧视和前视摄像头分别在什么时候采到它？'],
-  perception: ['观察', '相邻车道有遮挡，哪些位置已经观测到，哪些仍然未知？'],
-  ego: ['估计', '画面在移动，其中有多少来自本车转弯？用本车运动解释相对位置变化。'],
-  prediction: ['路口让行', '横穿车辆会停车还是继续通过？比较候选轨迹和本车让行后的速度。'],
-  compute: ['限速切换', '摄像头看见新限速后，要过多久才开始减速？这段时间车走了多远？'],
-  lateral: ['执行', '有了参考轨迹，转向请求怎样经过助力转向系统，最终改变车轮方向？'],
-  longitudinal: ['同车道跟车', '前车先减速再提速，本车如何根据相对速度与净距恢复跟随？'],
-  supervision: ['监督', '当感知或执行能力受限，驾驶员从哪里收到提示，又怎样接手？'],
-};
+export const topicGroups = [
+  {title:'理解路况与本车状态', lessons:[
+    {id:'vision', title:'摄像头观测', question:'邻车从左后方超越，哪个镜头先看见它？',
+      closing:'侧视与前视接续了观测。目标被挡住时，跟踪只能依靠估计。'},
+    {id:'perception', title:'遮挡与目标跟踪', question:'邻车被挡住后，它的位置还能估多准？',
+      closing:'重获观测后，目标范围收窄。判断邻车怎样移动，还要知道本车怎样移动。'},
+    {id:'ego', title:'自车运动估计', question:'本车沿弯道前进，怎样用地标校正里程？',
+      closing:'地标校正了本车位置。有了本车和来车的位置，才能比较谁先到路口。'},
+  ]},
+  {title:'选择并执行驾驶动作', lessons:[
+    {id:'prediction', title:'预测与让行决策', question:'横向来车会先到路口吗，本车该不该让？',
+      closing:'本车让横穿车先行。确定怎么走之后，要分别控制方向和速度。'},
+    {id:'lateral', title:'横向控制', question:'S 弯换向时，前轮怎样跟上目标转角？',
+      closing:'转角反馈能检验车有没有沿参考线走；保持跟车距离还需要调节速度。'},
+    {id:'longitudinal', title:'纵向控制', question:'前车先慢后快，本车怎样调节车距？',
+      closing:'车距随两车速度变化。接下来把观测、计算和制动放到同一时钟上。'},
+  ]},
+  {title:'贯穿全程的时延与监督', lessons:[
+    {id:'compute', title:'端到端时延', question:'从看见新限速到开始减速，车又走了多远？',
+      closing:'这次响应前行驶了 9.2 m。换成驾驶员接管，也要分清提示和实际操作的时刻。'},
+    {id:'supervision', title:'驾驶员监督与接管', question:'施工区前发出提示后，何时能看到驾驶员接手？',
+      closing:'提示、踩踏板、车速下降依次出现，这三项观测把驾驶员操作和车辆响应连了起来。'},
+  ]},
+];
+export const topics=Object.fromEntries(topicGroups.flatMap(group=>group.lessons.map(topic=>[topic.id,topic])));

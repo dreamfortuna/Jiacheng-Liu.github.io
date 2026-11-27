@@ -12,6 +12,9 @@
 .view-tip{background:#f1f7fae8;color:#385667}.inspector,#adas-lab{background:#f9fbfc}
 .actions .primary,.actions .primary:not(:disabled):hover{background:#12556a;border-color:#12556a}
 .course-intro{font-size:1rem;line-height:1.65;margin:7px 2px 12px;color:#29455b}
+.topic-group h3{margin:17px 2px 5px;font-size:.98rem;color:#175563}
+.topic-group:first-child h3{margin-top:5px}
+.film-foot,.film-links{flex-wrap:wrap}.film-links{display:flex;gap:6px}
 .chip-link{display:block;padding:12px;margin:8px 0;border:1px solid #9dbec9;border-radius:4px;background:#e0f1f2;color:#174f61;text-decoration:none;font-weight:650}
 .row-main small{color:#4f6878;line-height:1.5;font-size:.86rem}
 #narrative{border-left:3px solid #0b8f98;margin:10px 0 5px;padding:0 0 0 13px}

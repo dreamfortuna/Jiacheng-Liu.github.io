@@ -24,9 +24,9 @@ export const films={
   vision:course(['forward0','bpL','ap_video','apboard'],[observe,side,compute],'前视与侧视分别采样。比较两路观测进入车载计算机的先后。'),
   perception:course(['forward0','bpL','apboard','logicA'],[observe,side,compute],'先取得图像观测，再由计算板更新目标。道路上的跟踪框与该次更新同步。'),
   ego:course(['speedFL','hcu','forward0','apboard'],[feedback,edge('feedback','hcu apboard','odometry'),observe],'车轮转动形成轮速观测。与前视观测对照，可估计本车的位移与转向。'),
-  prediction:course(['forward0','apboard','logicA','epas','hcu'],[observe,compute,steering,braking],'观察邻车保持原车道与切入的两种候选走向，以及计算完成后发出的两路请求。'),
+  prediction:course(['forward0','apboard','logicA','epas','hcu'],[observe,compute,steering,braking],'比较横穿车停车与继续通过的轨迹，观察本车让行。'),
   lateral:course(['apboard','x193','epas','rack','wheelFL'],[steering,rack,edge('feedback','epas apboard','angle')],'从目标转角追到转向控制器与齿条。比较请求转角与实际前轮转角。'),
-  longitudinal:course(['forward0','apboard','hcu','calFL','speedFL'],[observe,braking,pressure,feedback],'邻车切入后，沿纵向请求、液压执行与轮速反馈观察跟车间距的恢复。'),
+  longitudinal:course(['forward0','apboard','hcu','calFL','speedFL'],[observe,braking,pressure,feedback],'跟踪同车道前车的速度变化，对照制动响应和实际车距。'),
   supervision:course(['cabincam','apboard','screen','pedals'],[edge('vision','cabincam apboard','monitor'),edge('compute','apboard mcu screen','alert'),edge('feedback','pedals booster','driver')],'在驾驶员接管示例中，车内摄像头观测先于座舱提示，驾驶员响应后操作踏板。'),
   compute:course(['lvbat','forward0','apboard','logicA','hcu'],[support,water,observe,compute,braking,pressure],'限速识别与控制链时延'),
 };
@@ -104,25 +104,25 @@ export function lessonReadout(k,a){
       [['逆变器等效电流',a.amp.toFixed(0)+' A'],['电机转矩',a.torque.toFixed(1)+' N·m'],['转子 / 半轴',Math.round(a.motorRPM)+' / '+Math.round(a.wheelRPM)+' rpm'],['后轮转速 / 车速',Math.round(a.wheelRPM)+' rpm / '+speed]]);
     case 'overview':return output(a.light?'绿灯放行，供能、驱动、转向和座舱状态随起步入弯依次变化。':'红灯前等待，配电与计算保持就绪，车轮静止。',
       '配电就绪|绿灯放行|驱动起步|入弯转向',[true,a.light,a.speed>.1,a.epsReceived],[['路口灯色',a.light?'绿':'红'],['行程',m(a.s)],['实际转角',sa],['车速',speed]]);
-    case 'turn':case 'lateral':return output(k==='turn'?'本车进入右弯，齿条位移带动前轮右转，出弯后回正。':'本车跟踪 S 形参考线。左右弯交替时对照转向请求、齿条位移和前轮回正。',
+    case 'turn':case 'lateral':return output(k==='turn'?'本车进入右弯，齿条位移带动前轮右转，出弯后回正。':a.s<8?'本车接近 S 弯，沿参考线预瞄入弯方向。':a.s>56?'驶出 S 弯，转向请求减小，前轮逐渐回正。':a.steerRequest<0?'后半弯转向请求反向，齿条带动前轮换向。':'进入前半弯，比较目标转角与实际前轮角。',
       '预瞄轨迹|转向请求|齿条动作|前轮响应',[true,a.requested,a.epsReceived,a.epsReceived],[['转向请求',deg(a.steerRequest)],['实际前轮角',sa],['车身航向',deg(a.yaw)],['本车速度',speed]]);
     case 'brake':return output(a.speed<.01?'车辆在停止线前停稳，轮速降为零。':'接近停止线时，液压响应使摩擦片夹紧，制动盘和轮端同步减速。',
       '接近标线|制动请求|压力建立|车辆停稳',[true,a.brakeRequest<-.1,a.hydraulic,a.speed<.01],[['车头至停止线',m(35-a.x-2.35)],['实际加速度',acc],['轮速',Math.round(a.wheelRPM)+' rpm'],['车速',speed]]);
     case 'coolant':return output(a.grade>3?'定速爬坡增加驱动热负荷，温度上升后泵提速，冷却液流量随之增加。':'对照坡度、回路温度和流量。驶回平路后热负荷下降，泵逐渐降速。',
       '驱动负荷|温度上升|泵提速|回路换热',[a.grade>2,a.temp>42.2,a.flow>.6,true],[['坡度 / 车速',a.grade.toFixed(1)+'% / '+speed],['回路温度',a.temp.toFixed(1)+' °C'],['示例流量',a.flow.toFixed(2)+' L/s'],['热输入 / 散热',a.heatInput.toFixed(1)+' / '+a.heatOut.toFixed(1)+' kW']]);
-    case 'vision':return output('橙车从左后方超越。侧视先采样，进入前方后由前视接续；两路同时可见时可比较采样时刻。',
-      '侧视可见|侧视采样|前视可见|前视采样',[a.side,a.side&&a.sideStamp>=0,a.front,a.front&&a.frontStamp>=0],[['目标方位',deg(Math.atan2(a.left,a.nx-a.x))],['侧视最近采样',a.sideStamp<0?'尚无':a.sideStamp.toFixed(2)+' s'],['前视最近采样',a.frontStamp<0?'尚无':a.frontStamp.toFixed(2)+' s'],['当前覆盖',a.front&&a.side?'双视野':a.front?'前视':'侧视']]);
-    case 'perception':return output(a.occluded?'隔挡遮住目标，紫框按最后可见速度外推，范围随失去观测的时间扩大。':'可见目标由摄像头更新；驶过隔挡后，重获观测使估计范围收缩。',
+    case 'vision':return output(a.side&&a.front?'两侧视野重叠，对照同一辆车的两次采样时刻。':a.side?'邻车从左后方赶上，侧视摄像头先取得图像。':a.front?'邻车驶到前方，前视摄像头接续观测。':'目标暂时离开两个镜头的视野。',
+      '侧视可见|侧视采样|前视可见|前视采样',[a.side,a.side&&a.sideStamp>=0,a.front,a.front&&a.frontStamp>=0],[['目标方位',deg(Math.atan2(a.left,a.nx-a.x))],['侧视最近采样',a.sideStamp<0?'尚无':a.sideStamp.toFixed(2)+' s'],['前视最近采样',a.frontStamp<0?'尚无':a.frontStamp.toFixed(2)+' s'],['当前覆盖',a.front&&a.side?'双视野':a.front?'前视':a.side?'侧视':'无']]);
+    case 'perception':return output(a.occluded?'隔挡遮住邻车后，计算板按上一帧速度外推，紫框逐渐变宽。':a.x>33?'邻车重新出现，新的观测让紫框收窄。':'摄像头看见邻车，跟踪框随观测更新。',
       '目标可见|隔挡遮挡|短时外推|重新观测',[a.detected,a.occluded,a.occluded,a.detected&&a.x>33],[['目标状态',a.occluded?'仅预测':'已观测'],['失去观测',a.hiddenAge.toFixed(2)+' s'],['纵向估计范围','±'+m(a.uncertainty)],['本车速度',speed]]);
-    case 'ego':return output('轮速积分带有教学尺度偏差；经过 18、45、69 m 地标时，以视觉定位更新里程。紫色标记显示估计位置。',
+    case 'ego':return output(a.lastFix&&a.s-a.lastFix<2?'经过 '+a.lastFix+' m 地标，视觉观测校正了累计里程。':a.lastFix?'驶离地标后继续用轮速推算位置，留意误差怎样再次累积。':'车轮每转一圈，估计里程就增加；轮径的微小偏差也随之累积。',
       '轮速积分|里程累计|地标匹配|估计校正',[true,true,a.lastFix>0,a.lastFix>0&&a.s-a.lastFix<2],[['实际行程',m(a.s)],['估计行程',m(a.estimated)],['估计误差',m(a.odomError)],['最近地标',a.lastFix?m(a.lastFix):'尚未经过']]);
-    case 'prediction':return output(a.conflict?'横穿车与本车的预期到达时间接近，本车在路口前减速让行。':'橙车横穿支路。对照继续通过与路口前停车的候选轨迹，冲突解除后本车恢复车速。',
+    case 'prediction':return output(a.conflict?'两车预计接近同时到达路口，本车制动让行。':a.nz>3.5?'横穿车已离开冲突区域，本车可以通过路口。':'观察横向来车，比较它停车和继续通过的两条候选轨迹。',
       '观察横穿车|比较候选|减速让行|恢复行驶',[a.detected,a.detected&&a.age>.3,a.conflict,a.t>5&&a.nz>3.5],[['距冲突点',m(38-a.x)],['横穿车横向位置',m(a.nz)],['决策',a.conflict?'让行':a.nz>3.5?'通行':'观察'],['本车速度',speed]]);
-    case 'longitudinal':return output('前车在同一车道先减速再提速。本车根据相对速度与净距调节加速度，制动钳随制动请求夹紧或释放。',
+    case 'longitudinal':return output(a.hydraulic?'前车变慢、车距缩短，制动钳夹紧，本车减速。':a.t>6&&a.accel>.1?'前车提速，制动解除，本车加速跟随。':a.t>6?'比较两车速度，观察车距如何稳定下来。':a.leadBraking?'前车开始制动，观察车距缩短到本车响应之间的间隔。':'前视摄像头跟踪同车道前车，建立初始车距。',
       '前车跟踪|间距缩小|本车减速|恢复跟随',[a.detected,a.leadSpeed<a.speed,a.accel<-.1,a.t>6&&a.accel>.1],[['前车速度',km(a.leadSpeed)],['本车速度',speed],['保险杠净距',m(a.gap)],['实际加速度',acc]]);
-    case 'supervision':return output('接近施工锥桶，座舱发出接管提示；驾驶员踩下制动踏板后，本车降低速度通过施工区。',
+    case 'supervision':return output(a.t<2?'本车接近施工区，舱内摄像头监测驾驶员。':a.t<3.5?'座舱已提示接管，制动踏板仍未动作。':a.driverPedal>.005?(a.accel<-.1?'驾驶员踩下制动踏板，本车开始减速。':'观察制动踏板行程，再对照车辆加速度。'):'驾驶员松开踏板，本车以较低速度通过施工区。',
       '驾驶员监测|发出提示|踩下踏板|本车减速',[true,a.t>=2,a.driverPedal>.05,a.accel<-.1],[['座舱提示',a.t<2?'监测中':a.t<3.5?'请接管':'人工驾驶'],['示例相对踏板行程',Math.round(a.driverPedal*100)+'%'],['实际加速度',acc],['本车速度',speed]]);
-    case 'compute':return output('电子限速牌由 40 切换到 20。比较图像采集、计算完成、执行端收到新指令的时刻，以及车辆在这段延迟内驶过的距离。',
+    case 'compute':return output(a.t<2?'限速牌显示 40 km/h，本车保持车速。':a.t<2.2?'限速切换为 20 km/h，摄像头采集新图像。':a.t<2.74?'图像到达 HW4，执行端仍沿用原目标。':!a.delivered?'新目标已发出，制动端正在等待指令。':'制动端收到新目标。从采集到响应，本车已前进 9.2 m。',
       '图像采集|到达计算板|发布新限速|执行响应',[a.t>=2,a.t>=2.20,a.t>=2.74,a.delivered],[['牌面限速',a.limit+' km/h'],['执行端目标',a.delivered?'20 km/h':'40 km/h'],['等待期间行程',m(Math.max(0,Math.min(9.2,a.s-20)))],['本车速度',speed]]);
     default:throw new Error('工况无讲解 '+k);
   }
